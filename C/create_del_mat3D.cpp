@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
 
     cout << "8)\n";
     spawn3D(B, 2,3,1);
-    
+
     cout << "9)\n";
     B[1][2][0] = 123; //why error?
 
