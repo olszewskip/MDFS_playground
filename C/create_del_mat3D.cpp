@@ -29,14 +29,14 @@ void del3D(int***M, size_t dim0, size_t dim1, size_t dim2) {
 }
 
 // why doesn't it work?
-void spawn3D(int*** M, int dim0, int dim1, int dim2) {
+void spawn3D(int*** *M, int dim0, int dim1, int dim2) {
 
-    M = new int**[dim0];
+    *M = new int**[dim0];
     
     for(int i=0; i<dim0; i++) {
-        M[i] = new int*[dim1];
+        (*M)[i] = new int*[dim1];
             for (int j=0; j<dim1; j++) {
-                M[i][j] = new int[dim2];
+                (*M)[i][j] = new int[dim2];
             }
     }
 }
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
     del3D(A, 2,3,1);
 
     int*** B = NULL;
-    spawn3D(B, 2,3,1);
+    spawn3D(&B, 2,3,1);
     B[1][2][0] = 123; // error
 
     return 0;
