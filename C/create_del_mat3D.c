@@ -2,14 +2,15 @@
 #include <stdio.h>
 
 int*** matrix3D(size_t dim0, size_t dim1, size_t dim2) {
+    int i, j;
 
     int ***M = NULL;
-    M = (int*** )malloc(dim0 * sizeof(*M));
+    M = (int*** ) malloc(dim0 * sizeof(**int));
 
-    for (int i=0; i<dim0; i++){
-        M[i] = malloc(dim1 * sizeof(**M));
-        for (int j=0; j<dim1; j++) {
-            M[i][j] = malloc(dim2 * sizeof(***M));
+    for (i=0; i<dim0; i++){
+        M[i] = (int** ) malloc(dim1 * sizeof(*int));
+        for (j=0; j<dim1; j++) {
+            M[i][j] = (int* ) malloc(dim2 * sizeof(int));
         }
     }
     return M; 
@@ -29,12 +30,12 @@ void del3D(int*** M, size_t dim0, size_t dim1, size_t dim2) {
 // why doesn't it work?
 void spawn3D(int*** *M, size_t dim0, size_t dim1, size_t dim2) {
 
-    *M = malloc(dim0 * sizeof(* *M));
+    *M = malloc(dim0 * sizeof(**int));
 
     for (int i=0; i<dim0; i++){
-        (*M)[i] = malloc(dim1 * sizeof(** *M));
-        for (int j=0; j<dim1; j++) {
-            (*M)[i][j] = malloc(dim1 * sizeof(*** *M));
+        (*M)[i] = malloc(dim1 * sizeof(*int));
+        for (int j=0; j<dim2; j++) {
+            (*M)[i][j] = malloc(dim2 * sizeof(int));
         }
     }
 }
