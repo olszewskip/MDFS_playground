@@ -1,4 +1,4 @@
-// g++ arma_test.cpp -lopenblas -llapack
+// g++ arma_test.cpp -DARMA_DONT_USE_WRAPPER -lopenblas -llapack
 
 #include <armadillo>
 #include <iostream>
