@@ -1,3 +1,5 @@
+// g++ arma_1.cpp -DARMA_DONT_USE_WRAPPER -lopenblas -llapack
+
 #include <armadillo>
 #include <iostream>
 
