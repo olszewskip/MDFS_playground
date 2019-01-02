@@ -5,6 +5,7 @@
 
 int main(int argc, const char **argv) {
   arma::Mat<double> M;
+  
   M.load("madelon.csv");
 
   std::cout << "first element: " << M(0, 0) << std::endl;
