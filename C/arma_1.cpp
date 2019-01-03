@@ -26,7 +26,11 @@ int main(int argc, const char **argv) {
   std::cout << "first element of the original: " << M(0, 0) << std::endl;
 
   // overflowing copy: runtime error
-  arma::Mat<double> M3 = M.cols(M.n_cols, M.n_cols + 1);
+  // arma::Mat<double> M3 = M.cols(M.n_cols, M.n_cols + 1);
+
+  // save to file as explicit doubles, e.i. 123 = 1.23000000000000e+02
+  M2.save("madelon_columns_0-2.csv", arma::csv_ascii);
+  // can also be binary, hdf5, ...
 
   return 0;
 }
