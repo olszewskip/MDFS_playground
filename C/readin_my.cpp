@@ -26,14 +26,14 @@ std::vector<std::vector<double>> return_rows(
 int main() {
   // matrix M1 to populate
   std::vector<std::vector<double>> M1;
-  populate_from_file(&M1, "simple.csv");
+  populate_from_file(&M1, "simple.csv");  // "madelon.csv"
   print_matrix(&M1);
 
   int n_cols = 2;
   int cols[3] = {1, 3};
 
   std::vector<std::vector<double>> column_bunch_A =
-      return_columns(&M1, n_cols, cols);  //, n_cols, cols);
+      return_columns(&M1, n_cols, cols);
   print_matrix(&column_bunch_A);
 
   // matrix M2 to populate
@@ -42,7 +42,7 @@ int main() {
   print_matrix(&M2);
 
   std::vector<std::vector<double>> column_bunch_B =
-      return_rows(&M2, n_cols, cols);  //, n_cols, cols);
+      return_rows(&M2, n_cols, cols);
   print_matrix(&column_bunch_B);
 }
 
