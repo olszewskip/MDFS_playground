@@ -1,7 +1,7 @@
 import time
 import numpy
 
-runs = 10
+runs = 5
 cols = [200, 500]
 
 tick = time.time()
