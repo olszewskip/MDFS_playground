@@ -25,25 +25,19 @@ std::vector<std::vector<double>> return_rows(
 
 int main() {
   // matrix M1 to populate
-  std::vector<std::vector<double>> M1;
-  populate_from_file(&M1, "simple.csv");  // "madelon.csv"
-  print_matrix(&M1);
-
+  std::vector<std::vector<double>> M;
   int n_cols = 2;
-  int cols[2] = {1, 3};
+  int cols[] = {200, 500};
 
+  // method 1
+  // populate_from_file(&M, "madelon.csv");
+  // std::vector<std::vector<double>> column_bunch_A =
+  //     return_columns(&M, n_cols, cols);
+
+  // method 2
+  populate_from_file_transposing(&M, "madelon.csv");
   std::vector<std::vector<double>> column_bunch_A =
-      return_columns(&M1, n_cols, cols);
-  print_matrix(&column_bunch_A);
-
-  // matrix M2 to populate
-  std::vector<std::vector<double>> M2;
-  populate_from_file_transposing(&M2, "simple.csv");
-  print_matrix(&M2);
-
-  std::vector<std::vector<double>> column_bunch_B =
-      return_rows(&M2, n_cols, cols);
-  print_matrix(&column_bunch_B);
+      return_rows(&M, n_cols, cols);
 }
 
 // print matrix to screen
