@@ -13,7 +13,7 @@ void print_matrix(std::vector<std::vector<double>> *M);
 void populate_from_file(std::vector<std::vector<double>> *M,
                         std::string file_name, const char separator = ',');
 
-std::vector<std::vector<double>> return_columns(
+std::vector<std::vector<double>> return_transposed_columns(
     std::vector<std::vector<double>> *source, int n_cols, int cols[]);
 
 void populate_from_file_transposing(std::vector<std::vector<double>> *M,
@@ -32,43 +32,18 @@ int main() {
   int n_cols = 2;
   int cols[2] = {1, 3};
 
-  // std::ifstream csv_file("simple.csv");
-  // const char separator = ',';
-  // if (csv_file) {
-  //   // put the first empty row in the matrix
-  //   (M).emplace_back(std::vector<double>());
-  //   // parse csv_file with defaults of getline,
-  //   // treat the first line separately
-  //   // to remember its length
-  //   std::string csv_line;
-  //   std::getline(csv_file, csv_line);
-  //   // parse csv_line with getline with the separator
-  //   std::stringstream text_nums(csv_line);
-  //   // above: std::stringstream text_nums = std::stringstream(csv_line);
-  //   std::string text_num;
-  //   while (std::getline(text_nums, text_num, separator)) {
-  //       double num = std::stod(text_num);
-  //       // fill the newly created row in M
-  //       (M).back().emplace_back(num);
-  //     }
-  //   int row_len = (M)[0].size();
-  //   // get the proceeding lines
-  //   while (std::getline(csv_file, csv_line)) {
-  //     (M).emplace_back(std::vector<double>());
-  //     M.back().reserve(row_len);
-  //     std::stringstream text_nums(csv_line);
-  //     std::string text_num;
-  //     while (std::getline(text_nums, text_num, separator)) {
-  //       double num = std::stod(text_num);
-  //       (M).back().emplace_back(num);
-  //     }
-  //     print_matrix(&M);
-  //   }
-  // }
-  // csv_file.close();
+  std::vector<std::vector<double>> column_bunch_A =
+      return_transposed_columns(&M1, n_cols, cols);
+  print_matrix(&column_bunch_A);
 
+  // matrix M2 to populate
+  std::vector<std::vector<double>> M2;
+  populate_from_file_transposing(&M2, "simple.csv");
+  print_matrix(&M2);
 
-  return 0;
+  std::vector<std::vector<double>> column_bunch_B =
+      return_rows(&M2, n_cols, cols);
+  print_matrix(&column_bunch_B);
 }
 
 // print matrix to screen
@@ -100,10 +75,10 @@ void populate_from_file(std::vector<std::vector<double>> *M,
     // above: std::stringstream text_nums = std::stringstream(csv_line);
     std::string text_num;
     while (std::getline(text_nums, text_num, separator)) {
-        double num = std::stod(text_num);
-        // fill the newly created row in M
-        (*M).back().emplace_back(num);
-      }
+      double num = std::stod(text_num);
+      // fill the newly created row in M
+      (*M).back().emplace_back(num);
+    }
     int row_len = (M)[0].size();
     // get the proceeding lines
     while (std::getline(csv_file, csv_line)) {
@@ -120,9 +95,9 @@ void populate_from_file(std::vector<std::vector<double>> *M,
   csv_file.close();
 }
 
-// get selected columns from a sourse-matrix
+// get selected columns from a source-matrix
 // return them transposed
-std::vector<std::vector<double>> return_columns(
+std::vector<std::vector<double>> return_transposed_columns(
     std::vector<std::vector<double>> *source, int n_cols, int cols[]) {
   // number of rows in the source
   int n_rows = (*source).size();
@@ -131,6 +106,7 @@ std::vector<std::vector<double>> return_columns(
   // fill in i-th row of column_bunch with cols[i]-th column of source
   for (int i = 0; i < n_cols; i++) {
     int col_idx = cols[i];
+    column_bunch[i].reserve(n_rows);
     for (int j = 0; j < n_rows; j++) {
       column_bunch[i].emplace_back((*source)[j][col_idx]);
     }

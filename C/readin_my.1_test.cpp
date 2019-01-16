@@ -13,7 +13,7 @@ void print_matrix(std::vector<std::vector<double>> *M);
 void populate_from_file(std::vector<std::vector<double>> *M,
                         std::string file_name, const char separator = ',');
 
-std::vector<std::vector<double>> return_columns(
+std::vector<std::vector<double>> return_transposed_columns(
     std::vector<std::vector<double>> *source, int n_cols, int cols[]);
 
 void populate_from_file_transposing(std::vector<std::vector<double>> *M,
@@ -24,20 +24,39 @@ std::vector<std::vector<double>> return_rows(
     std::vector<std::vector<double>> *source, int n_rows, int rows[]);
 
 int main() {
-  // matrix M1 to populate
-  std::vector<std::vector<double>> M;
-  int n_cols = 2;
-  int cols[] = {200, 500};
+  int n_cols = 3;
+  int cols[3] = {
+      1,
+      2,
+      3
+  };
 
+  // matrix M1 to populate
+  std::vector<std::vector<double>> M, column_bunch;
+
+  int n_loops = 100;
   // method 1
-  // populate_from_file(&M, "madelon.csv");
-  // std::vector<std::vector<double>> column_bunch_A =
-  //     return_columns(&M, n_cols, cols);
+  for (int i = 0; i < n_loops; i++) {
+    populate_from_file(&M, "madelon.csv");
+    // print_matrix(&M);
+
+    column_bunch = return_transposed_columns(&M, n_cols, cols);
+    // print_matrix(&column_bunch);
+
+    M.clear();
+    column_bunch.clear();
+  }
 
   // method 2
-  populate_from_file_transposing(&M, "madelon.csv");
-  std::vector<std::vector<double>> column_bunch_A =
-      return_rows(&M, n_cols, cols);
+  for (int i = 0; i < n_loops; i++) {
+    populate_from_file_transposing(&M, "madeon.csv");
+    // print_matrix(&M);
+    column_bunch = return_rows(&M, n_cols, cols);
+    // print_matrix(&column_bunch);
+
+    M.clear();
+    column_bunch.clear();
+  }
 }
 
 // print matrix to screen
@@ -57,18 +76,31 @@ void populate_from_file(std::vector<std::vector<double>> *M,
   // the file to stream to M from
   std::ifstream csv_file(file_name);
   if (csv_file) {
-    // parse csv_file with defaults of getline
+    // put the first empty row in the matrix
+    (*M).emplace_back(std::vector<double>());
+    // parse csv_file with defaults of getline,
+    // treat the first line separately
+    // to remember its length
     std::string csv_line;
+    std::getline(csv_file, csv_line);
+    // parse csv_line with getline with the separator
+    std::stringstream text_nums(csv_line);
+    // above: std::stringstream text_nums = std::stringstream(csv_line);
+    std::string text_num;
+    while (std::getline(text_nums, text_num, separator)) {
+      double num = std::stod(text_num);
+      // fill the newly created row in M
+      (*M).back().emplace_back(num);
+    }
+    int row_len = (M)[0].size();
+    // get the proceeding lines
     while (std::getline(csv_file, csv_line)) {
-      // for each csv_line create a row in the matrix M
       (*M).emplace_back(std::vector<double>());
-      // parse csv_line with getline with the separator
+      (*M).back().reserve(row_len);
       std::stringstream text_nums(csv_line);
-      // above: std::stringstream text_nums = std::stringstream(csv_line);
       std::string text_num;
       while (std::getline(text_nums, text_num, separator)) {
         double num = std::stod(text_num);
-        // fill the newly created row in M
         (*M).back().emplace_back(num);
       }
     }
@@ -78,7 +110,7 @@ void populate_from_file(std::vector<std::vector<double>> *M,
 
 // get selected columns from a source-matrix
 // return them transposed
-std::vector<std::vector<double>> return_columns(
+std::vector<std::vector<double>> return_transposed_columns(
     std::vector<std::vector<double>> *source, int n_cols, int cols[]) {
   // number of rows in the source
   int n_rows = (*source).size();
