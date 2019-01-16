@@ -87,7 +87,6 @@ std::vector<std::vector<double>> return_columns(
   // fill in i-th row of column_bunch with cols[i]-th column of source
   for (int i = 0; i < n_cols; i++) {
     int col_idx = cols[i];
-    column_bunch[i].reserve(n_rows);
     for (int j = 0; j < n_rows; j++) {
       column_bunch[i].emplace_back((*source)[j][col_idx]);
     }

@@ -6,15 +6,15 @@
 #include <vector>
 
 int main() {
-  int n_cols = 2;
-  // int cols[] = {200, 500};
-  // std::vector<int> cols_vector(cols, cols + n_cols);
-  arma::uvec cols_vec = {200, 500};
+  arma::uvec cols_vec = {9, 99, 199};
 
   arma::Mat<double> M;
+  arma::Mat<double> column_bunch;
 
-  M.load("madelon.csv");
+  int n_loops = 100;
 
-  arma::Mat<double> column_bunch = M.cols(cols_vec);
-  
+  for (int i = 0; i < n_loops; i++) {
+    M.load("madelon.csv");
+    column_bunch = M.cols(cols_vec);
+  }
 }

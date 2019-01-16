@@ -26,15 +26,16 @@ std::vector<std::vector<double>> return_rows(
 int main() {
   int n_cols = 3;
   int cols[3] = {
-      1,
-      2,
-      3
+      9,
+      99,
+      199
   };
 
   // matrix M1 to populate
   std::vector<std::vector<double>> M, column_bunch;
 
   int n_loops = 100;
+
   // method 1
   for (int i = 0; i < n_loops; i++) {
     populate_from_file(&M, "madelon.csv");
@@ -47,16 +48,16 @@ int main() {
     column_bunch.clear();
   }
 
-  // method 2
-  for (int i = 0; i < n_loops; i++) {
-    populate_from_file_transposing(&M, "madeon.csv");
-    // print_matrix(&M);
-    column_bunch = return_rows(&M, n_cols, cols);
-    // print_matrix(&column_bunch);
+  // // method 2
+  // for (int i = 0; i < n_loops; i++) {
+  //   populate_from_file_transposing(&M, "madelon.csv");
+  //   // print_matrix(&M);
+  //   column_bunch = return_rows(&M, n_cols, cols);
+  //   // print_matrix(&column_bunch);
 
-    M.clear();
-    column_bunch.clear();
-  }
+  //   M.clear();
+  //   column_bunch.clear();
+  // }
 }
 
 // print matrix to screen
