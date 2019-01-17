@@ -14,7 +14,7 @@ int main() {
   int n_loops = 100;
 
   for (int i = 0; i < n_loops; i++) {
-    M.load("madelon.csv");
+    M.load("madelonX16.csv");
     column_bunch = M.cols(cols_vec);
   }
 }

@@ -1,0 +1,715 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 61.48      5.41     5.41 401600000     0.00     0.00  bool arma::diskio::convert_token<double>(double&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+ 37.73      8.73     3.32      100    33.20    87.31  bool arma::diskio::load_csv_ascii<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  0.80      8.80     0.07      100     0.70     0.70  arma::podarray<char>::~podarray()
+  0.00      8.80     0.00      400     0.00     0.00  std::fpos<__mbstate_t>::operator long() const
+  0.00      8.80     0.00      300     0.00     0.00  void arma::arma_check<char [33]>(bool, char const (&) [33])
+  0.00      8.80     0.00      200     0.00     0.00  arma::Mat<double>::set_size(unsigned long long, unsigned long long)
+  0.00      8.80     0.00      200     0.00     0.00  arma::Mat<double>::init_warm(unsigned long long, unsigned long long)
+  0.00      8.80     0.00      200     0.00     0.00  std::operator|(std::_Ios_Openmode, std::_Ios_Openmode)
+  0.00      8.80     0.00      102     0.00     0.00  void arma::arma_check<char [53]>(bool, char const (&) [53])
+  0.00      8.80     0.00      102     0.00     0.00  void arma::arma_check_bad_alloc<char [39]>(bool, char const (&) [39])
+  0.00      8.80     0.00      102     0.00     0.00  std::numeric_limits<unsigned long>::max()
+  0.00      8.80     0.00      100     0.00     0.00  void arma::arma_check<char [42]>(bool, char const (&) [42])
+  0.00      8.80     0.00      100     0.00     0.00  arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&)
+  0.00      8.80     0.00      100     0.00     0.00  arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::~subview_elem2()
+  0.00      8.80     0.00      100     0.00     0.00  arma::unwrap_check_mixed<arma::Mat<unsigned long long> >::unwrap_check_mixed<double>(arma::Mat<unsigned long long> const&, arma::Mat<double> const&)
+  0.00      8.80     0.00      100     0.00     0.00  arma::unwrap_check_mixed<arma::Mat<unsigned long long> >::~unwrap_check_mixed()
+  0.00      8.80     0.00      100     0.00    88.01  arma::Mat<double>::load(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, arma::file_type, bool)
+  0.00      8.80     0.00      100     0.00     0.00  arma::Mat<double>::zeros()
+  0.00      8.80     0.00      100     0.00     0.00  arma::Mat<double>::zeros(unsigned long long, unsigned long long)
+  0.00      8.80     0.00      100     0.00     0.00  arma::Mat<double>& arma::Mat<double>::operator=<arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >(arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&)
+  0.00      8.80     0.00      100     0.00     0.00  arma::diskio::guess_file_type(std::istream&)
+  0.00      8.80     0.00      100     0.00    88.01  bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  0.00      8.80     0.00      100     0.00    88.01  bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  0.00      8.80     0.00      100     0.00     0.00  unsigned char* arma::memory::acquire<unsigned char>(unsigned long long)
+  0.00      8.80     0.00      100     0.00     0.00  void arma::arrayops::fill_zeros<double>(double*, unsigned long long)
+  0.00      8.80     0.00      100     0.00     0.00  void arma::arrayops::fill_zeros<unsigned char>(unsigned char*, unsigned long long)
+  0.00      8.80     0.00      100     0.00     0.00  void arma::arrayops::inplace_set<double>(double*, double, unsigned long long)
+  0.00      8.80     0.00      100     0.00     0.00  void arma::arrayops::inplace_set<unsigned char>(unsigned char*, unsigned char, unsigned long long)
+  0.00      8.80     0.00      100     0.00     0.00  arma::podarray<char>::init_cold(unsigned long long)
+  0.00      8.80     0.00      100     0.00     0.00  arma::podarray<unsigned char>::zeros()
+  0.00      8.80     0.00      100     0.00     0.00  arma::podarray<unsigned char>::init_cold(unsigned long long)
+  0.00      8.80     0.00      100     0.00     0.00  arma::podarray<unsigned char>::~podarray()
+  0.00      8.80     0.00      100     0.00     0.00  std::fpos<__mbstate_t>::operator-(std::fpos<__mbstate_t> const&) const
+  0.00      8.80     0.00      100     0.00     0.00  unsigned long long const& std::min<unsigned long long>(unsigned long long const&, unsigned long long const&)
+  0.00      8.80     0.00        9     0.00     0.00  arma::solve_opts::opts::opts(unsigned long long)
+  0.00      8.80     0.00        5     0.00     0.00  arma::gmm_seed_mode::gmm_seed_mode(unsigned long long)
+  0.00      8.80     0.00        4     0.00     0.00  void arma::arma_check<char [74]>(bool, char const (&) [74])
+  0.00      8.80     0.00        4     0.00     0.00  void arma::arma_check<char*>(bool, char* const&)
+  0.00      8.80     0.00        4     0.00     0.00  arma::hdf5_opts::opts::opts(unsigned int)
+  0.00      8.80     0.00        3     0.00     0.00  arma::gmm_dist_mode::gmm_dist_mode(unsigned long long)
+  0.00      8.80     0.00        2     0.00     0.00  arma::Mat<double>::Mat()
+  0.00      8.80     0.00        2     0.00     0.00  arma::Mat<double>::~Mat()
+  0.00      8.80     0.00        2     0.00     0.00  arma::Mat<unsigned long long>::init_warm(unsigned long long, unsigned long long)
+  0.00      8.80     0.00        2     0.00     0.00  arma::Mat<unsigned long long>::~Mat()
+  0.00      8.80     0.00        2     0.00     0.00  double* arma::memory::acquire<double>(unsigned long long)
+  0.00      8.80     0.00        2     0.00     0.00  void arma::arrayops::copy_small<unsigned long long>(unsigned long long*, unsigned long long const*, unsigned long long)
+  0.00      8.80     0.00        1     0.00     0.00  _GLOBAL__sub_I_main
+  0.00      8.80     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00      8.80     0.00        1     0.00     0.00  void arma::arma_check<char [72]>(bool, char const (&) [72])
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_no_band::opts_no_band()
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_no_sympd::opts_no_sympd()
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_no_approx::opts_no_approx()
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_allow_ugly::opts_allow_ugly()
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_equilibrate::opts_equilibrate()
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_fast::opts_fast()
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_none::opts_none()
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_tril::opts_tril()
+  0.00      8.80     0.00        1     0.00     0.00  arma::solve_opts::opts_triu::opts_triu()
+  0.00      8.80     0.00        1     0.00     0.00  arma::gmm_dist_eucl::gmm_dist_eucl()
+  0.00      8.80     0.00        1     0.00     0.00  arma::gmm_dist_maha::gmm_dist_maha()
+  0.00      8.80     0.00        1     0.00     0.00  arma::gmm_dist_prob::gmm_dist_prob()
+  0.00      8.80     0.00        1     0.00     0.00  arma::gmm_seed_keep_existing::gmm_seed_keep_existing()
+  0.00      8.80     0.00        1     0.00     0.00  arma::gmm_seed_random_spread::gmm_seed_random_spread()
+  0.00      8.80     0.00        1     0.00     0.00  arma::gmm_seed_random_subset::gmm_seed_random_subset()
+  0.00      8.80     0.00        1     0.00     0.00  arma::gmm_seed_static_spread::gmm_seed_static_spread()
+  0.00      8.80     0.00        1     0.00     0.00  arma::gmm_seed_static_subset::gmm_seed_static_subset()
+  0.00      8.80     0.00        1     0.00     0.00  arma::Col<unsigned long long>::Col(std::initializer_list<unsigned long long> const&)
+  0.00      8.80     0.00        1     0.00     0.00  arma::Col<unsigned long long>::~Col()
+  0.00      8.80     0.00        1     0.00     0.00  arma::Col<unsigned long long>::operator=(std::initializer_list<unsigned long long> const&)
+  0.00      8.80     0.00        1     0.00     0.00  arma::Mat<unsigned long long>::init(std::initializer_list<unsigned long long> const&)
+  0.00      8.80     0.00        1     0.00     0.00  arma::Mat<unsigned long long>::set_size(unsigned long long, unsigned long long)
+  0.00      8.80     0.00        1     0.00     0.00  arma::Mat<unsigned long long>::steal_mem(arma::Mat<unsigned long long>&)
+  0.00      8.80     0.00        1     0.00     0.00  arma::Mat<unsigned long long>::Mat(std::initializer_list<unsigned long long> const&)
+  0.00      8.80     0.00        1     0.00     0.00  arma::Mat<unsigned long long>::Mat(arma::arma_vec_indicator const&, unsigned int)
+  0.00      8.80     0.00        1     0.00     0.00  arma::Mat<unsigned long long>::operator=(arma::Mat<unsigned long long> const&)
+  0.00      8.80     0.00        1     0.00     0.00  arma::fill::fill_class<arma::fill::fill_randn>::fill_class()
+  0.00      8.80     0.00        1     0.00     0.00  arma::fill::fill_class<arma::fill::fill_randu>::fill_class()
+  0.00      8.80     0.00        1     0.00     0.00  arma::fill::fill_class<arma::fill::fill_zeros>::fill_class()
+  0.00      8.80     0.00        1     0.00     0.00  arma::fill::fill_class<arma::fill::fill_eye>::fill_class()
+  0.00      8.80     0.00        1     0.00     0.00  arma::fill::fill_class<arma::fill::fill_none>::fill_class()
+  0.00      8.80     0.00        1     0.00     0.00  arma::fill::fill_class<arma::fill::fill_ones>::fill_class()
+  0.00      8.80     0.00        1     0.00     0.00  arma::arma_real_only<double>::result arma::priv::Datum_helper::inf<double>(arma::arma_real_only<double>::result*)
+  0.00      8.80     0.00        1     0.00     0.00  arma::arma_integral_only<int>::result arma::priv::Datum_helper::inf<int>(arma::arma_integral_only<int>::result*)
+  0.00      8.80     0.00        1     0.00     0.00  arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::inf<unsigned int>(arma::arma_integral_only<unsigned int>::result*)
+  0.00      8.80     0.00        1     0.00     0.00  arma::arma_real_only<double>::result arma::priv::Datum_helper::nan<double>(arma::arma_real_only<double>::result*)
+  0.00      8.80     0.00        1     0.00     0.00  arma::arma_integral_only<int>::result arma::priv::Datum_helper::nan<int>(arma::arma_integral_only<int>::result*)
+  0.00      8.80     0.00        1     0.00     0.00  arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::nan<unsigned int>(arma::arma_integral_only<unsigned int>::result*)
+  0.00      8.80     0.00        1     0.00     0.00  arma::arma_integral_only<long long>::result arma::priv::Datum_helper::nan<long long>(arma::arma_integral_only<long long>::result*)
+  0.00      8.80     0.00        1     0.00     0.00  arma::hdf5_opts::opts_trans::opts_trans()
+  0.00      8.80     0.00        1     0.00     0.00  arma::hdf5_opts::opts_append::opts_append()
+  0.00      8.80     0.00        1     0.00     0.00  arma::hdf5_opts::opts_replace::opts_replace()
+  0.00      8.80     0.00        1     0.00     0.00  arma::hdf5_opts::opts_none::opts_none()
+  0.00      8.80     0.00        1     0.00     0.00  std::initializer_list<unsigned long long>::size() const
+  0.00      8.80     0.00        1     0.00     0.00  std::initializer_list<unsigned long long>::begin() const
+  0.00      8.80     0.00        1     0.00     0.00  std::numeric_limits<double>::infinity()
+  0.00      8.80     0.00        1     0.00     0.00  std::numeric_limits<double>::quiet_NaN()
+  0.00      8.80     0.00        1     0.00     0.00  std::numeric_limits<int>::max()
+  0.00      8.80     0.00        1     0.00     0.00  std::numeric_limits<unsigned int>::max()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.11% of 8.80 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.00    8.80                 main [1]
+                0.00    8.80     100/100         arma::Mat<double>::load(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, arma::file_type, bool) [2]
+                0.00    0.00     100/100         arma::Mat<double>& arma::Mat<double>::operator=<arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >(arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [29]
+                0.00    0.00     100/100         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::~subview_elem2() [24]
+                0.00    0.00       2/2           arma::Mat<double>::Mat() [48]
+                0.00    0.00       2/2           arma::Mat<double>::~Mat() [49]
+                0.00    0.00       1/1           arma::Col<unsigned long long>::Col(std::initializer_list<unsigned long long> const&) [74]
+                0.00    0.00       1/1           arma::Col<unsigned long long>::~Col() [75]
+-----------------------------------------------
+                0.00    8.80     100/100         main [1]
+[2]    100.0    0.00    8.80     100         arma::Mat<double>::load(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, arma::file_type, bool) [2]
+                0.00    8.80     100/100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [3]
+-----------------------------------------------
+                0.00    8.80     100/100         arma::Mat<double>::load(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, arma::file_type, bool) [2]
+[3]    100.0    0.00    8.80     100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [3]
+                0.00    8.80     100/100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [4]
+                0.00    0.00     100/200         std::operator|(std::_Ios_Openmode, std::_Ios_Openmode) [18]
+-----------------------------------------------
+                0.00    8.80     100/100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [3]
+[4]    100.0    0.00    8.80     100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [4]
+                3.32    5.41     100/100         bool arma::diskio::load_csv_ascii<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [5]
+                0.07    0.00     100/100         arma::podarray<char>::~podarray() [7]
+                0.00    0.00     100/100         arma::podarray<char>::init_cold(unsigned long long) [36]
+                0.00    0.00     100/100         arma::diskio::guess_file_type(std::istream&) [30]
+-----------------------------------------------
+                3.32    5.41     100/100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [4]
+[5]     99.2    3.32    5.41     100         bool arma::diskio::load_csv_ascii<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [5]
+                5.41    0.00 401600000/401600000     bool arma::diskio::convert_token<double>(double&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [6]
+                0.00    0.00     100/200         std::operator|(std::_Ios_Openmode, std::_Ios_Openmode) [18]
+                0.00    0.00     100/100         arma::Mat<double>::zeros(unsigned long long, unsigned long long) [28]
+-----------------------------------------------
+                5.41    0.00 401600000/401600000     bool arma::diskio::load_csv_ascii<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [5]
+[6]     61.5    5.41    0.00 401600000         bool arma::diskio::convert_token<double>(double&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [6]
+-----------------------------------------------
+                0.07    0.00     100/100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [4]
+[7]      0.8    0.07    0.00     100         arma::podarray<char>::~podarray() [7]
+-----------------------------------------------
+                0.00    0.00     400/400         arma::diskio::guess_file_type(std::istream&) [30]
+[14]     0.0    0.00    0.00     400         std::fpos<__mbstate_t>::operator long() const [14]
+-----------------------------------------------
+                0.00    0.00     300/300         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [23]
+[15]     0.0    0.00    0.00     300         void arma::arma_check<char [33]>(bool, char const (&) [33]) [15]
+-----------------------------------------------
+                0.00    0.00     100/200         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [23]
+                0.00    0.00     100/200         arma::Mat<double>::zeros(unsigned long long, unsigned long long) [28]
+[16]     0.0    0.00    0.00     200         arma::Mat<double>::set_size(unsigned long long, unsigned long long) [16]
+                0.00    0.00     200/200         arma::Mat<double>::init_warm(unsigned long long, unsigned long long) [17]
+-----------------------------------------------
+                0.00    0.00     200/200         arma::Mat<double>::set_size(unsigned long long, unsigned long long) [16]
+[17]     0.0    0.00    0.00     200         arma::Mat<double>::init_warm(unsigned long long, unsigned long long) [17]
+                0.00    0.00       2/4           void arma::arma_check<char*>(bool, char* const&) [45]
+                0.00    0.00       2/4           void arma::arma_check<char [74]>(bool, char const (&) [74]) [44]
+                0.00    0.00       2/2           double* arma::memory::acquire<double>(unsigned long long) [52]
+-----------------------------------------------
+                0.00    0.00     100/200         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [3]
+                0.00    0.00     100/200         bool arma::diskio::load_csv_ascii<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [5]
+[18]     0.0    0.00    0.00     200         std::operator|(std::_Ios_Openmode, std::_Ios_Openmode) [18]
+-----------------------------------------------
+                0.00    0.00       2/102         double* arma::memory::acquire<double>(unsigned long long) [52]
+                0.00    0.00     100/102         unsigned char* arma::memory::acquire<unsigned char>(unsigned long long) [31]
+[19]     0.0    0.00    0.00     102         void arma::arma_check<char [53]>(bool, char const (&) [53]) [19]
+-----------------------------------------------
+                0.00    0.00       2/102         double* arma::memory::acquire<double>(unsigned long long) [52]
+                0.00    0.00     100/102         unsigned char* arma::memory::acquire<unsigned char>(unsigned long long) [31]
+[20]     0.0    0.00    0.00     102         void arma::arma_check_bad_alloc<char [39]>(bool, char const (&) [39]) [20]
+-----------------------------------------------
+                0.00    0.00       2/102         double* arma::memory::acquire<double>(unsigned long long) [52]
+                0.00    0.00     100/102         unsigned char* arma::memory::acquire<unsigned char>(unsigned long long) [31]
+[21]     0.0    0.00    0.00     102         std::numeric_limits<unsigned long>::max() [21]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [23]
+[22]     0.0    0.00    0.00     100         void arma::arma_check<char [42]>(bool, char const (&) [42]) [22]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::Mat<double>& arma::Mat<double>::operator=<arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >(arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [29]
+[23]     0.0    0.00    0.00     100         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [23]
+                0.00    0.00     300/300         void arma::arma_check<char [33]>(bool, char const (&) [33]) [15]
+                0.00    0.00     100/100         arma::unwrap_check_mixed<arma::Mat<unsigned long long> >::unwrap_check_mixed<double>(arma::Mat<unsigned long long> const&, arma::Mat<double> const&) [25]
+                0.00    0.00     100/100         void arma::arma_check<char [42]>(bool, char const (&) [42]) [22]
+                0.00    0.00     100/200         arma::Mat<double>::set_size(unsigned long long, unsigned long long) [16]
+                0.00    0.00     100/100         arma::unwrap_check_mixed<arma::Mat<unsigned long long> >::~unwrap_check_mixed() [26]
+-----------------------------------------------
+                0.00    0.00     100/100         main [1]
+[24]     0.0    0.00    0.00     100         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::~subview_elem2() [24]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [23]
+[25]     0.0    0.00    0.00     100         arma::unwrap_check_mixed<arma::Mat<unsigned long long> >::unwrap_check_mixed<double>(arma::Mat<unsigned long long> const&, arma::Mat<double> const&) [25]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [23]
+[26]     0.0    0.00    0.00     100         arma::unwrap_check_mixed<arma::Mat<unsigned long long> >::~unwrap_check_mixed() [26]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::Mat<double>::zeros(unsigned long long, unsigned long long) [28]
+[27]     0.0    0.00    0.00     100         arma::Mat<double>::zeros() [27]
+                0.00    0.00     100/100         void arma::arrayops::fill_zeros<double>(double*, unsigned long long) [32]
+-----------------------------------------------
+                0.00    0.00     100/100         bool arma::diskio::load_csv_ascii<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [5]
+[28]     0.0    0.00    0.00     100         arma::Mat<double>::zeros(unsigned long long, unsigned long long) [28]
+                0.00    0.00     100/200         arma::Mat<double>::set_size(unsigned long long, unsigned long long) [16]
+                0.00    0.00     100/100         arma::Mat<double>::zeros() [27]
+-----------------------------------------------
+                0.00    0.00     100/100         main [1]
+[29]     0.0    0.00    0.00     100         arma::Mat<double>& arma::Mat<double>::operator=<arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >(arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [29]
+                0.00    0.00     100/100         arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [23]
+-----------------------------------------------
+                0.00    0.00     100/100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [4]
+[30]     0.0    0.00    0.00     100         arma::diskio::guess_file_type(std::istream&) [30]
+                0.00    0.00     400/400         std::fpos<__mbstate_t>::operator long() const [14]
+                0.00    0.00     100/100         std::fpos<__mbstate_t>::operator-(std::fpos<__mbstate_t> const&) const [40]
+                0.00    0.00     100/100         unsigned long long const& std::min<unsigned long long>(unsigned long long const&, unsigned long long const&) [41]
+                0.00    0.00     100/100         arma::podarray<unsigned char>::init_cold(unsigned long long) [38]
+                0.00    0.00     100/100         arma::podarray<unsigned char>::zeros() [37]
+                0.00    0.00     100/100         arma::podarray<unsigned char>::~podarray() [39]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::podarray<unsigned char>::init_cold(unsigned long long) [38]
+[31]     0.0    0.00    0.00     100         unsigned char* arma::memory::acquire<unsigned char>(unsigned long long) [31]
+                0.00    0.00     100/102         std::numeric_limits<unsigned long>::max() [21]
+                0.00    0.00     100/102         void arma::arma_check<char [53]>(bool, char const (&) [53]) [19]
+                0.00    0.00     100/102         void arma::arma_check_bad_alloc<char [39]>(bool, char const (&) [39]) [20]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::Mat<double>::zeros() [27]
+[32]     0.0    0.00    0.00     100         void arma::arrayops::fill_zeros<double>(double*, unsigned long long) [32]
+                0.00    0.00     100/100         void arma::arrayops::inplace_set<double>(double*, double, unsigned long long) [34]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::podarray<unsigned char>::zeros() [37]
+[33]     0.0    0.00    0.00     100         void arma::arrayops::fill_zeros<unsigned char>(unsigned char*, unsigned long long) [33]
+                0.00    0.00     100/100         void arma::arrayops::inplace_set<unsigned char>(unsigned char*, unsigned char, unsigned long long) [35]
+-----------------------------------------------
+                0.00    0.00     100/100         void arma::arrayops::fill_zeros<double>(double*, unsigned long long) [32]
+[34]     0.0    0.00    0.00     100         void arma::arrayops::inplace_set<double>(double*, double, unsigned long long) [34]
+-----------------------------------------------
+                0.00    0.00     100/100         void arma::arrayops::fill_zeros<unsigned char>(unsigned char*, unsigned long long) [33]
+[35]     0.0    0.00    0.00     100         void arma::arrayops::inplace_set<unsigned char>(unsigned char*, unsigned char, unsigned long long) [35]
+-----------------------------------------------
+                0.00    0.00     100/100         bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [4]
+[36]     0.0    0.00    0.00     100         arma::podarray<char>::init_cold(unsigned long long) [36]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::diskio::guess_file_type(std::istream&) [30]
+[37]     0.0    0.00    0.00     100         arma::podarray<unsigned char>::zeros() [37]
+                0.00    0.00     100/100         void arma::arrayops::fill_zeros<unsigned char>(unsigned char*, unsigned long long) [33]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::diskio::guess_file_type(std::istream&) [30]
+[38]     0.0    0.00    0.00     100         arma::podarray<unsigned char>::init_cold(unsigned long long) [38]
+                0.00    0.00     100/100         unsigned char* arma::memory::acquire<unsigned char>(unsigned long long) [31]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::diskio::guess_file_type(std::istream&) [30]
+[39]     0.0    0.00    0.00     100         arma::podarray<unsigned char>::~podarray() [39]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::diskio::guess_file_type(std::istream&) [30]
+[40]     0.0    0.00    0.00     100         std::fpos<__mbstate_t>::operator-(std::fpos<__mbstate_t> const&) const [40]
+-----------------------------------------------
+                0.00    0.00     100/100         arma::diskio::guess_file_type(std::istream&) [30]
+[41]     0.0    0.00    0.00     100         unsigned long long const& std::min<unsigned long long>(unsigned long long const&, unsigned long long const&) [41]
+-----------------------------------------------
+                0.00    0.00       1/9           arma::solve_opts::opts_none::opts_none() [63]
+                0.00    0.00       1/9           arma::solve_opts::opts_fast::opts_fast() [62]
+                0.00    0.00       1/9           arma::solve_opts::opts_equilibrate::opts_equilibrate() [61]
+                0.00    0.00       1/9           arma::solve_opts::opts_no_approx::opts_no_approx() [59]
+                0.00    0.00       1/9           arma::solve_opts::opts_triu::opts_triu() [65]
+                0.00    0.00       1/9           arma::solve_opts::opts_tril::opts_tril() [64]
+                0.00    0.00       1/9           arma::solve_opts::opts_no_band::opts_no_band() [57]
+                0.00    0.00       1/9           arma::solve_opts::opts_no_sympd::opts_no_sympd() [58]
+                0.00    0.00       1/9           arma::solve_opts::opts_allow_ugly::opts_allow_ugly() [60]
+[42]     0.0    0.00    0.00       9         arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/5           arma::gmm_seed_keep_existing::gmm_seed_keep_existing() [69]
+                0.00    0.00       1/5           arma::gmm_seed_static_subset::gmm_seed_static_subset() [73]
+                0.00    0.00       1/5           arma::gmm_seed_static_spread::gmm_seed_static_spread() [72]
+                0.00    0.00       1/5           arma::gmm_seed_random_subset::gmm_seed_random_subset() [71]
+                0.00    0.00       1/5           arma::gmm_seed_random_spread::gmm_seed_random_spread() [70]
+[43]     0.0    0.00    0.00       5         arma::gmm_seed_mode::gmm_seed_mode(unsigned long long) [43]
+-----------------------------------------------
+                0.00    0.00       2/4           arma::Mat<double>::init_warm(unsigned long long, unsigned long long) [17]
+                0.00    0.00       2/4           arma::Mat<unsigned long long>::init_warm(unsigned long long, unsigned long long) [50]
+[44]     0.0    0.00    0.00       4         void arma::arma_check<char [74]>(bool, char const (&) [74]) [44]
+-----------------------------------------------
+                0.00    0.00       2/4           arma::Mat<double>::init_warm(unsigned long long, unsigned long long) [17]
+                0.00    0.00       2/4           arma::Mat<unsigned long long>::init_warm(unsigned long long, unsigned long long) [50]
+[45]     0.0    0.00    0.00       4         void arma::arma_check<char*>(bool, char* const&) [45]
+-----------------------------------------------
+                0.00    0.00       1/4           arma::hdf5_opts::opts_none::opts_none() [99]
+                0.00    0.00       1/4           arma::hdf5_opts::opts_trans::opts_trans() [96]
+                0.00    0.00       1/4           arma::hdf5_opts::opts_append::opts_append() [97]
+                0.00    0.00       1/4           arma::hdf5_opts::opts_replace::opts_replace() [98]
+[46]     0.0    0.00    0.00       4         arma::hdf5_opts::opts::opts(unsigned int) [46]
+-----------------------------------------------
+                0.00    0.00       1/3           arma::gmm_dist_eucl::gmm_dist_eucl() [66]
+                0.00    0.00       1/3           arma::gmm_dist_maha::gmm_dist_maha() [67]
+                0.00    0.00       1/3           arma::gmm_dist_prob::gmm_dist_prob() [68]
+[47]     0.0    0.00    0.00       3         arma::gmm_dist_mode::gmm_dist_mode(unsigned long long) [47]
+-----------------------------------------------
+                0.00    0.00       2/2           main [1]
+[48]     0.0    0.00    0.00       2         arma::Mat<double>::Mat() [48]
+-----------------------------------------------
+                0.00    0.00       2/2           main [1]
+[49]     0.0    0.00    0.00       2         arma::Mat<double>::~Mat() [49]
+-----------------------------------------------
+                0.00    0.00       1/2           arma::Mat<unsigned long long>::operator=(arma::Mat<unsigned long long> const&) [82]
+                0.00    0.00       1/2           arma::Mat<unsigned long long>::set_size(unsigned long long, unsigned long long) [78]
+[50]     0.0    0.00    0.00       2         arma::Mat<unsigned long long>::init_warm(unsigned long long, unsigned long long) [50]
+                0.00    0.00       2/4           void arma::arma_check<char*>(bool, char* const&) [45]
+                0.00    0.00       2/4           void arma::arma_check<char [74]>(bool, char const (&) [74]) [44]
+-----------------------------------------------
+                0.00    0.00       1/2           arma::Col<unsigned long long>::~Col() [75]
+                0.00    0.00       1/2           arma::Col<unsigned long long>::operator=(std::initializer_list<unsigned long long> const&) [76]
+[51]     0.0    0.00    0.00       2         arma::Mat<unsigned long long>::~Mat() [51]
+-----------------------------------------------
+                0.00    0.00       2/2           arma::Mat<double>::init_warm(unsigned long long, unsigned long long) [17]
+[52]     0.0    0.00    0.00       2         double* arma::memory::acquire<double>(unsigned long long) [52]
+                0.00    0.00       2/102         std::numeric_limits<unsigned long>::max() [21]
+                0.00    0.00       2/102         void arma::arma_check<char [53]>(bool, char const (&) [53]) [19]
+                0.00    0.00       2/102         void arma::arma_check_bad_alloc<char [39]>(bool, char const (&) [39]) [20]
+-----------------------------------------------
+                0.00    0.00       1/2           arma::Mat<unsigned long long>::init(std::initializer_list<unsigned long long> const&) [77]
+                0.00    0.00       1/2           arma::Mat<unsigned long long>::operator=(arma::Mat<unsigned long long> const&) [82]
+[53]     0.0    0.00    0.00       2         void arma::arrayops::copy_small<unsigned long long>(unsigned long long*, unsigned long long const*, unsigned long long) [53]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [183]
+[54]     0.0    0.00    0.00       1         _GLOBAL__sub_I_main [54]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I_main [54]
+[55]     0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [55]
+                0.00    0.00       1/1           arma::hdf5_opts::opts_none::opts_none() [99]
+                0.00    0.00       1/1           arma::hdf5_opts::opts_trans::opts_trans() [96]
+                0.00    0.00       1/1           arma::hdf5_opts::opts_append::opts_append() [97]
+                0.00    0.00       1/1           arma::fill::fill_class<arma::fill::fill_none>::fill_class() [87]
+                0.00    0.00       1/1           arma::hdf5_opts::opts_replace::opts_replace() [98]
+                0.00    0.00       1/1           arma::fill::fill_class<arma::fill::fill_zeros>::fill_class() [85]
+                0.00    0.00       1/1           arma::fill::fill_class<arma::fill::fill_ones>::fill_class() [88]
+                0.00    0.00       1/1           arma::fill::fill_class<arma::fill::fill_randu>::fill_class() [84]
+                0.00    0.00       1/1           arma::fill::fill_class<arma::fill::fill_eye>::fill_class() [86]
+                0.00    0.00       1/1           arma::fill::fill_class<arma::fill::fill_randn>::fill_class() [83]
+                0.00    0.00       1/1           arma::solve_opts::opts_none::opts_none() [63]
+                0.00    0.00       1/1           arma::solve_opts::opts_equilibrate::opts_equilibrate() [61]
+                0.00    0.00       1/1           arma::solve_opts::opts_fast::opts_fast() [62]
+                0.00    0.00       1/1           arma::solve_opts::opts_no_approx::opts_no_approx() [59]
+                0.00    0.00       1/1           arma::solve_opts::opts_triu::opts_triu() [65]
+                0.00    0.00       1/1           arma::solve_opts::opts_no_band::opts_no_band() [57]
+                0.00    0.00       1/1           arma::solve_opts::opts_tril::opts_tril() [64]
+                0.00    0.00       1/1           arma::solve_opts::opts_no_sympd::opts_no_sympd() [58]
+                0.00    0.00       1/1           arma::solve_opts::opts_allow_ugly::opts_allow_ugly() [60]
+                0.00    0.00       1/1           arma::gmm_dist_maha::gmm_dist_maha() [67]
+                0.00    0.00       1/1           arma::gmm_dist_eucl::gmm_dist_eucl() [66]
+                0.00    0.00       1/1           arma::gmm_dist_prob::gmm_dist_prob() [68]
+                0.00    0.00       1/1           arma::gmm_seed_keep_existing::gmm_seed_keep_existing() [69]
+                0.00    0.00       1/1           arma::gmm_seed_static_spread::gmm_seed_static_spread() [72]
+                0.00    0.00       1/1           arma::gmm_seed_static_subset::gmm_seed_static_subset() [73]
+                0.00    0.00       1/1           arma::gmm_seed_random_subset::gmm_seed_random_subset() [71]
+                0.00    0.00       1/1           arma::gmm_seed_random_spread::gmm_seed_random_spread() [70]
+                0.00    0.00       1/1           arma::arma_integral_only<long long>::result arma::priv::Datum_helper::nan<long long>(arma::arma_integral_only<long long>::result*) [95]
+                0.00    0.00       1/1           arma::arma_real_only<double>::result arma::priv::Datum_helper::nan<double>(arma::arma_real_only<double>::result*) [92]
+                0.00    0.00       1/1           arma::arma_real_only<double>::result arma::priv::Datum_helper::inf<double>(arma::arma_real_only<double>::result*) [89]
+                0.00    0.00       1/1           arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::inf<unsigned int>(arma::arma_integral_only<unsigned int>::result*) [91]
+                0.00    0.00       1/1           arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::nan<unsigned int>(arma::arma_integral_only<unsigned int>::result*) [94]
+                0.00    0.00       1/1           arma::arma_integral_only<int>::result arma::priv::Datum_helper::inf<int>(arma::arma_integral_only<int>::result*) [90]
+                0.00    0.00       1/1           arma::arma_integral_only<int>::result arma::priv::Datum_helper::nan<int>(arma::arma_integral_only<int>::result*) [93]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Col<unsigned long long>::operator=(std::initializer_list<unsigned long long> const&) [76]
+[56]     0.0    0.00    0.00       1         void arma::arma_check<char [72]>(bool, char const (&) [72]) [56]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[57]     0.0    0.00    0.00       1         arma::solve_opts::opts_no_band::opts_no_band() [57]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[58]     0.0    0.00    0.00       1         arma::solve_opts::opts_no_sympd::opts_no_sympd() [58]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[59]     0.0    0.00    0.00       1         arma::solve_opts::opts_no_approx::opts_no_approx() [59]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[60]     0.0    0.00    0.00       1         arma::solve_opts::opts_allow_ugly::opts_allow_ugly() [60]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[61]     0.0    0.00    0.00       1         arma::solve_opts::opts_equilibrate::opts_equilibrate() [61]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[62]     0.0    0.00    0.00       1         arma::solve_opts::opts_fast::opts_fast() [62]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[63]     0.0    0.00    0.00       1         arma::solve_opts::opts_none::opts_none() [63]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[64]     0.0    0.00    0.00       1         arma::solve_opts::opts_tril::opts_tril() [64]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[65]     0.0    0.00    0.00       1         arma::solve_opts::opts_triu::opts_triu() [65]
+                0.00    0.00       1/9           arma::solve_opts::opts::opts(unsigned long long) [42]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[66]     0.0    0.00    0.00       1         arma::gmm_dist_eucl::gmm_dist_eucl() [66]
+                0.00    0.00       1/3           arma::gmm_dist_mode::gmm_dist_mode(unsigned long long) [47]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[67]     0.0    0.00    0.00       1         arma::gmm_dist_maha::gmm_dist_maha() [67]
+                0.00    0.00       1/3           arma::gmm_dist_mode::gmm_dist_mode(unsigned long long) [47]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[68]     0.0    0.00    0.00       1         arma::gmm_dist_prob::gmm_dist_prob() [68]
+                0.00    0.00       1/3           arma::gmm_dist_mode::gmm_dist_mode(unsigned long long) [47]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[69]     0.0    0.00    0.00       1         arma::gmm_seed_keep_existing::gmm_seed_keep_existing() [69]
+                0.00    0.00       1/5           arma::gmm_seed_mode::gmm_seed_mode(unsigned long long) [43]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[70]     0.0    0.00    0.00       1         arma::gmm_seed_random_spread::gmm_seed_random_spread() [70]
+                0.00    0.00       1/5           arma::gmm_seed_mode::gmm_seed_mode(unsigned long long) [43]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[71]     0.0    0.00    0.00       1         arma::gmm_seed_random_subset::gmm_seed_random_subset() [71]
+                0.00    0.00       1/5           arma::gmm_seed_mode::gmm_seed_mode(unsigned long long) [43]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[72]     0.0    0.00    0.00       1         arma::gmm_seed_static_spread::gmm_seed_static_spread() [72]
+                0.00    0.00       1/5           arma::gmm_seed_mode::gmm_seed_mode(unsigned long long) [43]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[73]     0.0    0.00    0.00       1         arma::gmm_seed_static_subset::gmm_seed_static_subset() [73]
+                0.00    0.00       1/5           arma::gmm_seed_mode::gmm_seed_mode(unsigned long long) [43]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[74]     0.0    0.00    0.00       1         arma::Col<unsigned long long>::Col(std::initializer_list<unsigned long long> const&) [74]
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::Mat(arma::arma_vec_indicator const&, unsigned int) [81]
+                0.00    0.00       1/1           arma::Col<unsigned long long>::operator=(std::initializer_list<unsigned long long> const&) [76]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[75]     0.0    0.00    0.00       1         arma::Col<unsigned long long>::~Col() [75]
+                0.00    0.00       1/2           arma::Mat<unsigned long long>::~Mat() [51]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Col<unsigned long long>::Col(std::initializer_list<unsigned long long> const&) [74]
+[76]     0.0    0.00    0.00       1         arma::Col<unsigned long long>::operator=(std::initializer_list<unsigned long long> const&) [76]
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::Mat(std::initializer_list<unsigned long long> const&) [80]
+                0.00    0.00       1/1           void arma::arma_check<char [72]>(bool, char const (&) [72]) [56]
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::steal_mem(arma::Mat<unsigned long long>&) [79]
+                0.00    0.00       1/2           arma::Mat<unsigned long long>::~Mat() [51]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::Mat(std::initializer_list<unsigned long long> const&) [80]
+[77]     0.0    0.00    0.00       1         arma::Mat<unsigned long long>::init(std::initializer_list<unsigned long long> const&) [77]
+                0.00    0.00       1/1           std::initializer_list<unsigned long long>::size() const [100]
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::set_size(unsigned long long, unsigned long long) [78]
+                0.00    0.00       1/1           std::initializer_list<unsigned long long>::begin() const [101]
+                0.00    0.00       1/2           void arma::arrayops::copy_small<unsigned long long>(unsigned long long*, unsigned long long const*, unsigned long long) [53]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::init(std::initializer_list<unsigned long long> const&) [77]
+[78]     0.0    0.00    0.00       1         arma::Mat<unsigned long long>::set_size(unsigned long long, unsigned long long) [78]
+                0.00    0.00       1/2           arma::Mat<unsigned long long>::init_warm(unsigned long long, unsigned long long) [50]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Col<unsigned long long>::operator=(std::initializer_list<unsigned long long> const&) [76]
+[79]     0.0    0.00    0.00       1         arma::Mat<unsigned long long>::steal_mem(arma::Mat<unsigned long long>&) [79]
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::operator=(arma::Mat<unsigned long long> const&) [82]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Col<unsigned long long>::operator=(std::initializer_list<unsigned long long> const&) [76]
+[80]     0.0    0.00    0.00       1         arma::Mat<unsigned long long>::Mat(std::initializer_list<unsigned long long> const&) [80]
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::init(std::initializer_list<unsigned long long> const&) [77]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Col<unsigned long long>::Col(std::initializer_list<unsigned long long> const&) [74]
+[81]     0.0    0.00    0.00       1         arma::Mat<unsigned long long>::Mat(arma::arma_vec_indicator const&, unsigned int) [81]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::steal_mem(arma::Mat<unsigned long long>&) [79]
+[82]     0.0    0.00    0.00       1         arma::Mat<unsigned long long>::operator=(arma::Mat<unsigned long long> const&) [82]
+                0.00    0.00       1/2           arma::Mat<unsigned long long>::init_warm(unsigned long long, unsigned long long) [50]
+                0.00    0.00       1/2           void arma::arrayops::copy_small<unsigned long long>(unsigned long long*, unsigned long long const*, unsigned long long) [53]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[83]     0.0    0.00    0.00       1         arma::fill::fill_class<arma::fill::fill_randn>::fill_class() [83]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[84]     0.0    0.00    0.00       1         arma::fill::fill_class<arma::fill::fill_randu>::fill_class() [84]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[85]     0.0    0.00    0.00       1         arma::fill::fill_class<arma::fill::fill_zeros>::fill_class() [85]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[86]     0.0    0.00    0.00       1         arma::fill::fill_class<arma::fill::fill_eye>::fill_class() [86]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[87]     0.0    0.00    0.00       1         arma::fill::fill_class<arma::fill::fill_none>::fill_class() [87]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[88]     0.0    0.00    0.00       1         arma::fill::fill_class<arma::fill::fill_ones>::fill_class() [88]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[89]     0.0    0.00    0.00       1         arma::arma_real_only<double>::result arma::priv::Datum_helper::inf<double>(arma::arma_real_only<double>::result*) [89]
+                0.00    0.00       1/1           std::numeric_limits<double>::infinity() [102]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[90]     0.0    0.00    0.00       1         arma::arma_integral_only<int>::result arma::priv::Datum_helper::inf<int>(arma::arma_integral_only<int>::result*) [90]
+                0.00    0.00       1/1           std::numeric_limits<int>::max() [104]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[91]     0.0    0.00    0.00       1         arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::inf<unsigned int>(arma::arma_integral_only<unsigned int>::result*) [91]
+                0.00    0.00       1/1           std::numeric_limits<unsigned int>::max() [105]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[92]     0.0    0.00    0.00       1         arma::arma_real_only<double>::result arma::priv::Datum_helper::nan<double>(arma::arma_real_only<double>::result*) [92]
+                0.00    0.00       1/1           std::numeric_limits<double>::quiet_NaN() [103]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[93]     0.0    0.00    0.00       1         arma::arma_integral_only<int>::result arma::priv::Datum_helper::nan<int>(arma::arma_integral_only<int>::result*) [93]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[94]     0.0    0.00    0.00       1         arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::nan<unsigned int>(arma::arma_integral_only<unsigned int>::result*) [94]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[95]     0.0    0.00    0.00       1         arma::arma_integral_only<long long>::result arma::priv::Datum_helper::nan<long long>(arma::arma_integral_only<long long>::result*) [95]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[96]     0.0    0.00    0.00       1         arma::hdf5_opts::opts_trans::opts_trans() [96]
+                0.00    0.00       1/4           arma::hdf5_opts::opts::opts(unsigned int) [46]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[97]     0.0    0.00    0.00       1         arma::hdf5_opts::opts_append::opts_append() [97]
+                0.00    0.00       1/4           arma::hdf5_opts::opts::opts(unsigned int) [46]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[98]     0.0    0.00    0.00       1         arma::hdf5_opts::opts_replace::opts_replace() [98]
+                0.00    0.00       1/4           arma::hdf5_opts::opts::opts(unsigned int) [46]
+-----------------------------------------------
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [55]
+[99]     0.0    0.00    0.00       1         arma::hdf5_opts::opts_none::opts_none() [99]
+                0.00    0.00       1/4           arma::hdf5_opts::opts::opts(unsigned int) [46]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::init(std::initializer_list<unsigned long long> const&) [77]
+[100]    0.0    0.00    0.00       1         std::initializer_list<unsigned long long>::size() const [100]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::Mat<unsigned long long>::init(std::initializer_list<unsigned long long> const&) [77]
+[101]    0.0    0.00    0.00       1         std::initializer_list<unsigned long long>::begin() const [101]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::arma_real_only<double>::result arma::priv::Datum_helper::inf<double>(arma::arma_real_only<double>::result*) [89]
+[102]    0.0    0.00    0.00       1         std::numeric_limits<double>::infinity() [102]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::arma_real_only<double>::result arma::priv::Datum_helper::nan<double>(arma::arma_real_only<double>::result*) [92]
+[103]    0.0    0.00    0.00       1         std::numeric_limits<double>::quiet_NaN() [103]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::arma_integral_only<int>::result arma::priv::Datum_helper::inf<int>(arma::arma_integral_only<int>::result*) [90]
+[104]    0.0    0.00    0.00       1         std::numeric_limits<int>::max() [104]
+-----------------------------------------------
+                0.00    0.00       1/1           arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::inf<unsigned int>(arma::arma_integral_only<unsigned int>::result*) [91]
+[105]    0.0    0.00    0.00       1         std::numeric_limits<unsigned int>::max() [105]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [54] _GLOBAL__sub_I_main    [74] arma::Col<unsigned long long>::Col(std::initializer_list<unsigned long long> const&) [5] bool arma::diskio::load_csv_ascii<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  [55] __static_initialization_and_destruction_0(int, int) [75] arma::Col<unsigned long long>::~Col() [30] arma::diskio::guess_file_type(std::istream&)
+  [15] void arma::arma_check<char [33]>(bool, char const (&) [33]) [76] arma::Col<unsigned long long>::operator=(std::initializer_list<unsigned long long> const&) [3] bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  [22] void arma::arma_check<char [42]>(bool, char const (&) [42]) [2] arma::Mat<double>::load(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, arma::file_type, bool) [4] bool arma::diskio::load_auto_detect<double>(arma::Mat<double>&, std::istream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  [19] void arma::arma_check<char [53]>(bool, char const (&) [53]) [27] arma::Mat<double>::zeros() [52] double* arma::memory::acquire<double>(unsigned long long)
+  [56] void arma::arma_check<char [72]>(bool, char const (&) [72]) [28] arma::Mat<double>::zeros(unsigned long long, unsigned long long) [31] unsigned char* arma::memory::acquire<unsigned char>(unsigned long long)
+  [44] void arma::arma_check<char [74]>(bool, char const (&) [74]) [16] arma::Mat<double>::set_size(unsigned long long, unsigned long long) [53] void arma::arrayops::copy_small<unsigned long long>(unsigned long long*, unsigned long long const*, unsigned long long)
+  [45] void arma::arma_check<char*>(bool, char* const&) [17] arma::Mat<double>::init_warm(unsigned long long, unsigned long long) [32] void arma::arrayops::fill_zeros<double>(double*, unsigned long long)
+  [57] arma::solve_opts::opts_no_band::opts_no_band() [48] arma::Mat<double>::Mat() [33] void arma::arrayops::fill_zeros<unsigned char>(unsigned char*, unsigned long long)
+  [58] arma::solve_opts::opts_no_sympd::opts_no_sympd() [49] arma::Mat<double>::~Mat() [34] void arma::arrayops::inplace_set<double>(double*, double, unsigned long long)
+  [59] arma::solve_opts::opts_no_approx::opts_no_approx() [29] arma::Mat<double>& arma::Mat<double>::operator=<arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >(arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [35] void arma::arrayops::inplace_set<unsigned char>(unsigned char*, unsigned char, unsigned long long)
+  [60] arma::solve_opts::opts_allow_ugly::opts_allow_ugly() [77] arma::Mat<unsigned long long>::init(std::initializer_list<unsigned long long> const&) [36] arma::podarray<char>::init_cold(unsigned long long)
+  [61] arma::solve_opts::opts_equilibrate::opts_equilibrate() [78] arma::Mat<unsigned long long>::set_size(unsigned long long, unsigned long long) [7] arma::podarray<char>::~podarray()
+  [42] arma::solve_opts::opts::opts(unsigned long long) [50] arma::Mat<unsigned long long>::init_warm(unsigned long long, unsigned long long) [37] arma::podarray<unsigned char>::zeros()
+  [62] arma::solve_opts::opts_fast::opts_fast() [79] arma::Mat<unsigned long long>::steal_mem(arma::Mat<unsigned long long>&) [38] arma::podarray<unsigned char>::init_cold(unsigned long long)
+  [63] arma::solve_opts::opts_none::opts_none() [80] arma::Mat<unsigned long long>::Mat(std::initializer_list<unsigned long long> const&) [39] arma::podarray<unsigned char>::~podarray()
+  [64] arma::solve_opts::opts_tril::opts_tril() [81] arma::Mat<unsigned long long>::Mat(arma::arma_vec_indicator const&, unsigned int) [96] arma::hdf5_opts::opts_trans::opts_trans()
+  [65] arma::solve_opts::opts_triu::opts_triu() [51] arma::Mat<unsigned long long>::~Mat() [97] arma::hdf5_opts::opts_append::opts_append()
+  [66] arma::gmm_dist_eucl::gmm_dist_eucl() [82] arma::Mat<unsigned long long>::operator=(arma::Mat<unsigned long long> const&) [98] arma::hdf5_opts::opts_replace::opts_replace()
+  [67] arma::gmm_dist_maha::gmm_dist_maha() [83] arma::fill::fill_class<arma::fill::fill_randn>::fill_class() [46] arma::hdf5_opts::opts::opts(unsigned int)
+  [47] arma::gmm_dist_mode::gmm_dist_mode(unsigned long long) [84] arma::fill::fill_class<arma::fill::fill_randu>::fill_class() [99] arma::hdf5_opts::opts_none::opts_none()
+  [68] arma::gmm_dist_prob::gmm_dist_prob() [85] arma::fill::fill_class<arma::fill::fill_zeros>::fill_class() [100] std::initializer_list<unsigned long long>::size() const
+  [43] arma::gmm_seed_mode::gmm_seed_mode(unsigned long long) [86] arma::fill::fill_class<arma::fill::fill_eye>::fill_class() [101] std::initializer_list<unsigned long long>::begin() const
+  [23] arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::extract(arma::Mat<double>&, arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> > const&) [87] arma::fill::fill_class<arma::fill::fill_none>::fill_class() [14] std::fpos<__mbstate_t>::operator long() const
+  [24] arma::subview_elem2<double, arma::Mat<unsigned long long>, arma::Mat<unsigned long long> >::~subview_elem2() [88] arma::fill::fill_class<arma::fill::fill_ones>::fill_class() [40] std::fpos<__mbstate_t>::operator-(std::fpos<__mbstate_t> const&) const
+  [25] arma::unwrap_check_mixed<arma::Mat<unsigned long long> >::unwrap_check_mixed<double>(arma::Mat<unsigned long long> const&, arma::Mat<double> const&) [89] arma::arma_real_only<double>::result arma::priv::Datum_helper::inf<double>(arma::arma_real_only<double>::result*) [102] std::numeric_limits<double>::infinity()
+  [26] arma::unwrap_check_mixed<arma::Mat<unsigned long long> >::~unwrap_check_mixed() [90] arma::arma_integral_only<int>::result arma::priv::Datum_helper::inf<int>(arma::arma_integral_only<int>::result*) [103] std::numeric_limits<double>::quiet_NaN()
+  [20] void arma::arma_check_bad_alloc<char [39]>(bool, char const (&) [39]) [91] arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::inf<unsigned int>(arma::arma_integral_only<unsigned int>::result*) [104] std::numeric_limits<int>::max()
+  [69] arma::gmm_seed_keep_existing::gmm_seed_keep_existing() [92] arma::arma_real_only<double>::result arma::priv::Datum_helper::nan<double>(arma::arma_real_only<double>::result*) [105] std::numeric_limits<unsigned int>::max()
+  [70] arma::gmm_seed_random_spread::gmm_seed_random_spread() [93] arma::arma_integral_only<int>::result arma::priv::Datum_helper::nan<int>(arma::arma_integral_only<int>::result*) [21] std::numeric_limits<unsigned long>::max()
+  [71] arma::gmm_seed_random_subset::gmm_seed_random_subset() [94] arma::arma_integral_only<unsigned int>::result arma::priv::Datum_helper::nan<unsigned int>(arma::arma_integral_only<unsigned int>::result*) [41] unsigned long long const& std::min<unsigned long long>(unsigned long long const&, unsigned long long const&)
+  [72] arma::gmm_seed_static_spread::gmm_seed_static_spread() [95] arma::arma_integral_only<long long>::result arma::priv::Datum_helper::nan<long long>(arma::arma_integral_only<long long>::result*) [18] std::operator|(std::_Ios_Openmode, std::_Ios_Openmode)
+  [73] arma::gmm_seed_static_subset::gmm_seed_static_subset() [6] bool arma::diskio::convert_token<double>(double&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)

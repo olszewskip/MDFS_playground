@@ -36,28 +36,28 @@ int main() {
 
   int n_loops = 100;
 
-  // method 1
-  for (int i = 0; i < n_loops; i++) {
-    populate_from_file(&M, "madelon.csv");
-    // print_matrix(&M);
-
-    column_bunch = return_transposed_columns(&M, n_cols, cols);
-    // print_matrix(&column_bunch);
-
-    M.clear();
-    column_bunch.clear();
-  }
-
-  // // method 2
+  // // method 1
   // for (int i = 0; i < n_loops; i++) {
-  //   populate_from_file_transposing(&M, "madelon.csv");
+  //   populate_from_file(&M, "madelonX16.csv");
   //   // print_matrix(&M);
-  //   column_bunch = return_rows(&M, n_cols, cols);
+
+  //   column_bunch = return_transposed_columns(&M, n_cols, cols);
   //   // print_matrix(&column_bunch);
 
   //   M.clear();
   //   column_bunch.clear();
   // }
+
+  // method 2
+  for (int i = 0; i < n_loops; i++) {
+    populate_from_file_transposing(&M, "madelonX16.csv");
+    // print_matrix(&M);
+    column_bunch = return_rows(&M, n_cols, cols);
+    // print_matrix(&column_bunch);
+
+    M.clear();
+    column_bunch.clear();
+  }
 }
 
 // print matrix to screen
