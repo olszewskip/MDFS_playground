@@ -22,15 +22,15 @@ void populate_from_file_transposing(std::vector<std::vector<double>> *M,
 std::vector<std::vector<double>> return_rows(
     std::vector<std::vector<double>> *source, int n_rows, int rows[]);
 
-int main() {
+int main(int argc, char *argv[]) {
   // matrix M1 to populate
   std::vector<std::vector<double>> M, column_bunch;
 
-  int n_loops = 100;
+  int runsA = 100;
 
   // method 1
-  for (int i = 0; i < n_loops; i++) {
-    populate_from_file(&M, "madelon.csv");
+  for (int i = 0; i < runsA; i++) {
+    populate_from_file(&M, argv[1]);
     M.clear();
   }
 }

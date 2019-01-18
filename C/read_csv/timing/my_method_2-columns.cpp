@@ -24,37 +24,20 @@ std::vector<std::vector<double>> return_rows(
     std::vector<std::vector<double>> *source, int n_rows, int rows[]);
 
 int main() {
+  std::vector<std::vector<double>> M, column_bunch;
+
+  // method 2
+  populate_from_file_transposing(&M, argv[1]);
+
   int n_cols = 3;
   int cols[3] = {9, 99, 199};
 
-  // matrix M1 to populate
-  std::vector<std::vector<double>> M, column_bunch;
+  int runsB = 100000;
 
-  int n_loops = 100;
-
-  // method 1
-  for (int i = 0; i < n_loops; i++) {
-    populate_from_file(&M, "madelon.csv");
-    // print_matrix(&M);
-    for (int j = 0; j < 1000; j++)
-      column_bunch = return_transposed_columns(&M, n_cols, cols);
-    // print_matrix(&column_bunch);
-
-    M.clear();
+  for (int i = 0; i < n_runsB; i++) {
+    column_bunch = return_rows(&M, n_cols, cols);
     column_bunch.clear();
   }
-
-  // // method 2
-  // for (int i = 0; i < n_loops; i++) {
-  //   populate_from_file_transposing(&M, "madelonX16.csv");
-  //   // print_matrix(&M);
-
-  //   column_bunch = return_rows(&M, n_cols, cols);
-  //   // print_matrix(&column_bunch);
-
-  //   M.clear();
-  //   column_bunch.clear();
-  // }
 }
 
 // print matrix to screen
