@@ -26,13 +26,15 @@ int main(int argc, char *argv[]) {
   // matrix M1 to populate
   std::vector<std::vector<double>> M, column_bunch;
 
-  int runsA = 100;
+  int runsA = atoi(argv[2]);
 
   // method 1
   for (int i = 0; i < runsA; i++) {
     populate_from_file(&M, argv[1]);
     M.clear();
   }
+
+  std::cout << runsA << " runs in " << argv[1] << "\n";
 }
 
 // print matrix to screen

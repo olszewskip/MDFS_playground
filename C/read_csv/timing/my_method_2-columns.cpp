@@ -32,12 +32,14 @@ int main() {
   int n_cols = 3;
   int cols[3] = {9, 99, 199};
 
-  int runsB = 100000;
+  int runsB = atoi(argv[2]);
 
   for (int i = 0; i < n_runsB; i++) {
     column_bunch = return_rows(&M, n_cols, cols);
     column_bunch.clear();
   }
+
+  std::cout << runsB << " runs in " << argv[1] << "\n";
 }
 
 // print matrix to screen

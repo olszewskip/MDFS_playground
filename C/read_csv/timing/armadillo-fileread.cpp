@@ -8,7 +8,7 @@
 int main(int argc, char *argv[]) {
   arma::Mat<double> M;
 
-  int runsA = 100;
+  int runsA = atoi(argv[2]);
 
   for (int i = 0; i < runsA; i++) {
     M.load(argv[1]);
