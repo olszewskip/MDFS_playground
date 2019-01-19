@@ -29,27 +29,24 @@ std::vector<std::vector<double>> return_rows(
     std::vector<std::vector<double>> *source, int n_rows, int rows[]);
 
 int main(int argc, char *argv[]) {
+  // matrix M1 to populate
   std::vector<std::vector<double>> M, column_bunch;
 
-  // method 2
-  populate_from_file_transposing(&M, argv[1]);
-
-  int n_cols = 3;
-  int cols[3] = {9, 99, 199};
-
-  int runsB = atoi(argv[2]);
+  int runsA = atoi(argv[2]);
 
   auto time_0 = Clock::now();
-  for (int i = 0; i < runsB; i++) {
-    column_bunch = return_rows(&M, n_cols, cols);
-    column_bunch.clear();
+  // method 1
+  for (int i = 0; i < runsA; i++) {
+    populate_from_file(&M, argv[1]);
+    M.clear();
   }
   auto time_1 = Clock::now();
   milliseconds diff = duration_cast<milliseconds>(time_1 - time_0);
 
-  std::cout << runsB << " runs in " << argv[1] << ": " << diff.count()
+  std::cout << runsA << " runs in " << argv[1] << ": " << diff.count()
             << " millisec.\n";
 }
+
 
 // print matrix to screen
 void print_matrix(std::vector<std::vector<double>> *M) {
@@ -68,31 +65,18 @@ void populate_from_file(std::vector<std::vector<double>> *M,
   // the file to stream to M from
   std::ifstream csv_file(file_name);
   if (csv_file) {
-    // put the first empty row in the matrix
-    (*M).emplace_back(std::vector<double>());
-    // parse csv_file with defaults of getline,
-    // treat the first line separately
-    // to remember its length
+    // parse csv_file with defaults of getline
     std::string csv_line;
-    std::getline(csv_file, csv_line);
-    // parse csv_line with getline with the separator
-    std::stringstream text_nums(csv_line);
-    // above: std::stringstream text_nums = std::stringstream(csv_line);
-    std::string text_num;
-    while (std::getline(text_nums, text_num, separator)) {
-      double num = std::stod(text_num);
-      // fill the newly created row in M
-      (*M).back().emplace_back(num);
-    }
-    int row_len = (M)[0].size();
-    // get the proceeding lines
     while (std::getline(csv_file, csv_line)) {
+      // for each csv_line create a row in the matrix M
       (*M).emplace_back(std::vector<double>());
-      (*M).back().reserve(row_len);
+      // parse csv_line with getline with the separator
       std::stringstream text_nums(csv_line);
+      // above: std::stringstream text_nums = std::stringstream(csv_line);
       std::string text_num;
       while (std::getline(text_nums, text_num, separator)) {
         double num = std::stod(text_num);
+        // fill the newly created row in M
         (*M).back().emplace_back(num);
       }
     }
@@ -111,7 +95,6 @@ std::vector<std::vector<double>> return_transposed_columns(
   // fill in i-th row of column_bunch with cols[i]-th column of source
   for (int i = 0; i < n_cols; i++) {
     int col_idx = cols[i];
-    column_bunch[i].reserve(n_rows);
     for (int j = 0; j < n_rows; j++) {
       column_bunch[i].emplace_back((*source)[j][col_idx]);
     }

@@ -7,8 +7,8 @@
 #include <vector>
 
 using Clock = std::chrono::steady_clock;
-using std::chrono::milliseconds;
 using std::chrono::duration_cast;
+using std::chrono::milliseconds;
 
 int main(int argc, char *argv[]) {
   arma::uvec cols_vec = {9, 99, 199};
@@ -26,5 +26,6 @@ int main(int argc, char *argv[]) {
   auto time_1 = Clock::now();
   milliseconds diff = duration_cast<milliseconds>(time_1 - time_0);
 
-  std::cout << runsB << " runs in " << argv[1] << ": " << diff.count() << " millisec.\n";
+  std::cout << runsB << " runs in " << argv[1] << ": " << diff.count()
+            << " millisec.\n";
 }

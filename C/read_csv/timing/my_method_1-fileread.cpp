@@ -1,11 +1,16 @@
 // Copyright: me
 // #include <algorithm>
+#include <chrono>
 #include <fstream>
 #include <iostream>
 // #include <iterator>
 #include <sstream>
 #include <string>
 #include <vector>
+
+using Clock = std::chrono::steady_clock;
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
 
 void print_matrix(std::vector<std::vector<double>> *M);
 
@@ -28,13 +33,17 @@ int main(int argc, char *argv[]) {
 
   int runsA = atoi(argv[2]);
 
+  auto time_0 = Clock::now();
   // method 1
   for (int i = 0; i < runsA; i++) {
     populate_from_file(&M, argv[1]);
     M.clear();
   }
+  auto time_1 = Clock::now();
+  milliseconds diff = duration_cast<milliseconds>(time_1 - time_0);
 
-  std::cout << runsA << " runs in " << argv[1] << "\n";
+  std::cout << runsA << " runs in " << argv[1] << ": " << diff.count()
+            << " millisec.\n";
 }
 
 // print matrix to screen
