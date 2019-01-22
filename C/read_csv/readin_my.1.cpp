@@ -7,48 +7,48 @@
 #include <string>
 #include <vector>
 
-void print_matrix(std::vector<std::vector<double>> *M);
+void print_matrix(const std::vector<std::vector<double>> &M);
 
 // there must be a better way of returning M without copying
 void populate_from_file(std::vector<std::vector<double>> *M,
                         std::string file_name, const char separator = ',');
 
 std::vector<std::vector<double>> return_transposed_columns(
-    std::vector<std::vector<double>> *source, int n_cols, int cols[]);
+    const std::vector<std::vector<double>> &source, int n_cols, int cols[]);
 
 void populate_from_file_transposing(std::vector<std::vector<double>> *M,
                                     std::string file_name,
                                     const char separator = ',');
 
 std::vector<std::vector<double>> return_rows(
-    std::vector<std::vector<double>> *source, int n_rows, int rows[]);
+    const std::vector<std::vector<double>> &source, int n_rows, int rows[]);
 
 int main() {
   // matrix M1 to populate
   std::vector<std::vector<double>> M1;
   populate_from_file(&M1, "simple.csv");  // "madelon.csv"
-  print_matrix(&M1);
+  print_matrix(M1);
 
   int n_cols = 2;
   int cols[2] = {1, 3};
 
   std::vector<std::vector<double>> column_bunch_A =
-      return_transposed_columns(&M1, n_cols, cols);
-  print_matrix(&column_bunch_A);
+      return_transposed_columns(M1, n_cols, cols);
+  print_matrix(column_bunch_A);
 
   // matrix M2 to populate
   std::vector<std::vector<double>> M2;
   populate_from_file_transposing(&M2, "simple.csv");
-  print_matrix(&M2);
+  print_matrix(M2);
 
   std::vector<std::vector<double>> column_bunch_B =
-      return_rows(&M2, n_cols, cols);
-  print_matrix(&column_bunch_B);
+      return_rows(M2, n_cols, cols);
+  print_matrix(column_bunch_B);
 }
 
 // print matrix to screen
-void print_matrix(std::vector<std::vector<double>> *M) {
-  for (auto row : *M) {
+void print_matrix(const std::vector<std::vector<double>> &M) {
+  for (auto row : M) {
     for (auto num : row) {
       std::cout << num << " ";
     }
@@ -98,9 +98,9 @@ void populate_from_file(std::vector<std::vector<double>> *M,
 // get selected columns from a source-matrix
 // return them transposed
 std::vector<std::vector<double>> return_transposed_columns(
-    std::vector<std::vector<double>> *source, int n_cols, int cols[]) {
+    const std::vector<std::vector<double>> &source, int n_cols, int cols[]) {
   // number of rows in the source
-  int n_rows = (*source).size();
+  int n_rows = source.size();
   // initialize the returned matrix
   std::vector<std::vector<double>> column_bunch(n_cols);
   // fill in i-th row of column_bunch with cols[i]-th column of source
@@ -108,7 +108,7 @@ std::vector<std::vector<double>> return_transposed_columns(
     int col_idx = cols[i];
     column_bunch[i].reserve(n_rows);
     for (int j = 0; j < n_rows; j++) {
-      column_bunch[i].emplace_back((*source)[j][col_idx]);
+      column_bunch[i].emplace_back(source[j][col_idx]);
     }
   }
   return column_bunch;
@@ -148,12 +148,12 @@ void populate_from_file_transposing(std::vector<std::vector<double>> *M,
 }
 
 std::vector<std::vector<double>> return_rows(
-    std::vector<std::vector<double>> *source, int n_rows, int rows[]) {
+    const std::vector<std::vector<double>> &source, int n_rows, int rows[]) {
   // initialize the returned matrix
   std::vector<std::vector<double>> row_bunch(n_rows);
   // fill the i-th row of row_bunch with rows[i]-th row of source
   for (int i = 0; i < n_rows; i++) {
-    row_bunch[i] = (*source)[rows[i]];
+    row_bunch[i] = source[rows[i]];
   }
   return row_bunch;
 }
