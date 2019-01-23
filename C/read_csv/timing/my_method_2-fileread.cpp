@@ -1,5 +1,4 @@
 // Copyright: me
-// #include <algorithm>
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -29,7 +28,7 @@ std::vector<std::vector<double>> return_rows(
 
 int main(int argc, char *argv[]) {
   // matrix M1 to populate
-  std::vector<std::vector<double>> M, column_bunch;
+  std::vector<std::vector<double>> M;
 
   int runsA = atoi(argv[2]);
 
