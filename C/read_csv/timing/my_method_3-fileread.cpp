@@ -27,8 +27,8 @@ int main(int argc, char *argv[]) {
   std::vector<double *> M;
   int dim1;
 
-  int n_cols = 3;
-  int cols[] = {0, 1, 2};
+  // int n_cols = 3;
+  // int cols[] = {0, 1, 2};
 
   int runsA = atoi(argv[2]);
 

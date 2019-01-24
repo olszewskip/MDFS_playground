@@ -25,23 +25,25 @@ double *return_rows(double source[], int n_rows, int rows[], int dim1);
 
 int main(int argc, char *argv[]) {
   const std::string file_name = argv[1];
+  const auto [dim0, dim1] = data_dims(file_name);
 
-  int runsA = atoi(argv[2]);
+  double *M = new double[dim0 * dim1];
+  populate_from_file_transposing(M, dim0, dim1, file_name);
+
+  int n_rows = 3;
+  int rows[] = {9, 99, 199};
+  int runsB = atoi(argv[2]);
 
   auto time_0 = Clock::now();
-  // method 4
-  for (int i = 0; i < runsA; i++) {
-    const auto [dim0, dim1] = data_dims(file_name);
-
-    double *M = new double[dim0 * dim1];
-    populate_from_file_transposing(M, dim0, dim1, file_name);
-    delete[] M;
+  for (int i = 0; i < runsB; i++) {
+    double *column_bunch = return_rows(M, n_rows, rows, dim0);
+    delete[] column_bunch;
   }
-  
+
   auto time_1 = Clock::now();
   milliseconds diff = duration_cast<milliseconds>(time_1 - time_0);
 
-  std::cout << runsA << " runs in " << argv[1] << ": " << diff.count()
+  std::cout << runsB << " runs in " << argv[1] << ": " << diff.count()
             << " millisec.\n";
 }
 
@@ -100,7 +102,6 @@ double *return_rows(double source[], int n_rows, int rows[], int dim1) {
   double *column_bunch = new double[n_rows * dim1];
   for (int i = 0; i < n_rows; i++) {
     double *ptr = &source[rows[i] * dim1];
-    // memset(&column_bunch[i * dim1], *ptr++, dim1);
     for (int j = 0; j < dim1; j++) {
       column_bunch[i * dim1 + j] = ptr[j];
     }
