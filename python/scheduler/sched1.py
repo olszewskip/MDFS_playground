@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import rankdata
 from pandas import read_csv
-from itertools import chain, starmap
+from itertools import product, chain, starmap
 
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
@@ -45,9 +45,18 @@ else:
 
 dim0, dim1 = comm.bcast(data_shape, root=0)
 M = (dim0 - 1) // window + 1
+border_cols = range( (M-1) * window, dim0)
+
+def jobs_generator(tile, window=window, M=M, border_cols=border_cols):
+    index_to_cols = lambda index: range(index * window, (index + 1) * window) if index != (M - 1) else border_cols 
+    cols_tile = (index_to_cols(index) for index in tile)
+    return (indeces for indeces in product(*cols_tile) if len(indeces) == len(set(indeces)))
+    
+# if rank == 0:
+#     tile = (0,0,0)
+#     print(list(jobs_generator(tile)))
 
 print(rank, "dims:", dim0, dim1, "tile_index_span:", M)
-
 if rank != 0:
     data = np.empty((dim0, dim1), dtype='int64')
 
@@ -56,7 +65,7 @@ if rank == 0:
     print("Elapsed:", MPI.Wtime() - time0, "sec")
     
     
-def tiles_generator(k, M, skip_diag=True):
+def tiles_generator(k, M, skip_diag=False):
     '''
     Python-generator.
     E.g. output for k=2 and skippig the diagonal elements:
@@ -74,9 +83,9 @@ def tiles_generator(k, M, skip_diag=True):
         
     return indeces
 
-def dummy_job(indeces):
+def dummy_work(indeces):
     '''
-    Job function. A dummy version.
+    Work-function. A dummy version.
     Output: {indexA: (number, list-of-indeces), indexB: ..., ...}
     '''
     results = {}
@@ -87,29 +96,31 @@ def dummy_job(indeces):
     return results
 
 
+def record(results, records):
+    '''
+    results, records -> dicts
+    Accepts output of the work-function and updates the dict that accumulates global results
+    '''
+    for index, score in results.items():
+        if index not in records or score[0] > records[index][0]:
+            records[index] = score
+
 
 if rank == 0:
     final_results = {index: (0, None) for index in range(dim0)}
-    def record(results):
-        '''
-        Accepts output of the job function and updates the final_results dict
-        '''
-        for index, score in results.items():
-            if score[0] > final_results[index][0]:
-                final_results[index] = score
     
     print(rank, "entering the for loop")
     status = MPI.Status()
-    for tile in tiles_generator(k, dim0):
-        results = comm.recv(status=status)
+    for tile in tiles_generator(k, M):
+        tile_results = comm.recv(status=status)
+        record(tile_results, final_results)
         comm.isend(tile, dest=status.source)
-        record(results)
     
     print("Elapsed:", MPI.Wtime() - time0, "sec")
     print(rank, "starts terminating workers")
     for _ in range(size - 1):
-        last_results = comm.recv(status=status)
-        record(last_results)
+        tile_results = comm.recv(status=status)
+        record(tile_results, final_results)
         comm.isend(None, dest=status.source)
     
     print(rank, "says goodbye")
@@ -118,13 +129,16 @@ if rank == 0:
     
 else:
     print(rank, "attempting to send blank_results")
-    comm.send({0: (0,)}, dest=0)
+    comm.send({}, dest=0)
     print(rank, "entering the while loop")
     while True:
         tile = comm.recv(source = 0)
         if tile:
-            results = dummy_job(tile)
+            tile_results = {}
+            for job in jobs_generator(tile):
+                results = dummy_work(job)
+                record(results, tile_results)
+            comm.isend(tile_results, dest=0)
         else:
             print(rank, "says goodbye")
             break
-        comm.isend(results, dest=0)
