@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import rankdata
 from pandas import read_csv
-from itertools import product, chain, starmap
+from itertools import product, chain, starmap, combinations #, combinations_with_replacement
 
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
@@ -11,7 +11,7 @@ size = comm.Get_size()
 rank = comm.Get_rank()
 
 k = 3
-window = 10
+window = 50
 divisions = 10
 range_ = 0.1
 seed = 123
@@ -28,7 +28,7 @@ def discretize(seq, divisions=divisions, range_=range_, seed=seed):
     np.random.seed(seed)
     ranks = rankdata(seq)
     tresholds = (range_ * (np.random.random(divisions - 1) - .5) + np.arange(1, divisions)) / divisions * len(seq)
-    discrete_seq = np.zeros(len(seq), dtype='int64')
+    discrete_seq = np.zeros(len(seq), dtype='float64')
     for treshold in tresholds:
         discrete_seq[ranks > treshold] += 1
     return discrete_seq
@@ -38,38 +38,34 @@ discretize_vec = np.vectorize(discretize, signature='(n)->(n)', excluded=['divis
 if rank == 0:
     print(rank, "attempting to read data")
     file = "madelon_tiny.csv"
-    data = discretize_vec(read_csv(file, dtype='float64', header=None).values.T[:-2])
-    data_shape = data.shape
+    data = read_csv(file, dtype='float64', header=None).values.T[:-1]
+    data[:-1] = discretize_vec(data[:-1])
+    data = data.astype('int64')
+    X_shape = data[:-1].shape
 else:
-    data_shape = None    
+    X_shape = None    
 
-dim0, dim1 = comm.bcast(data_shape, root=0)
+dim0, dim1 = comm.bcast(X_shape, root=0)
 M = (dim0 - 1) // window + 1
 border_cols = range( (M-1) * window, dim0)
 
-def jobs_generator(tile, window=window, M=M, border_cols=border_cols):
-    index_to_cols = lambda index: range(index * window, (index + 1) * window) if index != (M - 1) else border_cols 
-    cols_tile = (index_to_cols(index) for index in tile)
-    return (indeces for indeces in product(*cols_tile) if len(indeces) == len(set(indeces)))
-    
-# if rank == 0:
-#     tile = (0,0,0)
-#     print(list(jobs_generator(tile)))
-
 print(rank, "dims:", dim0, dim1, "tile_index_span:", M)
+
 if rank != 0:
-    data = np.empty((dim0, dim1), dtype='int64')
+    data = np.empty((dim0 + 1, dim1), dtype='int64')
 
 comm.Bcast([data, MPI.INT], root=0)
 if rank == 0:
     print("Elapsed:", MPI.Wtime() - time0, "sec")
     
     
-def tiles_generator(k, M, skip_diag=False):
+def tiles_generator(k=k, M=M, skip_diag=False):
     '''
     Python-generator.
     E.g. output for k=2 and skippig the diagonal elements:
     {0,1}, {0,2}, ..., {0, M-1}, {1,2}, ..., {1,M-1}, ..., {M-2, M-2}
+    Equivalent to
+    return combinations(range(M), k) if skip_diag else combinations_with_replacement(range(M), k) 
     '''
     sd = int(skip_diag)
 
@@ -82,6 +78,18 @@ def tiles_generator(k, M, skip_diag=False):
         indeces = chain.from_iterable(starmap(embedd, indeces))
         
     return indeces
+
+
+def jobs_generator(tile, window=window, M=M, border_cols=border_cols):
+    '''
+    Map tile into sequence of fundamental-tiles
+    (i.e. elements of the cartesian product of data columns)
+    '''
+    index_counts = {index: tile.count(index) for index in tile}
+    index_to_cols = lambda index: range(index * window, (index + 1) * window) if index != (M - 1) else border_cols 
+    cols_tile = (combinations(index_to_cols(index), count) for (index, count) in index_counts.items())
+    return (list(chain.from_iterable(col_indeces)) for col_indeces in product(*cols_tile))
+
 
 def dummy_work(indeces):
     '''
@@ -107,7 +115,7 @@ def record(results, records):
 
 
 if rank == 0:
-    final_results = {index: (0, None) for index in range(dim0)}
+    final_results = {}
     
     print(rank, "entering the for loop")
     status = MPI.Status()
@@ -116,7 +124,6 @@ if rank == 0:
         record(tile_results, final_results)
         comm.isend(tile, dest=status.source)
     
-    print("Elapsed:", MPI.Wtime() - time0, "sec")
     print(rank, "starts terminating workers")
     for _ in range(size - 1):
         tile_results = comm.recv(status=status)
@@ -124,7 +131,8 @@ if rank == 0:
         comm.isend(None, dest=status.source)
     
     print(rank, "says goodbye")
-    print("final_results:", final_results)
+    #print("final_results:", final_results)
+    print("Elapsed:", MPI.Wtime() - time0, "sec")
         
     
 else:
