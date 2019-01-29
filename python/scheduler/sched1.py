@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import rankdata
 from pandas import read_csv
-from itertools import product, chain, starmap, combinations #, combinations_with_replacement
+from itertools import product, chain, starmap, combinations, combinations_with_replacement
 
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
@@ -10,13 +10,15 @@ time0 = MPI.Wtime()
 size = comm.Get_size()
 rank = comm.Get_rank()
 
-k = 3
-window = 50
+k = 2
+window = 30
 divisions = 10
 range_ = 0.1
 seed = 123
 
 print(rank, "starting")
+
+# Read and broadcast the data
 
 def discretize(seq, divisions=divisions, range_=range_, seed=seed):
     '''
@@ -37,7 +39,7 @@ discretize_vec = np.vectorize(discretize, signature='(n)->(n)', excluded=['divis
 
 if rank == 0:
     print(rank, "attempting to read data")
-    file = "madelon_tiny.csv"
+    file = "madelon.csv"
     data = read_csv(file, dtype='float64', header=None).values.T[:-1]
     data[:-1] = discretize_vec(data[:-1])
     data = data.astype('int64')
@@ -49,35 +51,45 @@ dim0, dim1 = comm.bcast(X_shape, root=0)
 M = (dim0 - 1) // window + 1
 border_cols = range( (M-1) * window, dim0)
 
-print(rank, "dims:", dim0, dim1, "tile_index_span:", M)
-
 if rank != 0:
     data = np.empty((dim0 + 1, dim1), dtype='int64')
 
 comm.Bcast([data, MPI.INT], root=0)
+n_classes = len(np.unique(data[-1]))
+
+print(rank, "dims:", dim0, dim1, "tile_index_span:", M, "number of classes:", n_classes)
 if rank == 0:
     print("Elapsed:", MPI.Wtime() - time0, "sec")
+
     
-    
-def tiles_generator(k=k, M=M, skip_diag=False):
+# Function definitions
+
+# def tiles_generator(k=k, M=M, skip_diag=False):
+#     '''
+#     Python-generator.
+#     E.g. output for k=2 and skippig the diagonal elements:
+#     {0,1}, {0,2}, ..., {0, M-1}, {1,2}, ..., {1,M-1}, ..., {M-2, M-2}
+#     '''
+#     sd = int(skip_diag)
+
+#     def embedd(*indeces):
+#         for i in range(indeces[-1] + sd, M):
+#             yield (*indeces, i)
+
+#     indeces = ((idx,) for idx in range(M))
+#     for _ in range(k - 1):
+#         indeces = chain.from_iterable(starmap(embedd, indeces))
+        
+#     return indeces
+
+def tiles_generator(k=k, M=M):
     '''
     Python-generator.
-    E.g. output for k=2 and skippig the diagonal elements:
-    {0,1}, {0,2}, ..., {0, M-1}, {1,2}, ..., {1,M-1}, ..., {M-2, M-2}
-    Equivalent to
-    return combinations(range(M), k) if skip_diag else combinations_with_replacement(range(M), k) 
-    '''
-    sd = int(skip_diag)
-
-    def embedd(*indeces):
-        for i in range(indeces[-1] + sd, M):
-            yield (*indeces, i)
-
-    indeces = ((idx,) for idx in range(M))
-    for _ in range(k - 1):
-        indeces = chain.from_iterable(starmap(embedd, indeces))
-        
-    return indeces
+    E.g. output for k=2:
+    {0,0}, {0,1}, ..., {0, M-1}, {1,1}, ..., {1,M-1}, ..., {M-1, M-1}
+    Go with combinations(range(M), k) to exclude diagonal tuples
+    '''        
+    return combinations_with_replacement(range(M), k)    
 
 
 def jobs_generator(tile, window=window, M=M, border_cols=border_cols):
@@ -104,6 +116,28 @@ def dummy_work(indeces):
     return results
 
 
+info = np.vectorize(lambda p: p * np.log(p + 1E-5))
+
+def neg_H_cond(matrix):
+    return np.sum(info(matrix)) - np.sum(info(np.sum(matrix, axis=0)))
+
+def work(indeces, n_classes=n_classes, divisions=divisions, k=k):
+    '''
+    Work-function.
+    Output: {indexA: (number, list-of-indeces), indexB: ..., ...}
+    '''
+    results = {}
+    
+    contingency_m = np.zeros([n_classes] + [divisions] * k)
+    for c_index in data[[-1] + indeces].T:
+        contingency_m[tuple(c_index)] += 1
+        
+    for i, index in enumerate(indeces):
+        result = neg_H_cond(contingency_m) - neg_H_cond(np.sum(contingency_m, axis=i+1))
+        results[index] = (result, indeces)
+    return results
+
+
 def record(results, records):
     '''
     results, records -> dicts
@@ -113,6 +147,7 @@ def record(results, records):
         if index not in records or score[0] > records[index][0]:
             records[index] = score
 
+# Work loops
 
 if rank == 0:
     final_results = {}
@@ -131,9 +166,9 @@ if rank == 0:
         comm.isend(None, dest=status.source)
     
     print(rank, "says goodbye")
-    #print("final_results:", final_results)
+    print("Final_results:", final_results)
+    pd.DataFrame(final_results).T.rename(columns={0: 'IG', 1: 'features'}).sort_values(by='IG', ascending=False).to_pickle("delete_me.pkl")
     print("Elapsed:", MPI.Wtime() - time0, "sec")
-        
     
 else:
     print(rank, "attempting to send blank_results")
@@ -144,7 +179,7 @@ else:
         if tile:
             tile_results = {}
             for job in jobs_generator(tile):
-                results = dummy_work(job)
+                results = work(job)
                 record(results, tile_results)
             comm.isend(tile_results, dest=0)
         else:
