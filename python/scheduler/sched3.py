@@ -1,7 +1,9 @@
+import csv
 import numpy as np
 from scipy.stats import rankdata
-from pandas import read_csv, DataFrame
+#from pandas import read_csv, DataFrame
 from itertools import product, chain, starmap, combinations, combinations_with_replacement
+import pickle
 
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
@@ -35,26 +37,27 @@ def discretize(seq, divisions=divisions, range_=range_, seed=seed):
 
 discretize_vec = np.vectorize(discretize, signature='(n)->(n)', excluded=['divisions', 'range_', 'seed'])
 
-# Read and broadcast the data
+# Read the data in each rank
 
-if rank == 0:
-    print(rank, "attempting to read data")
-    file = "madelon_tiny.csv"
-    data = read_csv(file, dtype='float64', header=None).values.T[:-1]
-    data[:-1] = discretize_vec(data[:-1])
-    data = data.astype('int64')
-    X_shape = data[:-1].shape
-else:
-    X_shape = None    
+file = "madelon_tiny.csv"
+#data = read_csv(file, dtype='float64', header=None).values.T[:-1]
 
-dim0, dim1 = comm.bcast(X_shape, root=0)
+data = []
+with open(file) as csvfile:
+    reader = csv.reader(csvfile, delimiter=',',
+                        quoting=csv.QUOTE_NONNUMERIC)
+    for row in reader:
+        data.append(row)
+data = np.array(data, dtype='float64').T[:-1]
+
+data[:-1] = discretize_vec(data[:-1])
+data = data.astype('int64')
+
+
+dim0, dim1 = data[:-1].shape
 M = (dim0 - 1) // window + 1
 border_cols = range( (M-1) * window, dim0)
 
-if rank != 0:
-    data = np.empty((dim0 + 1, dim1), dtype='int64')
-
-comm.Bcast([data, MPI.INT], root=0)
 n_classes = len(np.unique(data[-1]))
 
 if rank == 0:
@@ -97,11 +100,11 @@ def dummy_work(indeces):
     return results
 
 
-def info(p):
+def neg_H(p):
     return p * np.log(p + 1E-5)
 
 def neg_H_cond(matrix):
-    return np.sum(info(matrix)) - np.sum(info(np.sum(matrix, axis=0)))
+    return np.sum(neg_H(matrix)) - np.sum(neg_H(np.sum(matrix, axis=0)))
 
 def work(indeces, n_classes=n_classes, divisions=divisions, k=k):
     '''
@@ -154,7 +157,10 @@ if rank == 0:
         comm.isend(None, dest=status.source)
 
     # Save the results to a file
-    DataFrame(final_results).T.rename(columns={0: 'IG_max', 1: 'tuple'}).to_pickle("delete_me.pkl")
+    with open("delete_me3.pkl", "wb") as file:
+        pickle.dump(final_results, file)
+
+    # DataFrame(final_results).T.rename(columns={0: 'IG_max', 1: 'tuple'}).to_pickle("delete_me3.pkl")
 
     print(rank, "says goodbye")
     # print("Final_results:", final_results)
