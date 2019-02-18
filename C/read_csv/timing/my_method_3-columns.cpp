@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
   std::vector<double *> M, column_bunch;
   const int dim1 = populate_from_file(&M, argv[1]);
   const int dim0 = M.size();
-  
+
   int n_cols = 3;
   int cols[] = {0, 1, 2};
 

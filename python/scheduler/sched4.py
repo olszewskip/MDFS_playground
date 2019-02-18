@@ -13,9 +13,9 @@ size = comm.Get_size()
 rank = comm.Get_rank()
 
 k = 2
-window = 10
-divisions = 5
-range_ = 0.00
+window = 5
+divisions = 1
+range_ = 0.0
 seed = 123
 
 # 1. Function definitions
@@ -28,8 +28,9 @@ def discretize(seq, divisions=divisions, range_=range_, seed=seed):
     tresholds = [1.5,  3.,  4.5]
     '''
     np.random.seed(seed)
-    ranks = rankdata(seq)
-    tresholds = (range_ * (np.random.random(divisions - 1) - .5) + np.arange(1, divisions)) / divisions * len(seq)
+    ranks = rankdata(seq) # method='ordinal' ?
+    random_blocks = np.cumsum(range_ * (2 * np.random.random(divisions + 1) - 1) + np.ones(divisions + 1))
+    tresholds = random_blocks[:-1] / random_blocks[-1] * len(seq)
     discrete_seq = np.zeros(len(seq), dtype='float64')
     for treshold in tresholds:
         discrete_seq[ranks > treshold] += 1
@@ -52,16 +53,17 @@ data = np.array(data, dtype='float64').T[:-1]
 
 data[:-1] = discretize_vec(data[:-1])
 data = data.astype('int64')
-
+labels, counts = np.unique(data[-1], return_counts=True)
+label_counts = {int(label): label_count for (label, label_count) in zip(labels, counts)}
+min_count = np.min(counts)
 
 dim0, dim1 = data[:-1].shape
 M = (dim0 - 1) // window + 1
 border_cols = range( (M-1) * window, dim0)
 
-n_classes = len(np.unique(data[-1]))
 
 if rank == 0:
-    print(rank, "dims:", dim0, dim1, ", tile_index_span:", M, ", number of classes:", n_classes, " window:", window)
+    print(rank, "dims:", dim0, dim1, ", tile_index_span:", M, ", labels:", label_counts, " window:", window)
     print(rank, "Elapsed:", MPI.Wtime() - time0, "sec")
 
 # 3. More function definitions
@@ -76,7 +78,7 @@ def tiles_generator(k=k, M=M):
     return combinations_with_replacement(range(M), k)    
 
 
-def jobs_generator(tile, window=window, M=M, border_cols=border_cols):
+def jobs_generator(tile):
     '''
     Map tile into sequence of fundamental-tiles
     (i.e. elements of the cartesian product of data columns)
@@ -87,39 +89,32 @@ def jobs_generator(tile, window=window, M=M, border_cols=border_cols):
     return (list(chain.from_iterable(col_indeces)) for col_indeces in product(*cols_tile))
 
 
-def dummy_work(indeces):
-    '''
-    Work-function. A dummy version.
-    Output: {indexA: (number, list-of-indeces), indexB: ..., ...}
-    '''
-    results = {}
-    for index in indeces:
-        other_indeces = list(set(indeces) - set([index]))
-        result = np.sum(data[other_indeces]) - np.sum(data[index])
-        results[index] = (result, other_indeces)
-    return results
-
-
 def neg_H(p):
-    return p * np.log(p + 1E-5)
+    return p * np.log2(p)
 
 def neg_H_cond(matrix):
-    return np.sum(neg_H(matrix)) - np.sum(neg_H(np.sum(matrix, axis=0)))
+    return np.sum(neg_H(matrix)) - np.sum(neg_H(np.sum(matrix, axis=-1)))
 
-def work(indeces, n_classes=n_classes, divisions=divisions, k=k):
+xi = 1E-5
+def work(indeces):
     '''
     Work-function.
     Output: {indexA: (number, list-of-indeces), indexB: ..., ...}
     indeces -> list
     '''
-    results = {}
     
-    contingency_m = np.zeros([n_classes] + [divisions] * k)
-    for c_index in data[[-1] + indeces].T:
-        contingency_m[tuple(c_index)] += 1
+    # contingency-matrix: begin with pseudo-counts
+    contingency_m = np.ones([divisions + 1] * k + [len(labels)], dtype='float64')
+    for label, count in label_counts.items():
+        contingency_m[..., label] *= xi * (count / min_count)
         
+    # contingency-matrix: normal counts
+    for c_index in data[indeces + [-1]].T:
+        contingency_m[tuple(c_index)] += 1
+
+    results = {}
     for i, index in enumerate(indeces):
-        result = neg_H_cond(contingency_m) - neg_H_cond(np.sum(contingency_m, axis=i+1))
+        result = neg_H_cond(contingency_m) - neg_H_cond(np.sum(contingency_m, axis=i))
         results[index] = (result, indeces)
     return results
 
@@ -157,7 +152,7 @@ if rank == 0:
         comm.isend(None, dest=status.source)
 
     # Save the results to a file
-    with open("delete_me3.pkl", "wb") as file:
+    with open("delete_me4.pkl", "wb") as file:
         pickle.dump(final_results, file)
 
     # DataFrame(final_results).T.rename(columns={0: 'IG_max', 1: 'tuple'}).to_pickle("delete_me3.pkl")
