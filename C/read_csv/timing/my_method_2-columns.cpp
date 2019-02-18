@@ -138,7 +138,7 @@ void populate_from_file_transposing(std::vector<std::vector<double>> *M,
       std::vector<double> row = {num};
       (*M).emplace_back(row);
     }
-    // get proceeding line from the csv
+    // get proceeding lines from the csv
     while (std::getline(csv_file, csv_line)) {
       std::stringstream text_nums(csv_line);
       for (auto &row : *M) {
