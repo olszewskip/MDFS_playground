@@ -12,7 +12,7 @@ time0 = MPI.Wtime()
 size = comm.Get_size()
 rank = comm.Get_rank()
 
-k = 2
+k = 3
 window = 5
 divisions = 1
 range_ = 0.0
@@ -28,9 +28,11 @@ def discretize(seq, divisions=divisions, range_=range_, seed=seed):
     tresholds = [1.5,  3.,  4.5]
     '''
     np.random.seed(seed)
-    ranks = rankdata(seq, method='ordinal') # method='ordinal' ?
+    ranks = rankdata(seq, method='ordinal') # method='ordinal'/'average' ?
+    
     random_blocks = np.cumsum(range_ * (2 * np.random.random(divisions + 1) - 1) + np.ones(divisions + 1))
     tresholds = random_blocks[:-1] / random_blocks[-1] * len(seq)
+    
     discrete_seq = np.zeros(len(seq), dtype='float64')
     for treshold in tresholds:
         discrete_seq[ranks > treshold] += 1
@@ -95,7 +97,7 @@ def neg_H(p):
 def neg_H_cond(matrix):
     return np.sum(neg_H(matrix)) - np.sum(neg_H(np.sum(matrix, axis=-1)))
 
-xi = 1E-5
+xi = 1e-5
 def work(indeces):
     '''
     Work-function.
@@ -152,7 +154,7 @@ if rank == 0:
         comm.isend(None, dest=status.source)
 
     # Save the results to a file
-    with open("delete_me4.pkl", "wb") as file:
+    with open("final_results_C.pkl", "wb") as file:
         pickle.dump(final_results, file)
 
     # DataFrame(final_results).T.rename(columns={0: 'IG_max', 1: 'tuple'}).to_pickle("delete_me3.pkl")
@@ -170,7 +172,7 @@ else:
             tile_results = {}
             for job in jobs_generator(tile):
                 results = work(job)
-                print(rank, results)
+                # print(rank, results)
                 record(results, tile_results)
             comm.isend(tile_results, dest=0)
         else:

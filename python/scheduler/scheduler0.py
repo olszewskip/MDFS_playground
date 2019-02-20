@@ -1,9 +1,10 @@
 import csv
 import numpy as np
 from scipy.stats import rankdata
-#from pandas import read_csv, DataFrame
 from itertools import product, chain, starmap, combinations, combinations_with_replacement
 import pickle
+
+import fast
 
 from mpi4py import MPI
 comm = MPI.COMM_WORLD
@@ -12,11 +13,12 @@ time0 = MPI.Wtime()
 size = comm.Get_size()
 rank = comm.Get_rank()
 
-k = 2
-window = 5
+k = 3
+window = 20
 divisions = 1
 range_ = 0.0
 seed = 123
+    
 
 # 1. Function definitions
 
@@ -28,9 +30,11 @@ def discretize(seq, divisions=divisions, range_=range_, seed=seed):
     tresholds = [1.5,  3.,  4.5]
     '''
     np.random.seed(seed)
-    ranks = rankdata(seq, method='ordinal') # method='ordinal' ?
+    ranks = rankdata(seq, method='ordinal') # method='ordinal'/'average' ?
+    
     random_blocks = np.cumsum(range_ * (2 * np.random.random(divisions + 1) - 1) + np.ones(divisions + 1))
     tresholds = random_blocks[:-1] / random_blocks[-1] * len(seq)
+    
     discrete_seq = np.zeros(len(seq), dtype='float64')
     for treshold in tresholds:
         discrete_seq[ranks > treshold] += 1
@@ -38,37 +42,35 @@ def discretize(seq, divisions=divisions, range_=range_, seed=seed):
 
 discretize_vec = np.vectorize(discretize, signature='(n)->(n)', excluded=['divisions', 'range_', 'seed'])
 
-# 2. Read the data in each rank
+# 2. Read the data (in each rank)
 
 file = "madelon_tiny.csv"
-#data = read_csv(file, dtype='float64', header=None).values.T[:-1]
-
 data = []
 with open(file) as csvfile:
     reader = csv.reader(csvfile, delimiter=',',
                         quoting=csv.QUOTE_NONNUMERIC)
     for row in reader:
         data.append(row)
+        
 data = np.array(data, dtype='float64').T[:-1]
-
 data[:-1] = discretize_vec(data[:-1])
 data = data.astype('int64')
+
 labels, counts = np.unique(data[-1], return_counts=True)
-label_counts = {int(label): label_count for (label, label_count) in zip(labels, counts)}
-min_count = np.min(counts)
+n_classes = len(labels)
+
+xi = 1e-5
+pseudo_counts = xi * counts / np.min(counts)
 
 dim0, dim1 = data[:-1].shape
 M = (dim0 - 1) // window + 1
 border_cols = range( (M-1) * window, dim0)
 
-
-if rank == 0:
-    print(rank, "dims:", dim0, dim1, ", tile_index_span:", M, ", labels:", label_counts, " window:", window)
-    print(rank, "Elapsed:", MPI.Wtime() - time0, "sec")
+print("dim0=", dim0, "dim1=", dim1)
 
 # 3. More function definitions
 
-def tiles_generator(k=k, M=M):
+def tile_generator(k=k, M=M):
     '''
     Python-generator.
     E.g. output for k=2:
@@ -77,17 +79,15 @@ def tiles_generator(k=k, M=M):
     '''        
     return combinations_with_replacement(range(M), k)    
 
-
-def jobs_generator(tile):
+def tuple_generator(tile, window=window, border_cols=border_cols):
     '''
-    Map tile into sequence of fundamental-tiles
-    (i.e. elements of the cartesian product of data columns)
+    Map tile into sequence of k-tuples, i.e. fundamental-tiles,
+    i.e. elements of the cartesian product of the data-columns
     '''
     index_counts = {index: tile.count(index) for index in tile}
     index_to_cols = lambda index: range(index * window, (index + 1) * window) if index != (M - 1) else border_cols 
     cols_tile = (combinations(index_to_cols(index), count) for (index, count) in index_counts.items())
     return (list(chain.from_iterable(col_indeces)) for col_indeces in product(*cols_tile))
-
 
 def neg_H(p):
     return p * np.log2(p)
@@ -95,38 +95,34 @@ def neg_H(p):
 def neg_H_cond(matrix):
     return np.sum(neg_H(matrix)) - np.sum(neg_H(np.sum(matrix, axis=-1)))
 
-xi = 1E-5
-def work(indeces):
+def slow_work(tuple_, divisions=divisions, n_classes=n_classes, pseudo_counts=pseudo_counts):
     '''
+    tuple_ -> list # dammit...
     Work-function.
-    Output: {indexA: (number, list-of-indeces), indexB: ..., ...}
-    indeces -> list
+    Output: tuple of Information Gains implicitly corresponding to column-indeces in the tuple_
     '''
-    
     # contingency-matrix: begin with pseudo-counts
-    contingency_m = np.ones([divisions + 1] * k + [len(labels)], dtype='float64')
-    for label, count in label_counts.items():
-        contingency_m[..., label] *= xi * (count / min_count)
-        
+    contingency_m = np.empty([divisions + 1] * k + [n_classes], dtype='float64')
+    for label, pseudo_count in enumerate(pseudo_counts):
+        contingency_m[..., label] = pseudo_count
+    
     # contingency-matrix: normal counts
-    for c_index in data[indeces + [-1]].T:
+    for c_index in data[tuple_ + [-1]].T:
         contingency_m[tuple(c_index)] += 1
-
-    results = {}
-    for i, index in enumerate(indeces):
-        result = neg_H_cond(contingency_m) - neg_H_cond(np.sum(contingency_m, axis=i))
-        results[index] = (result, indeces)
-    return results
+    
+    IGs = tuple(neg_H_cond(contingency_m) - neg_H_cond(np.sum(contingency_m, axis=i)) for i in range(len(tuple_)))
+    return IGs
 
 
-def record(results, records):
-    '''
-    results, records -> dicts
-    Accepts output of the work-function and updates the dict that accumulates global results
-    '''
-    for index, score in results.items():
-        if index not in records or score[0] > records[index][0]:
-            records[index] = score
+def record_tuple(tuple_, IGs, records):
+    for column, IG in zip(tuple_, IGs):
+        if column not in records or IG > records[column][0]:
+            records[column] = (IG, tuple_)
+            
+def record_tile(tile_results, records):
+    for column, (IG, tuple_) in tile_results.items():
+        if column not in records or IG > records[column][0]:
+            records[column] = (IG, tuple_)
 
 # 4 Work loop
 
@@ -136,9 +132,9 @@ if rank == 0:
     
     print(rank, "entering the for loop")
     status = MPI.Status()
-    for tile in tiles_generator(k, M):
+    for tile in tile_generator():
         tile_results = comm.recv(status=status)
-        record(tile_results, final_results)
+        record_tile(tile_results, final_results)
         comm.isend(tile, dest=status.source)
         job_count = current_assignements[status.source][0]
         current_assignements[status.source] = (job_count + 1, tile)
@@ -148,17 +144,14 @@ if rank == 0:
     print(rank, "Work queue is empty")
     for _ in range(size - 1):
         tile_results = comm.recv(status=status)
-        record(tile_results, final_results)
+        record_tile(tile_results, final_results)
         comm.isend(None, dest=status.source)
 
     # Save the results to a file
-    with open("delete_me4.pkl", "wb") as file:
+    with open("final_results_0.pkl", "wb") as file:
         pickle.dump(final_results, file)
 
-    # DataFrame(final_results).T.rename(columns={0: 'IG_max', 1: 'tuple'}).to_pickle("delete_me3.pkl")
-
     print(rank, "says goodbye")
-    # print("Final_results:", final_results)
     print(rank, "Elapsed:", MPI.Wtime() - time0, "sec")
     
 else:
@@ -168,10 +161,13 @@ else:
         tile = comm.recv(source = 0)
         if tile:
             tile_results = {}
-            for job in jobs_generator(tile):
-                results = work(job)
-                print(rank, results)
-                record(results, tile_results)
+            for tuple_ in tuple_generator(tile):
+                #IGs = slow_work(tuple_)
+                #IGs = fast.work_2(dim1, divisions, data[tuple_[0]], data[tuple_[1]], n_classes, list(pseudo_counts), data[-1])
+                #IGs = fast.work_2b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], n_classes, pseudo_counts, data[-1])
+                IGs = fast.work_3(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+                #IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+                record_tuple(tuple_, IGs, tile_results)
             comm.isend(tile_results, dest=0)
         else:
             print(rank, "says goodbye")
