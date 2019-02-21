@@ -25,13 +25,19 @@ double scalar_prod(py::array_t<double> input1, py::array_t<double> input2){
     
     double prod = 0.;
     
+    int nthreads;
     #pragma omp parallel
     {
+        int nthrds = omp_get_num_threads();
+        int id = omp_get_thread_num();
+        if (id==0) nthreads = nthrds;
         #pragma omp for reduction(+:prod)
         for (int i = 0; i < element_count; i++) {
             prod += ptr1[i] * ptr2[i];
         }
     }
+    
+    py::print("I got", nthreads, "threads!");
     
     return prod;
 }

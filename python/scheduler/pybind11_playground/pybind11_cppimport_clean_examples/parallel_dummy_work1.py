@@ -9,7 +9,7 @@ time0 = MPI.Wtime()
 size = comm.Get_size()
 rank = comm.Get_rank()
 
-N = 100
+N = 7000
 N_part = N // size
 
 if rank == 0:

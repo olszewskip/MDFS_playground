@@ -5,10 +5,12 @@ from pandas import read_csv, DataFrame
 from itertools import product, chain, starmap, combinations, combinations_with_replacement
 from time import time
 
+import fast
+
 time0 = time()
 
 k = 3
-divisions = 10
+divisions = 1
 range_ = 0.00
 seed = 123
 
@@ -22,78 +24,95 @@ def discretize(seq, divisions=divisions, range_=range_, seed=seed):
     tresholds = [1.5,  3.,  4.5]
     '''
     np.random.seed(seed)
-    ranks = rankdata(seq)
-    tresholds = (range_ * (np.random.random(divisions - 1) - .5) + np.arange(1, divisions)) / divisions * len(seq)
-    discrete_seq = np.zeros(len(seq), dtype='float64')
+    ranks = rankdata(seq, method='ordinal') # method='ordinal'/'average' ?
+
+    random_blocks = np.cumsum(range_ * (2 * np.random.random(divisions + 1) - 1) + np.ones(divisions + 1))
+    tresholds = random_blocks[:-1] / random_blocks[-1] * len(seq)
+    
+    discrete_seq = np.zeros(len(seq), dtype='int32')
     for treshold in tresholds:
         discrete_seq[ranks > treshold] += 1
     return discrete_seq
 
 discretize_vec = np.vectorize(discretize, signature='(n)->(n)', excluded=['divisions', 'range_', 'seed'])
 
-# Read and broadcast the data
+# 2. Read the data
 
 file = "madelon_tiny.csv"
-data = read_csv(file, dtype='float64', header=None).values.T[:-1]
-data[:-1] = discretize_vec(data[:-1])
-data = data.astype('int64') 
+input_ = []
+with open(file) as csvfile:
+    reader = csv.reader(csvfile, delimiter=',',
+                        quoting=csv.QUOTE_NONNUMERIC)
+    for row in reader:
+        input_.append(row)
+        
+input_ = np.array(input_, dtype='float64').T[:-1]
+data = np.empty(input_.shape, dtype='int32')
+data[:-1] = discretize_vec(input_[:-1])
+data[-1] = input_[-1:].astype('int32')
 
-dim0, dim1 = data[:-1].shape 
-n_classes = len(np.unique(data[-1]))
+labels, counts = np.unique(data[-1], return_counts=True)
+n_classes = len(labels)
 
-print("dims:", dim0, dim1, ", number of classes:", n_classes, ", k=", k)
+xi = 0.25
+pseudo_counts = xi * counts / np.min(counts)
 
-# 2. Function definitions
+dim0, dim1 = data[:-1].shape
 
-def jobs_generator(k=k, dim0=dim0):
+# 3. More function definitions
+
+def tuple_generator(k=k, dim0=dim0):
     '''
     Python-generator.
     E.g. output for k=2:
     {0,1}, {0,2}, ..., {0, dim0-1}, {1,2}, ..., {1,dim0-1}, ..., {dim0-2, dim0-1}
-    Go with combinations(range(M), k) to exclude diagonal tuples
+    Go with combinations_with_replacement() to include diagonal tuples like {0, 0}
     '''        
     return combinations(range(dim0), k)    
 
-
-def info(p):
-    return p * np.log(p + 1E-5)
+def neg_H(p):
+    return p * np.log2(p)
 
 def neg_H_cond(matrix):
-    return np.sum(info(matrix)) - np.sum(info(np.sum(matrix, axis=0)))
+    return np.sum(neg_H(matrix)) - np.sum(neg_H(np.sum(matrix, axis=-1)))
 
-def work(indeces, n_classes=n_classes, divisions=divisions, k=k):
+def slow_work(indeces):
     '''
+    indeces -> tuple
     Work-function.
-    Output: {indexA: (number, list-of-indeces), indexB: ..., ...}
+    Output: tuple of Information Gains implicitly corresponding to the indeces
     '''
-    results = {}
+    # contingency-matrix: begin with pseudo-counts
+    contingency_m = np.empty([divisions + 1] * k + [len(labels)], dtype='float64')
+    for label, pseudo_count in enumerate(pseudo_counts):
+        contingency_m[..., label] = pseudo_count
     
-    contingency_m = np.zeros([n_classes] + [divisions] * k)
-    for c_index in data[[-1] + list(indeces)].T:
+    # contingency-matrix: normal counts
+    for c_index in data[list(indeces) + [-1]].T:
         contingency_m[tuple(c_index)] += 1
-        
-    for i, index in enumerate(indeces):
-        result = neg_H_cond(contingency_m) - neg_H_cond(np.sum(contingency_m, axis=i+1))
-        results[index] = (result, indeces)
-    return results
+    
+    results = []
+    for i in range(len(indeces)):
+        result = neg_H_cond(contingency_m) - neg_H_cond(np.sum(contingency_m, axis=i))
+        results.append(result)
+    return tuple(results)
 
 
-def record(results, records):
-    '''
-    results, records -> dicts
-    Accepts output of the work-function and updates the dict that accumulates global results
-    '''
-    for index, score in results.items():
-        if index not in records or score[0] > records[index][0]:
-            records[index] = score
-
+def record(tuple_, IGs, records):
+    for column, IG in zip(tuple_, IGs):
+        if column not in records or IG > records[column][0]:
+            records[column] = (IG, tuple_)
 
 final_results = {}
 
-for job in jobs_generator():
-    results = work(job)
-    record(results, final_results)
+for tuple_ in tuple_generator():
+    #IGs = slow_work(tuple_)
+    #IGs = fast.work_2(dim1, divisions, data[tuple_[0]], data[tuple_[1]], n_classes, pseudo_counts, data[-1])
+    #IGs = fast.work_2b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], n_classes, pseudo_counts, data[-1])
+    IGs = fast.work_3(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+    #IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+    record(tuple_, IGs, final_results)
 
 # result
-DataFrame(final_results).T.rename(columns={0: 'IG_max', 1: 'tuple'}).to_pickle("delete_me2.pkl")
-print("Finished in", time()-time0, "sec.")
+print("Finished in", time() - time0, "sec.")
+result = DataFrame(final_results).T.rename(columns={0: 'IG_max', 1: 'tuple'})

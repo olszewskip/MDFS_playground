@@ -14,7 +14,7 @@ size = comm.Get_size()
 rank = comm.Get_rank()
 
 k = 3
-window = 20
+window = 50
 divisions = 1
 range_ = 0.0
 seed = 123
@@ -66,7 +66,8 @@ dim0, dim1 = data[:-1].shape
 M = (dim0 - 1) // window + 1
 border_cols = range( (M-1) * window, dim0)
 
-print("dim0=", dim0, "dim1=", dim1)
+if rank == 0:
+    print("dim0=", dim0, "dim1=", dim1)
 
 # 3. More function definitions
 
