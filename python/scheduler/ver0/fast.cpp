@@ -1,5 +1,9 @@
 /*
-
+<%
+cfg['compiler_args'] = ['-std=c++17', '-fopenmp']
+cfg['linker_args'] = ['-fopenmp']
+setup_pybind11(cfg)
+%>
 */
 
 #include <math.h>
@@ -229,7 +233,6 @@ std::tuple<double, double, double> work_3z(const int kData_dim,
 }
 
 
-    
 std::tuple<double, double, double> work_3a(const int kData_dim,
                                            const int kDivisions,
                                            py::array_t<int> &py_X0,
@@ -857,7 +860,6 @@ std::tuple<double, double, double> work_3f(const int kData_dim,
             neg_H - neg_H_X2
            };
 }
-    
 
 
 std::tuple<double, double, double> work_3g(const int kData_dim,
@@ -940,8 +942,7 @@ std::tuple<double, double, double> work_3g(const int kData_dim,
             neg_H - neg_H_X2
            };
 }
-
-
+        
 
 PYBIND11_MODULE(fast, module) {
     module.def("work_2", &work_2);
