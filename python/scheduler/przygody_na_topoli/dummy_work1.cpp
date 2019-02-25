@@ -1,7 +1,7 @@
 /*
 <%
 setup_pybind11(cfg)
-cfg['compiler_args'] = ['-fopenmp']
+cfg['compiler_args'] = ['-std=c++1', -fopenmp']
 cfg['linker_args'] = ['-fopenmp']
 %>
 */
