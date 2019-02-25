@@ -41,7 +41,12 @@ module load common/mpi/mpich/3.2
 module load common/python/3.5.2
 cd my_virtualenvs/MDFS/example/src
 source ../bin/activate
-mpirun -n 1 python parallel_dummy_work1.py  #  1 x 4 threads =  2.9 sec
-mpirun -n 2 python parallel_dummy_work1.py  #  2 x 4 threads =  7.1 sec
-mpirun -n 4 python parallel_dummy_work1.py  #  4 x 4 threads = 35.9 sec
+mpirun -n 1 python parallel_dummy_work1.py  #  1 x 4 threads = 8.71 sec
+mpirun -n 2 python parallel_dummy_work1.py  #  2 x 4 threads = 4.43 sec
+mpirun -n 4 python parallel_dummy_work1.py  #  4 x 4 threads = 2.35 sec
+
+# change value of the NUM_THREADS in the cpp module from 4 to 2, recompile
+mpirun -n 1 python parallel_dummy_work1.py  #  1 x 2 threads = 8.60 sec
+mpirun -n 2 python parallel_dummy_work1.py  #  2 x 2 threads = 4.40 sec
+mpirun -n 4 python parallel_dummy_work1.py  #  4 x 2 threads = 2.35 sec
  

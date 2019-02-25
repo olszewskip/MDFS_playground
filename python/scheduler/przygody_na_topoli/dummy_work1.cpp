@@ -11,7 +11,7 @@ cfg['linker_args'] = ['-fopenmp']
 
 namespace py = pybind11;
 
-#define NUM_THREADS 16
+#define NUM_THREADS 4
 
 double scalar_prod(py::array_t<double> input1, py::array_t<double> input2){
     
