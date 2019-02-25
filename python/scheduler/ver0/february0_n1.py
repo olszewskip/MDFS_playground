@@ -10,8 +10,8 @@ import fast
 
 time0 = time()
 
-k = 3
-divisions = 10
+k = 2
+divisions = 2
 range_ = 0.00
 seed = 123
 
@@ -39,7 +39,7 @@ discretize_vec = np.vectorize(discretize, signature='(n)->(n)', excluded=['divis
 
 # 2. Read the data
 
-file = "madelon_tiny.csv"
+file = "madelon.csv"
 input_ = []
 with open(file) as csvfile:
     reader = csv.reader(csvfile, delimiter=',',
@@ -108,11 +108,11 @@ final_results = {}
 
 for tuple_ in tuple_generator():
     #IGs = slow_work(tuple_)
-    #IGs = fast.work_2(dim1, divisions, data[tuple_[0]], data[tuple_[1]], n_classes, pseudo_counts, data[-1])
+    IGs = fast.work_2(dim1, divisions, data[tuple_[0]], data[tuple_[1]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_2b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3z(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-    IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+    #IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3c(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3d(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3e(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])

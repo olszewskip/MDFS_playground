@@ -1,0 +1,47 @@
+## 25.02.2019
+
+## locally (via VPN_ICM)
+ssh po276940@login.icm.edu.pl
+# >> password
+
+## @hpc
+mkdir my_virtualenvs
+cd my_virtualenvs
+mkdir MDFS
+cd MDFS
+
+srun -N 1 -p topola -n 1 --pty bash -l
+module load common/mpi/mpich/3.2
+which mpirun  # /apps/common/mpich/3.2/INTEL/bin/mpirun
+module load common/python/3.5.2
+which python3  # /mnt/software/common/python/3.5.2/bin/python3
+virtualenv example
+cd example
+source bin/activate
+which python  # ~/my_virtualenvs/MDFS/example/bin/python
+pip install numpy, scipy, mpi4py, pybind11, cppimport
+mkdir src
+cd src
+
+## locally (via VPN_ICM)
+pwd  # .../git-repos/MDFS_playground/python/scheduler/przygody_na_topoli
+scp dummy_work1.cpp parallel_dummy_work1.py po276940@login.icm.edu.pl:~/my_virtualenvs/MDFS/example/src
+
+## @hpc
+ls src  # dummy_work1.cpp  parallel_dummy_work1.py
+python
+>>> import cppimport
+>>> cppimport.imp("dummy_work1")
+>>> quit()
+ls  # dummy_work1.cpp  gmon.out  dummy_work1.cpython-35m-x86_64-linux-gnu.so  parallel_dummy_work1.py
+exit
+
+srun -N 4 -p topola -n 16 --cpu_bind=none --pty bash -l
+module load common/mpi/mpich/3.2
+module load common/python/3.5.2
+cd my_virtualenvs/MDFS/example/src
+source ../bin/activate
+mpirun -n 1 python parallel_dummy_work1.py  #  1 x 4 threads =  2.9 sec
+mpirun -n 2 python parallel_dummy_work1.py  #  2 x 4 threads =  7.1 sec
+mpirun -n 4 python parallel_dummy_work1.py  #  4 x 4 threads = 35.9 sec
+ 

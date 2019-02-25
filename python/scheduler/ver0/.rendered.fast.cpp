@@ -44,7 +44,7 @@ std::tuple<double, double> work_2(const int kData_dim,
     
     double neg_H = 0., neg_H_X0 = 0., neg_H_X1 = 0.;
     
-    //#pragma omp parallel for reduction (+: neg_H, neg_H_X0, neg_H_X1)
+    #pragma omp parallel for reduction (+: neg_H, neg_H_X0, neg_H_X1)
     for (int C_Xidx_i = 0; C_Xidx_i < kC_Xdim; C_Xidx_i++) {
         for (int C_yidx = 0; C_yidx < kC_ydim; C_yidx++) {
             double count_X0 = 0;
@@ -61,7 +61,7 @@ std::tuple<double, double> work_2(const int kData_dim,
         }
     }
     
-    //#pragma omp parallel for reduction (+: neg_H, neg_H_X0, neg_H_X1)
+    #pragma omp parallel for reduction (+: neg_H, neg_H_X0, neg_H_X1)
     for (int C_Xidx_i = 0; C_Xidx_i < kC_Xdim; C_Xidx_i++) {
         double count_X0_y = 0;
         double count_X1_y = 0;        
