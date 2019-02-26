@@ -1,9 +1,5 @@
 /*
-<%
-setup_pybind11(cfg)
-cfg['compiler_args'] = ['-std=c++11', '-fopenmp']
-cfg['linker_args'] = ['-fopenmp']
-%>
+
 */
 #include <omp.h>
 #include <pybind11/pybind11.h>
@@ -38,7 +34,7 @@ double scalar_prod(py::array_t<double> input1, py::array_t<double> input2){
     double prod = 0.;
     
     #pragma omp parallel for reduction(+:prod)
-    for (int i = 0; i < element_count; ++i) {
+    for (int i = 0; i < element_count; i++) {
         prod += ptr1[i] * ptr2[i];
     }
     

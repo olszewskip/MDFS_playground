@@ -10,9 +10,9 @@ write.table(mad, file = "madelon.csv", row.names=FALSE, col.names=FALSE)
 MDFS::ComputeMaxInfoGains(mad_sample_X, mad_sample_Y, dimensions=2, divisions = 10, range=0, pseudo.count=0.25, seed=123)
 
 mad <- MDFS::madelon
-result = MDFS::ComputeMaxInfoGains(mad$data, mad$decision, dimensions=2, divisions = 2, range=0, pseudo.count=0.25, seed=123)
-order(-result$IG)[1:10]
-result[order(-result$IG)[1:10],]
+result = MDFS::ComputeMaxInfoGains(mad$data, mad$decision, dimensions=2, divisions = 1, range=0, pseudo.count=0.25, seed=123)
+order(-result$IG)[1:500]
+result[order(-result$IG)[1:500],]
 
 my_df = read.csv("my_df_1.csv", header=FALSE)
 MDFS::ComputeMaxInfoGains(my_df[,1:2], my_df[,3], dimensions=3, divisions = 1, range=0, pseudo.count=1e-5, seed=123)

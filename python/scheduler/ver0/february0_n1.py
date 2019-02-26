@@ -11,7 +11,7 @@ import fast
 time0 = time()
 
 k = 2
-divisions = 2
+divisions = 1
 range_ = 0.00
 seed = 123
 
