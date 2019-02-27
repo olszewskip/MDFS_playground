@@ -25,14 +25,12 @@ cd src
 
 ## locally (via VPN_ICM)
 pwd  # .../git-repos/MDFS_playground/python/scheduler/przygody_na_topoli
-scp dummy_work1.cpp parallel_dummy_work1.py po276940@login.icm.edu.pl:~/my_virtualenvs/MDFS/example/src
+scp dummy_work1.cpp dummy_work1_parallel.py po276940@login.icm.edu.pl:~/my_virtualenvs/MDFS/example/src
 
 ## @hpc
 ls src  # dummy_work1.cpp  parallel_dummy_work1.py
 python
->>> import cppimport
->>> cppimport.imp("dummy_work1")
->>> quit()
+>>> import cppimport; cppimport.imp("dummy_work1"); quit()
 ls  # dummy_work1.cpp  gmon.out  dummy_work1.cpython-35m-x86_64-linux-gnu.so  parallel_dummy_work1.py
 exit
 
@@ -41,12 +39,91 @@ module load common/mpi/mpich/3.2
 module load common/python/3.5.2
 cd my_virtualenvs/MDFS/example/src
 source ../bin/activate
-mpirun -n 1 python parallel_dummy_work1.py  #  1 x 4 threads = 8.71 sec
-mpirun -n 2 python parallel_dummy_work1.py  #  2 x 4 threads = 4.43 sec
-mpirun -n 4 python parallel_dummy_work1.py  #  4 x 4 threads = 2.35 sec
+mpirun -n 1 python dummy_work1_parallel.py  #  1 x 4 threads = 8.71 sec
+mpirun -n 2 python dummy_work1_parallel.py  #  2 x 4 threads = 4.43 sec
+mpirun -n 4 python dummy_work1_parallel.py  #  4 x 4 threads = 2.35 sec
 
 # change value of the NUM_THREADS in the cpp module from 4 to 2, recompile
-mpirun -n 1 python parallel_dummy_work1.py  #  1 x 2 threads = 8.60 sec
-mpirun -n 2 python parallel_dummy_work1.py  #  2 x 2 threads = 4.40 sec
-mpirun -n 4 python parallel_dummy_work1.py  #  4 x 2 threads = 2.35 sec
- 
+mpirun -n 1 python dummy_work1_parallel.py  #  1 x 2 threads = 8.60 sec
+mpirun -n 2 python dummy_work1_parallel.py  #  2 x 2 threads = 4.40 sec
+mpirun -n 4 python dummy_work1_parallel.py  #  4 x 2 threads = 2.35 sec
+
+
+## 26.02.2019
+
+## ask mpi4py what value of the MPI_Query_thread variable does it see (https://www.mpich.org/static/docs/v3.1/www3/MPI_Query_thread.html):
+
+## @hpc
+cd my_virtualenvs/MDFS/example/src
+srun -N 1 -p topola -n 8 --cpu_bind=none --pty bash -l
+module load common/mpi/mpich/3.2
+module load common/python/3.5.2
+source ../bin/activate
+python
+>>> from mpi4py import MPI
+>>> MPI.Query_thread()  # returns 3  <- ?? MPI_THREAD_MULTIPLE (Multiple threads may call MPI, with no restrictions)
+
+## take a basic omp example (calculation of pi) called via pybind and check times (no mpi this time)
+
+## locally (via VPN_ICM)
+pwd  # .../git-repos/MDFS_playground/python/scheduler/przygody_na_topoli
+scp dummy_work_pi.cpp dummy_work_pi_n1.py po276940@login.icm.edu.pl:~/my_virtualenvs/MDFS/example/src
+## @hpc
+cd my_virtualenvs/MDFS/example/src
+srun -N 4 -p topola -n 16 --cpu_bind=none --cpus-per-task=4 --pty bash -l
+module load common/mpi/mpich/3.2
+module load common/python/3.5.2
+source ../bin/activate
+python
+>>> import cppimport; cppimport.imp("dummy_work_pi"); quit()
+
+export OMP_NUM_THREADS=1
+python dummy_work_pi_n1.py   # 7.40 sec
+export OMP_NUM_THREADS=2
+python dummy_work_pi_n1.py   # 3.71 sec
+export OMP_NUM_THREADS=4
+python dummy_work_pi_n1.py   # 1.85 sec
+export OMP_NUM_THREADS=8
+python dummy_work_pi_n1.py   # 0.93 sec
+export OMP_NUM_THREADS=16
+python dummy_work_pi_n1.py   # 0.46 sec
+export OMP_NUM_THREADS=32
+python dummy_work_pi_n1.py   # 0.39 sec
+export OMP_NUM_THREADS=64
+python dummy_work_pi_n1.py   # 0.39 sec
+
+## 27.02.2019
+
+## take the vary same pi example as above but with mpi4py added on top of the pybind11-enabled call to cpp function that utilizes omp
+
+## locally (via VPN_ICM)
+pwd  # .../git-repos/MDFS_playground/python/scheduler/przygody_na_topoli
+scp dummy_work_pi_parallel.py po276940@login.icm.edu.pl:~/my_virtualenvs/MDFS/example/src
+## @hpc
+cd my_virtualenvs/MDFS/example/src
+srun -N 4 -p topola -n 16 --cpu_bind=none --cpus-per-task=4 --pty bash -l
+module load common/mpi/mpich/3.2
+module load common/python/3.5.2
+source ../bin/activate
+
+export OMP_NUM_THREADS=1
+mpirun -n 1 python dummy_work_pi_parallel.py  # 7.40 sec
+export OMP_NUM_THREADS=2
+mpirun -n 1 python dummy_work_pi_parallel.py  # 3.70 sec
+export OMP_NUM_THREADS=4
+mpirun -n 1 python dummy_work_pi_parallel.py  # 1.85 sec
+export OMP_NUM_THREADS=8
+mpirun -n 1 python dummy_work_pi_parallel.py  # 1.87 sec
+
+export OMP_NUM_THREADS=1
+mpirun -n 2 python dummy_work_pi_parallel.py  # 3.70 sec
+export OMP_NUM_THREADS=2
+mpirun -n 2 python dummy_work_pi_parallel.py  # 1.85 sec
+export OMP_NUM_THREADS=4
+mpirun -n 2 python dummy_work_pi_parallel.py  # 1.85 sec
+
+export OMP_NUM_THREADS=1
+mpirun -n 4 python dummy_work_pi_parallel.py  # 1.85 sec
+export OMP_NUM_THREADS=2
+mpirun -n 4 python dummy_work_pi_parallel.py  # 1.86 sec
+

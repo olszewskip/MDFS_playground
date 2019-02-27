@@ -7,14 +7,13 @@
 
 namespace py = pybind11;
 
-#define NUM_THREADS 2
+// define NUM_THREADS 2
 
 double parallel_pi(int n) {
     
     double step = 1.0 / n;
     double pi = 0;
 
-    omp_set_num_threads(NUM_THREADS);
     #pragma omp parallel
     {
         double x;
@@ -42,7 +41,6 @@ double scalar_prod(py::array_t<double> input1, py::array_t<double> input2){
       element_count *= r;
     }
     
-    omp_set_num_threads(NUM_THREADS);
     int nthreads;
     double prod = 0.;
     
