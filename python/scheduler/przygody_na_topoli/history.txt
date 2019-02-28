@@ -94,7 +94,7 @@ python dummy_work_pi_n1.py   # 0.39 sec
 
 ## 27.02.2019
 
-## take the vary same pi example as above but with mpi4py added on top of the pybind11-enabled call to cpp function that utilizes omp
+## take the very same pi example as above but with mpi4py added on top of the pybind11-enabled call to cpp function that utilizes omp
 
 ## locally (via VPN_ICM)
 pwd  # .../git-repos/MDFS_playground/python/scheduler/przygody_na_topoli
@@ -127,3 +127,81 @@ mpirun -n 4 python dummy_work_pi_parallel.py  # 1.85 sec
 export OMP_NUM_THREADS=2
 mpirun -n 4 python dummy_work_pi_parallel.py  # 1.86 sec
 
+
+## 28.02
+
+## repeat yesterdays's experiment with different values passed to the flags in 'srun' call
+
+srun -N 4 -p topola -n 4 --cpu_bind=none --cpus-per-task=16 --pty bash -l
+
+export OMP_NUM_THREADS=1
+mpirun -n 1 python dummy_work_pi_parallel.py  # 7.40 sec
+export OMP_NUM_THREADS=2
+mpirun -n 1 python dummy_work_pi_parallel.py  # 3.70 sec
+export OMP_NUM_THREADS=4
+mpirun -n 1 python dummy_work_pi_parallel.py  # 1.85 sec
+export OMP_NUM_THREADS=8
+mpirun -n 1 python dummy_work_pi_parallel.py  # 0.93 sec
+export OMP_NUM_THREADS=16
+mpirun -n 1 python dummy_work_pi_parallel.py  # 0.69 sec
+export OMP_NUM_THREADS=32
+mpirun -n 1 python dummy_work_pi_parallel.py  # 0.65 sec
+export OMP_NUM_THREADS=64
+mpirun -n 1 python dummy_work_pi_parallel.py  # 0.62 sec
+
+export OMP_NUM_THREADS=1
+mpirun -n 2 python dummy_work_pi_parallel.py  # 3.70 sec
+export OMP_NUM_THREADS=2
+mpirun -n 2 python dummy_work_pi_parallel.py  # 1.85 sec
+export OMP_NUM_THREADS=4
+mpirun -n 2 python dummy_work_pi_parallel.py  # 0.93 sec
+export OMP_NUM_THREADS=8
+mpirun -n 2 python dummy_work_pi_parallel.py  # 0.69 sec
+export OMP_NUM_THREADS=16
+mpirun -n 2 python dummy_work_pi_parallel.py  # 0.36 sec
+export OMP_NUM_THREADS=32
+mpirun -n 2 python dummy_work_pi_parallel.py  # 0.34 sec
+
+export OMP_NUM_THREADS=1
+mpirun -n 4 python dummy_work_pi_parallel.py  # 1.85 sec
+export OMP_NUM_THREADS=2
+mpirun -n 4 python dummy_work_pi_parallel.py  # 0.93 sec
+export OMP_NUM_THREADS=4
+mpirun -n 4 python dummy_work_pi_parallel.py  # 0.46 sec
+export OMP_NUM_THREADS=8
+mpirun -n 4 python dummy_work_pi_parallel.py  # 0.23 sec
+export OMP_NUM_THREADS=16
+mpirun -n 4 python dummy_work_pi_parallel.py  # 0.19 sec
+export OMP_NUM_THREADS=32
+mpirun -n 4 python dummy_work_pi_parallel.py  # 0.19 sec
+
+srun -N 4 -p topola -n 4 --cpu_bind=none --cpus-per-task=8 --pty bash -l
+
+export OMP_NUM_THREADS=1
+mpirun -n 1 python dummy_work_pi_parallel.py  # 7.40 sec
+export OMP_NUM_THREADS=2
+mpirun -n 1 python dummy_work_pi_parallel.py  # 3.70 sec
+export OMP_NUM_THREADS=4
+mpirun -n 1 python dummy_work_pi_parallel.py  # 1.85 sec
+export OMP_NUM_THREADS=8
+mpirun -n 1 python dummy_work_pi_parallel.py  # 0.93 sec
+export OMP_NUM_THREADS=16
+mpirun -n 1 python dummy_work_pi_parallel.py  # 0.97 sec
+
+export OMP_NUM_THREADS=1
+mpirun -n 2 python dummy_work_pi_parallel.py  # 3.70 sec
+export OMP_NUM_THREADS=2
+mpirun -n 2 python dummy_work_pi_parallel.py  # 1.85 sec
+export OMP_NUM_THREADS=4
+mpirun -n 2 python dummy_work_pi_parallel.py  # 1.38 sec
+export OMP_NUM_THREADS=8
+mpirun -n 2 python dummy_work_pi_parallel.py  # 0.93 sec
+export OMP_NUM_THREADS=16
+mpirun -n 2 python dummy_work_pi_parallel.py  # 1.11 sec
+
+srun --nodes=4 --ntasks=16 --cpu_bind=threads --cpus-per-task=4 -p topola --time=30 --pty bash -l
+
+export OMP_NUM_THREADS=4
+mpirun -n 4 python dummy_work_pi_parallel.py  # 1.87 sec
+export OMP_NUM_THREADS=2
+mpirun -n 2 python dummy_work_pi_parallel.py  # 1.85 sec
