@@ -14,7 +14,7 @@ rank = comm.Get_rank()
 
 k = 3
 window = 5
-divisions = 10
+divisions = 1
 range_ = 0.0
 seed = 123
     

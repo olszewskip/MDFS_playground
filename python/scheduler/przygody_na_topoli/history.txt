@@ -259,7 +259,7 @@ mpirun -n  4 python dummy_work_pi_parallel.py  #  0.57 sec
 mpirun -n  8 python dummy_work_pi_parallel.py  #  0.47 sec
 
 
-## 3.03
+## 4.03
 
 ## try the informarmation-gain calculation
 
@@ -268,21 +268,28 @@ scp infogain.cpp infogain.py matrix_class.h madelon_tiny.csv po276940@login.icm.
 
 #
 srun -N 4 -p topola -n 16 --cpu_bind=none --cpus-per-task=4 --time=25 --pty bash -l
-...
+...  # module load ..., source ../bin/activate, compile the cpp in python as before 
+
 export OMP_NUM_THREADS=1
-mpirun -n  2 python infogain.py  # 7.76 sec
-mpirun -n  3 python infogain.py  # 3.87 sec
-mpirun -n  5 python infogain.py  # 2.67 sec
-mpirun -n  9 python infogain.py  # 1.72 sec
-mpirun -n 17 python infogain.py  # 1.12 sec
+mpirun -n  2 python infogain.py  # 1.06 sec
+mpirun -n  3 python infogain.py  # 0.55 sec
+mpirun -n  5 python infogain.py  # 0.32 sec
+mpirun -n  9 python infogain.py  # 0.25 sec
+mpirun -n 17 python infogain.py  # 0.19 sec
 
 export OMP_NUM_THREADS=2
-mpirun -n  2 python infogain.py  # 15.89 sec
-mpirun -n  3 python infogain.py  # 14.15 sec
+mpirun -n  2 python infogain.py  #  1.75 sec
+mpirun -n  3 python infogain.py  #  0.82 sec
+mpirun -n  5 python infogain.py  # 33.12 sec
+mpirun -n  9 python infogain.py  #  1.88 sec
+mpirun -n 17 python infogain.py  #  1.95 sec
 
 export OMP_NUM_THREADS=4
-mpirun -n  2 python infogain.py  # 142.72 sec
-mpirun -n  3 python infogain.py  # 107.36 sec
+mpirun -n  2 python infogain.py  #  1.56 sec
+mpirun -n  3 python infogain.py  #  6.64 sec
+mpirun -n  5 python infogain.py  # 98.34 sec
+mpirun -n  9 python infogain.py  # 44.66 sec
+mpirun -n 17 python infogain.py  # 27.28 sec
 
-scp po276940@login.icm.edu.pl:~/my_virtualenvs/MDFS/example/src/final_results.pkl
+scp po276940@login.icm.edu.pl:~/my_virtualenvs/MDFS/example/src/final_results.pkl  ## matches the local results
 
