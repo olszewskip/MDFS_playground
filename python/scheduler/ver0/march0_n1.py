@@ -117,5 +117,5 @@ for tuple_ in tuple_generator():
 # result
 print("Finished in", time() - time0, "sec.")
 
-with open("test_n1_results.pkl", "wb") as file:
+with open("march0_n1_results.pkl", "wb") as file:
     pickle.dump(final_results, file)
