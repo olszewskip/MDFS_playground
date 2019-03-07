@@ -14,32 +14,32 @@
 
 namespace py = pybind11;
 
-std::tuple<double, double, double> work_3a(const int kData_dim,
-                                           const int kDivisions,
-                                           py::array_t<int> &py_X0,
-                                           py::array_t<int> &py_X1,
-                                           py::array_t<int> &py_X2,
-                                           const int kN_classes,
+std::tuple<double, double, double> work_3a(const size_t kData_dim,
+                                           const size_t kDivisions,
+                                           py::array_t<uint8_t> &py_X0,
+                                           py::array_t<uint8_t> &py_X1,
+                                           py::array_t<uint8_t> &py_X2,
+                                           const size_t kN_classes,
                                            py::array_t<double> &py_pseudo_counts,
-                                           py::array_t<int> &py_y) {
+                                           py::array_t<uint8_t> &py_y) {
     
-    const int kC_Xdim = kDivisions + 1;
-    const int kC_ydim = kN_classes;
+    const size_t kC_Xdim = kDivisions + 1;
+    const size_t kC_ydim = kN_classes;
     
     py::buffer_info py_X0_buf = py_X0.request();
-    auto *X0 = static_cast<int *>(py_X0_buf.ptr);
+    auto *X0 = static_cast<uint8_t *>(py_X0_buf.ptr);
     py::buffer_info py_X1_buf = py_X1.request();
-    auto *X1 = static_cast<int *>(py_X1_buf.ptr);
+    auto *X1 = static_cast<uint8_t *>(py_X1_buf.ptr);
     py::buffer_info py_X2_buf = py_X2.request();
-    auto *X2 = static_cast<int *>(py_X2_buf.ptr);
+    auto *X2 = static_cast<uint8_t *>(py_X2_buf.ptr);
     
     py::buffer_info py_y_buf = py_y.request();
-    auto *y = static_cast<int *>(py_y_buf.ptr);
+    auto *y = static_cast<uint8_t *>(py_y_buf.ptr);
     
     py::buffer_info py_pseudo_counts_buf = py_pseudo_counts.request();
     auto *pseudo_counts = static_cast<double *>(py_pseudo_counts_buf.ptr);
     
-    Matrix<int> contingency_m(kC_Xdim, kC_Xdim, kC_Xdim, kC_ydim);
+    Matrix<uint32_t> contingency_m(kC_Xdim, kC_Xdim, kC_Xdim, kC_ydim);
     Matrix<double> contingency_m_y(kC_Xdim, kC_Xdim, kC_Xdim);
     
     for (int data_idx = 0; data_idx < kData_dim; data_idx++) {
@@ -292,32 +292,32 @@ std::tuple<double, double, double> work_3c(const int kData_dim,
 }
     
 
-std::tuple<double, double, double> work_3_old(const int kData_dim,
-                                              const int kDivisions,
-                                              py::array_t<int> &py_X0,
-                                              py::array_t<int> &py_X1,
-                                              py::array_t<int> &py_X2,
-                                              const int kN_classes,
+std::tuple<double, double, double> work_3_old(const size_t kData_dim,
+                                              const size_t kDivisions,
+                                              py::array_t<uint8_t> &py_X0,
+                                              py::array_t<uint8_t> &py_X1,
+                                              py::array_t<uint8_t> &py_X2,
+                                              const size_t kN_classes,
                                               py::array_t<double> &py_pseudo_counts,
-                                              py::array_t<int> &py_y) {
+                                              py::array_t<uint8_t> &py_y) {
     
-    const int kC_Xdim = kDivisions + 1;
-    const int kC_ydim = kN_classes;
+    const size_t kC_Xdim = kDivisions + 1;
+    const size_t kC_ydim = kN_classes;
     
     py::buffer_info py_X0_buf = py_X0.request();
-    auto *X0 = static_cast<int *>(py_X0_buf.ptr);
+    auto *X0 = static_cast<uint8_t *>(py_X0_buf.ptr);
     py::buffer_info py_X1_buf = py_X1.request();
-    auto *X1 = static_cast<int *>(py_X1_buf.ptr);
+    auto *X1 = static_cast<uint8_t *>(py_X1_buf.ptr);
     py::buffer_info py_X2_buf = py_X2.request();
-    auto *X2 = static_cast<int *>(py_X2_buf.ptr);
+    auto *X2 = static_cast<uint8_t *>(py_X2_buf.ptr);
     
     py::buffer_info py_y_buf = py_y.request();
-    auto *y = static_cast<int *>(py_y_buf.ptr);
+    auto *y = static_cast<uint8_t *>(py_y_buf.ptr);
     
     py::buffer_info py_pseudo_counts_buf = py_pseudo_counts.request();
     auto *pseudo_counts = static_cast<double *>(py_pseudo_counts_buf.ptr);
     
-    int contingency_m[kC_Xdim][kC_Xdim][kC_Xdim][kC_ydim] = {};
+    uint32_t contingency_m[kC_Xdim][kC_Xdim][kC_Xdim][kC_ydim] = {};
     double contingency_m_y[kC_Xdim][kC_Xdim][kC_Xdim] = {};
 
     for (int data_idx = 0; data_idx < kData_dim; data_idx++) {

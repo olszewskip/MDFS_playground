@@ -4,15 +4,12 @@ setup_pybind11(cfg)
 %>
 */
 
-//#include <iostream>
-//#include <chrono>
-//#include <thread>
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 
 namespace py = pybind11;
 
-void print_info(py::array_t<int>& input) {
+void print_info(py::array_t<int> input) {
     
     py::buffer_info buf = input.request();
     py::print("ptr:", buf.ptr);
@@ -32,10 +29,8 @@ void print_info(py::array_t<int>& input) {
       element_count *= r;
     }
     for (int i = 0; i < element_count; i++) {
-      py::print(i, "element:", *ptr++);
+        py::print(i, "element =", *ptr++);
     }
-    
-//    std::this_thread::sleep_for(3s);
 
 }
         

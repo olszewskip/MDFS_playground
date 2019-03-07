@@ -161,17 +161,17 @@ else:
     print(rank, "entering the while loop")
     while True:
         tile = comm.recv(source = 0)
-        if tile:
+        try:
             tile_results = {}
             for tuple_ in tuple_generator(tile):
                 
                 #IGs = slow_work(tuple_)
-                IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+                #IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
                 #IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
                 #IGs = fast.work_3c(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-                #IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+                IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
                 record_tuple(tuple_, IGs, tile_results)
             comm.isend(tile_results, dest=0)
-        else:
+        except:
             print(rank, "says goodbye")
             break

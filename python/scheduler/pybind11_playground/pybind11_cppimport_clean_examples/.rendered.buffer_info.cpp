@@ -7,7 +7,7 @@
 
 namespace py = pybind11;
 
-void print_info(py::array_t<int> input) {
+void print_info(py::array_t<int> input, uint8_t num) {
     
     py::buffer_info buf = input.request();
     py::print("ptr:", buf.ptr);
@@ -21,7 +21,7 @@ void print_info(py::array_t<int> input) {
       py::print(i, "stride:", buf.strides[i]);
     }
     
-    int *ptr = (int *) buf.ptr;
+    uint8_t *ptr = (uint8_t *) buf.ptr;
     int element_count = 1;
     for (auto r: buf.shape) {
       element_count *= r;
@@ -29,6 +29,8 @@ void print_info(py::array_t<int> input) {
     for (int i = 0; i < element_count; i++) {
         py::print(i, "element:", *ptr++);
     }
+    
+    py::print("number", num, "fit into type of size", sizeof(num));
 
 }
         

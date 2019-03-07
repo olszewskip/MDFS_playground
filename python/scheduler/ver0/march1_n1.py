@@ -6,6 +6,7 @@ from itertools import product, chain, starmap, combinations, combinations_with_r
 from time import time
 import pickle
 
+import wrap_discretize
 import fast
 
 time0 = time()
@@ -14,30 +15,9 @@ k = 3
 divisions = 1
 range_ = 0.00
 seed = 123
+wrap_discretize_switch = True
 
-# 1. Function definitions
-
-def discretize(seq, divisions=divisions, range_=range_, seed=seed):
-    '''
-    >>> discretize([3, 4, 1, 8, 13, 8], divisions=4, range_=0, seed=123) = array([1, 1, 0, 2, 3, 2])
-    where
-    ranks = [2., 3., 1., 4.5, 6., 4.5]
-    tresholds = [1.5,  3.,  4.5]
-    '''
-    np.random.seed(seed)
-    ranks = rankdata(seq, method='average') # method='ordinal'/'average' ?
-
-    random_blocks = np.cumsum(range_ * (2 * np.random.random(divisions + 1) - 1) + np.ones(divisions + 1))
-    tresholds = random_blocks[:-1] / random_blocks[-1] * len(seq)
-    
-    discrete_seq = np.zeros(len(seq), dtype='uint8')
-    for treshold in tresholds:
-        discrete_seq[ranks > treshold] += 1
-    return discrete_seq
-
-discretize_vec = np.vectorize(discretize, signature='(n)->(n)', excluded=['divisions', 'range_', 'seed'])
-
-# 2. Read the data
+# 1. Read in the data
 
 file = "madelon_tiny.csv"
 input_ = []
@@ -47,9 +27,49 @@ with open(file) as csvfile:
     for row in reader:
         input_.append(row)
         
-input_ = np.array(input_, dtype='float64').T[:-1]
-data = np.empty(input_.shape, dtype='uint8')
-data[:-1] = discretize_vec(input_[:-1])
+input_ = np.ascontiguousarray(np.array(input_, dtype='float64').T[:-1])
+data = np.zeros_like(input_, dtype='uint8')
+
+# Discretize the data
+
+if wrap_discretize_switch:
+
+    for col_idx in range(input_.shape[0] - 1):
+        wrap_discretize.discretize(
+            seed = 123,
+            discretization_index = 4,
+            feature_id = col_idx,  # ?
+            divisions = divisions,
+            object_count = input_.shape[1],
+            py_in_data = input_[col_idx],
+            py_sorted_in_data = np.sort(input_[col_idx]),
+            py_out_data = data[col_idx],
+            range_ = range_
+        )
+else:
+    
+    def discretize(seq, divisions=divisions, range_=range_, seed=seed):
+        '''
+        >>> discretize([3, 4, 1, 8, 13, 8], divisions=4, range_=0, seed=123) = array([1, 1, 0, 2, 3, 2])
+        where
+        ranks = [2., 3., 1., 4.5, 6., 4.5]
+        tresholds = [1.5,  3.,  4.5]
+        '''
+        np.random.seed(seed)
+        ranks = rankdata(seq, method='average') # method='ordinal'/'average' ?
+
+        random_blocks = np.cumsum(range_ * (2 * np.random.random(divisions + 1) - 1) + np.ones(divisions + 1))
+        tresholds = random_blocks[:-1] / random_blocks[-1] * len(seq)
+
+        discrete_seq = np.zeros(len(seq), dtype='uint8')
+        for treshold in tresholds:
+            discrete_seq[ranks > treshold] += 1
+        return discrete_seq
+
+    discretize_vec = np.vectorize(discretize, signature='(n)->(n)', excluded=['divisions', 'range_', 'seed'])
+    data[:-1] = discretize_vec(input_[:-1])
+
+    
 data[-1] = input_[-1:].astype('uint8')
 
 labels, counts = np.unique(data[-1], return_counts=True)
@@ -108,14 +128,14 @@ final_results = {}
 
 for tuple_ in tuple_generator():
     #IGs = slow_work(tuple_)
-    IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+    #IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3c(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-    #IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+    IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     record(tuple_, IGs, final_results)
 
 # result
 print("Finished in", time() - time0, "sec.")
 
-with open("test_results.pkl", "wb") as file:
+with open("march1_n1_results.pkl", "wb") as file:
     pickle.dump(final_results, file)
