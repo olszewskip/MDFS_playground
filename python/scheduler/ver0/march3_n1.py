@@ -18,7 +18,7 @@ divisions = 7
 range_ = 0.00
 seed = 123
 wrap_discretize_switch = True
-NUM_PROCS = 2
+NUM_PROCS = 1
 
 # 1. Read in the data
 
@@ -144,27 +144,40 @@ def record(tuple_, IGs, dof):
     for column, IG in zip(tuple_, IGs):
         if column not in records or IG > records[column][0]:
             records[column] = (IG, tuple_)
+    
 
-# def stitch_over_tile(index, results_queue):
-#     for tuple_ in islice(tuple_generator(), index, None, NUM_PROCS):
-#         bucket_counts_ = tuple(bucket_counts[col_idx] for col_idx in tuple_)
-#         #IGs = slow_work(tuple_, bucket_counts_)
-#         IGs = fast.work_3a(dim1, bucket_counts_, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-#         dof = np.prod(bucket_counts_, dtype = 'int')
+# for tuple_ in tuple_generator():
+#     bucket_counts_ = tuple(bucket_counts[col_idx] for col_idx in tuple_)
+    
+#     #IGs = slow_work(tuple_, bucket_counts_)
+#     IGs = fast.work_3a(dim1, bucket_counts_, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+
+#     dof = np.prod(bucket_counts_, dtype = 'int')
+#     record(tuple_, IGs, dof)
+
+def stitch_over_data(index, results_queue):
+    for tuple_ in islice(tuple_generator(), index, None, NUM_PROCS):
+        bucket_counts_ = tuple(bucket_counts[col_idx] for col_idx in tuple_)
+        #IGs = slow_work(tuple_, bucket_counts_)
+        IGs = fast.work_3a(dim1, bucket_counts_, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+        dof = np.prod(bucket_counts_, dtype = 'int')
         
-    
+        results_queue.put((tuple_, IGs, dof))
+    results_queue.put(None)
 
-for tuple_ in tuple_generator():
-    bucket_counts_ = tuple(bucket_counts[col_idx] for col_idx in tuple_)
-    
-    #IGs = slow_work(tuple_, bucket_counts_)
-    IGs = fast.work_3a(dim1, bucket_counts_, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+results_queue = Queue()
+for index in range(NUM_PROCS):
+    Process(target = stitch_over_data, args = (index, results_queue)).start()
 
-    dof = np.prod(bucket_counts_, dtype = 'int')
-    record(tuple_, IGs, dof)
+finished = 0
+while finished < NUM_PROCS:
+    try:
+        record(*results_queue.get())
+    except:
+        finished += 1
 
 # result
 print("Finished in", time() - time0, "sec.")
 
-with open("march2_n1_results.pkl", "wb") as file:
+with open("march3_n1_results.pkl", "wb") as file:
     pickle.dump(final_results, file)
