@@ -19,7 +19,7 @@ virtualenv example
 cd example
 source bin/activate
 which python  # ~/my_virtualenvs/MDFS/example/bin/python
-pip install numpy, scipy, mpi4py, pybind11, cppimport
+pip install numpy scipy mpi4py pybind11 cppimport
 mkdir src
 cd src
 

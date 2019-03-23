@@ -1,0 +1,38 @@
+# # 13.03
+
+# locally
+cd .../przygody_na_uco
+scp -P 9022 infogain.cpp infogain_march1.py madelon_tiny.csv matrix_class.h wrap_discretize.cpp p.olszewski@login.uco.uwb.edu.pl:~
+
+ssh -p 9022 p.olszewski@login.uco.uwb.edu.pl  # husisiveja
+scp infogain.cpp infogain_march1.py madelon_tiny.csv matrix_class.h wrap_discretize.cpp c-059
+ssh c-059
+
+# @ c-059
+. /opt/rh/rh-python36/enable
+mkdir ...
+cd my_virtualenvs/MDFS
+virtualenv example
+cd example
+source bin/activate
+pip install numpy scipy mpi4py pybind11 cppimport
+
+mkdir src
+cd
+mv infogain.cpp infogain_march1.py madelon_tiny.csv matrix_class.h wrap_discretize.cpp my_virtualenvs/MDFS/example/src
+cd my_virtualenvs/MDFS/example/src
+
+python
+import cppimport; cppimport.imp("infogain"); cppimport.imp("wrap_discretize")
+
+export OMP_NUM_THREADS=1
+mpirun -n 2 python infogain_march1.py  # 91.4 sec
+mpirun -n 3 python infogain_march1.py  # 46.3 sec
+mpirun -n 5 python infogain_march1.py  # 23.4 sec
+mpirun -n 9 python infogain_march1.py  # 12.1 sec
+
+export OMP_NUM_THREADS=2
+mpirun -n 2 python infogain_march1.py  # 91.9 sec
+mpirun -n 3 python infogain_march1.py  # 47.3 sec
+mpirun -n 5 python infogain_march1.py  # 23.3 sec
+mpirun -n 9 python infogain_march1.py  # 12.2 sec

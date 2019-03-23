@@ -2,20 +2,16 @@
 
 */
 
-
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
 #include <random>
 #include <vector>
-
-
 #include <pybind11/pybind11.h>
 //#include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
 namespace py = pybind11;
-
 using namespace pybind11::literals;
 
 void discretize(
@@ -30,6 +26,7 @@ void discretize(
     double range_
 ) {
     
+    // the python part
     py::buffer_info py_in_data_buf = py_in_data.request();
     auto *in_data = static_cast<const double *>(py_in_data_buf.ptr);    
     
@@ -39,6 +36,7 @@ void discretize(
     py::buffer_info py_out_data_buf = py_out_data.request();
     auto *out_data = static_cast<uint8_t *>(py_out_data_buf.ptr);
     
+    // end of the python part
     
     double* thresholds = new double[divisions];
 
@@ -93,7 +91,6 @@ void discretize(
 
     delete[] thresholds;
 }
-
 
 
 PYBIND11_MODULE(wrap_discretize, module) {

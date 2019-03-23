@@ -16,7 +16,7 @@ rank = comm.Get_rank()
 
 k = 3
 window = 5
-divisions = 1
+divisions = 31
 range_ = 0.0
 seed = 123
     
@@ -186,10 +186,10 @@ else:
             for tuple_ in tuple_generator(tile):
                 
                 #IGs = slow_work(tuple_)
-                #IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+                IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
                 #IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
                 #IGs = fast.work_3c(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-                IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+                #IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
                 record_tuple(tuple_, IGs, tile_results)
             comm.isend(tile_results, dest=0)
         except:

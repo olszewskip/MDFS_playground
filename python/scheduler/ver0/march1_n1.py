@@ -12,7 +12,7 @@ import fast
 time0 = time()
 
 k = 3
-divisions = 1
+divisions = 7
 range_ = 0.00
 seed = 123
 wrap_discretize_switch = True
@@ -128,10 +128,10 @@ final_results = {}
 
 for tuple_ in tuple_generator():
     #IGs = slow_work(tuple_)
-    #IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+    IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     #IGs = fast.work_3c(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-    IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+    #IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
     record(tuple_, IGs, final_results)
 
 # result
