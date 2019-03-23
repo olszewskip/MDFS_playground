@@ -115,14 +115,14 @@ def neg_H(p):
 def neg_H_cond(matrix):
     return np.sum(neg_H(matrix)) - np.sum(neg_H(np.sum(matrix, axis=-1)))
 
-def slow_work(indeces):
+def slow_work(indeces, bucket_counts_):
     '''
     indeces -> tuple
     Work-function.
     Output: tuple of Information Gains implicitly corresponding to the indeces
     '''
     # contingency-matrix: begin with pseudo-counts
-    contingency_m = np.empty([divisions + 1] * k + [len(labels)], dtype='float64')
+    contingency_m = np.empty(list(bucket_counts_) + [len(labels)], dtype='float64')
     for label, pseudo_count in enumerate(pseudo_counts):
         contingency_m[..., label] = pseudo_count
     
@@ -144,13 +144,12 @@ def record(tuple_, IGs, records):
 
 
 for tuple_ in tuple_generator():
-    #IGs = slow_work(tuple_)
-    IGs = fast.work_3a(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-    #IGs = fast.work_3b(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-    #IGs = fast.work_3c(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
-    #IGs = fast.work_3_old(dim1, divisions, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+    bucket_counts_ = tuple(bucket_counts[col_idx] for col_idx in tuple_)
     
-    dof = np.prod(tuple(bucket_counts[col_idx] for col_idx in tuple_), dtype = 'int')
+    #IGs = slow_work(tuple_, bucket_counts_)
+    IGs = fast.work_3a(dim1, bucket_counts_, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
+
+    dof = np.prod(bucket_counts_, dtype = 'int')
     record(tuple_, IGs, final_results[dof])
 
 # result
