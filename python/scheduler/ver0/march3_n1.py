@@ -155,8 +155,8 @@ def record(tuple_, IGs, dof):
 #     dof = np.prod(bucket_counts_, dtype = 'int')
 #     record(tuple_, IGs, dof)
 
-def stitch_over_data(index, results_queue):
-    for tuple_ in islice(tuple_generator(), index, None, NUM_PROCS):
+def stitch_over_data(proc_index, results_queue):
+    for tuple_ in islice(tuple_generator(), proc_index, None, NUM_PROCS):
         bucket_counts_ = tuple(bucket_counts[col_idx] for col_idx in tuple_)
         #IGs = slow_work(tuple_, bucket_counts_)
         IGs = fast.work_3a(dim1, bucket_counts_, data[tuple_[0]], data[tuple_[1]], data[tuple_[2]], n_classes, pseudo_counts, data[-1])
@@ -166,8 +166,8 @@ def stitch_over_data(index, results_queue):
     results_queue.put(None)
 
 results_queue = Queue()
-for index in range(NUM_PROCS):
-    Process(target = stitch_over_data, args = (index, results_queue)).start()
+for proc_index in range(NUM_PROCS):
+    Process(target = stitch_over_data, args = (proc_index, results_queue)).start()
 
 finished = 0
 while finished < NUM_PROCS:
