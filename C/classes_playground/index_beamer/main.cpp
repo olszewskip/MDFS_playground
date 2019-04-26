@@ -15,19 +15,21 @@ class Indices {
    public:
       // By the sequence being exhausted we mean
       // that it has been taken beyond its last element.
-      // The flag is not set when the indices represent
-      // valid but last element of the sequence.
+      // The flag is not yet set when the indices
+      // represent the last element of the sequence.
       virtual bool get_exhausted() = 0;
       virtual void set_exhausted(bool) = 0;
       // pointer to a buffer with actual integers
       int *indices_ptr = NULL;
+      // connect pointer to indices
+      virtual void use_buff(int* const buff) {
+         indices_ptr = buff;
+         //std::cout << "about to reset " << buff << std::endl;
+         reset();
+         //std::cout << *this << " success" << std::endl;
+      }
       // number of indices (lenght of buffer)
       int k;
-      // connect pointer to indices
-      void use_buff(int* const buff) {
-         indices_ptr = buff;
-         reset();
-      }
       // move the index one step forward in the sequence
       virtual void up() = 0; 
       // change the index back to the first element of the sequence
@@ -50,17 +52,28 @@ class Indices {
          out << ind.indices_ptr[ind.k - 1] << ")";
          return out;
       }
+      void print(unsigned int limit = -1) {
+         unsigned int count = 0;
+         while(!this->get_exhausted()) {
+            if (count == limit)
+               break;
+            count++;
+            std::cout << *this << std::endl;
+            this->up();
+         }
+         this->reset();
+      }
 };
 
 class Indices_triangle : public Indices {
    // Each index in the sequence is an increasing sequence,
    // e.g. (3,4,6,8) for k = 4 and n > 8
    private:
-      // is the whole sequence exhauseted?
+      // is the whole sequence exhauseted
       bool exhausted;
       // strictly upper bound of values of all indices
       int n;
-      // is the index-sequence not strictly increasing,
+      // is the index-sequence not strictly increasing
       bool with_diag;
    public:
       // constructor
@@ -69,12 +82,18 @@ class Indices_triangle : public Indices {
          with_diag(with_diag_arg) {
          k = k_arg;
          if (!with_diag_arg & n_arg < k_arg) {
+            k = 0;
             exhausted = true;
          }
+      }
+      void use_buff(int* const buff) {
+         indices_ptr = buff;
+         reset();
       }
       bool get_exhausted() { return exhausted; }
       void set_exhausted(bool exhausted_var) { exhausted = exhausted_var; }
       void up() {
+         assert(k > 0);
          bool increment = 1;
          for (int i = 0; i < k - 1; i++) {
             div_t division = div(indices_ptr[i] + increment, indices_ptr[i+1] + with_diag);
@@ -87,6 +106,7 @@ class Indices_triangle : public Indices {
       }
       void reset() {
          if (!with_diag & n < k) {
+            k = 0;
             exhausted = true;
             return;
          }
@@ -130,7 +150,9 @@ class Indices_product : public Indices {
          }
       }
       void reset() {
+         //std::cout << "L reset" << std::endl;
          ind_L.reset();
+         //std::cout << "R reset" << std::endl;
          ind_R.reset();
       }
 };
@@ -155,6 +177,7 @@ class Indices_sum : public Indices {
             k = ind_L_arg.k;
       }
       void use_buff(int* const buff) {
+         //std::cout << "from use_buff in sum" << std::endl;
          indices_ptr = buff;
          ind_L.use_buff(buff);
          ind_R.set_exhausted(false);
@@ -164,6 +187,7 @@ class Indices_sum : public Indices {
       void up() {
          if (!using_R) {
             ind_L.up();
+            //std::cout << "upped left" << std::endl;
             if(ind_L.get_exhausted()) {
                using_R = true;
                ind_R.use_buff(indices_ptr);
@@ -174,8 +198,8 @@ class Indices_sum : public Indices {
          }
       }
       void reset() {
-         ind_L.indices_ptr = indices_ptr;
-         ind_L.reset();
+         ind_L.use_buff(indices_ptr);
+         //ind_L.reset();
          using_R = false;
          set_exhausted(false);
       }
@@ -187,44 +211,18 @@ Indices_sum operator+(Indices &ind_L, Indices &ind_R) { return Indices_sum(ind_L
 
 
 int main() {
-   int indices_buff_1[kDim];
-   int indices_buff_2[kDim];
-   Indices_triangle my_indices_1 = Indices_triangle(4, kDim, false);
-   Indices_triangle my_indices_2 = Indices_triangle(2, kDim, true);
-   my_indices_1.use_buff(indices_buff_1);
-   my_indices_2.use_buff(indices_buff_2);
+   Indices_triangle my_indices_1 = Indices_triangle(5, kDim, false);
+   Indices_triangle my_indices_2 = Indices_triangle(4, kDim, true);
+   Indices_triangle my_indices_3 = Indices_triangle(3, kDim - 1, false); 
+   Indices_triangle my_indices_4 = Indices_triangle(2, kDim + 1, true); 
    
-   while(!my_indices_1.get_exhausted()) {
-      std::cout << my_indices_1 << std::endl;
-      my_indices_1.up();
-   }
-   std::cout << "----" << std::endl;
+   Indices_product product_12 = my_indices_1 * my_indices_2;
+   Indices_product product_34 = my_indices_3 * my_indices_4;
+   Indices_sum sum_1234 = product_12 + product_34;
    
-   while(!my_indices_2.get_exhausted()) {
-      std::cout << my_indices_2 << std::endl;
-      my_indices_2.up();
-   }
-   std::cout << "----" << std::endl;
-
-   int indices_buff_12[kDim + kDim];
-   Indices_product my_product = my_indices_1 * my_indices_2;
-   my_product.use_buff(indices_buff_12);
-   while(!my_product.get_exhausted()) {
-      std::cout << my_product << std::endl;
-      my_product.up();
-   }
-   std::cout << "----" << std::endl;
-   
-   int indices_buff_3[kDim + kDim];
-   Indices_triangle my_indices_3 = Indices_triangle(5, 2 * kDim, true);
-   //Indices_triangle my_indices_4 = Indices_triangle(3, kDim - 1, false);
-
-   Indices_sum my_sum = (my_indices_1 * my_indices_2) + my_indices_3;
-   my_sum.use_buff(indices_buff_3);
-   while(!my_sum.get_exhausted()) {
-      std::cout << my_sum << std::endl;
-      my_sum.up();
-   }
+   int indices_buff_1234[kDim + kDim];
+   sum_1234.use_buff(indices_buff_1234);
+   sum_1234.print();
 
    return 0;
 }
