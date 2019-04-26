@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-#define kDim 3 
+#define kDim 5
 
 class Indices {
    // Abstraction for a finite sequence of indices,
@@ -202,16 +202,16 @@ Indices_sum operator+(Indices &ind_L, Indices &ind_R) { return Indices_sum(ind_L
 
 
 int main() {
-   Indices_triangle my_indices_1 = Indices_triangle(5, kDim, false);
-   Indices_triangle my_indices_2 = Indices_triangle(4, kDim, true);
-   Indices_triangle my_indices_3 = Indices_triangle(3, kDim - 1, false); 
-   Indices_triangle my_indices_4 = Indices_triangle(2, kDim + 1, true); 
+   Indices_triangle my_indices_1 = Indices_triangle(5, kDim - 3, true);
+   Indices_triangle my_indices_2 = Indices_triangle(4, 3, true);
+   Indices_triangle my_indices_3 = Indices_triangle(3, kDim - 1, true); 
+   Indices_triangle my_indices_4 = Indices_triangle(2, 1, true); 
    
    Indices_product product_12 = my_indices_1 * my_indices_2;
    Indices_product product_34 = my_indices_3 * my_indices_4;
    Indices_sum sum_1234 = product_12 + product_34;
    
-   int indices_buff_1234[kDim + kDim];
+   int indices_buff_1234[kDim];
    sum_1234.use_buff(indices_buff_1234);
    sum_1234.print();
 
