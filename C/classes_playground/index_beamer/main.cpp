@@ -22,12 +22,7 @@ class Indices {
       // pointer to a buffer with actual integers
       int *indices_ptr = NULL;
       // connect pointer to indices
-      virtual void use_buff(int* const buff) {
-         indices_ptr = buff;
-         //std::cout << "about to reset " << buff << std::endl;
-         reset();
-         //std::cout << *this << " success" << std::endl;
-      }
+      virtual void use_buff(int* const) = 0;
       // number of indices (lenght of buffer)
       int k;
       // move the index one step forward in the sequence
@@ -80,6 +75,7 @@ class Indices_triangle : public Indices {
       Indices_triangle (int n_arg, int k_arg, bool with_diag_arg) :
          n(n_arg),
          with_diag(with_diag_arg) {
+         assert(k_arg > 0); 
          k = k_arg;
          if (!with_diag_arg & n_arg < k_arg) {
             k = 0;
@@ -150,9 +146,7 @@ class Indices_product : public Indices {
          }
       }
       void reset() {
-         //std::cout << "L reset" << std::endl;
          ind_L.reset();
-         //std::cout << "R reset" << std::endl;
          ind_R.reset();
       }
 };
@@ -177,7 +171,6 @@ class Indices_sum : public Indices {
             k = ind_L_arg.k;
       }
       void use_buff(int* const buff) {
-         //std::cout << "from use_buff in sum" << std::endl;
          indices_ptr = buff;
          ind_L.use_buff(buff);
          ind_R.set_exhausted(false);
@@ -187,7 +180,6 @@ class Indices_sum : public Indices {
       void up() {
          if (!using_R) {
             ind_L.up();
-            //std::cout << "upped left" << std::endl;
             if(ind_L.get_exhausted()) {
                using_R = true;
                ind_R.use_buff(indices_ptr);
@@ -199,7 +191,6 @@ class Indices_sum : public Indices {
       }
       void reset() {
          ind_L.use_buff(indices_ptr);
-         //ind_L.reset();
          using_R = false;
          set_exhausted(false);
       }
