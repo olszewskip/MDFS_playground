@@ -26,7 +26,7 @@ class Complex {
       friend Complex operator+(const double &x, const Complex &z);
       friend Complex operator/(const double &x, const Complex &z);
       
-      friend Complex imag(const double &y);
+      //friend Complex imag(const double &y);
       
       double radius();
       double phase(double offset = 0.0);
