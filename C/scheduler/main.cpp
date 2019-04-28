@@ -1,11 +1,11 @@
+#include <mpi.h>
 // uncomment to disable assert()
 // #define NDEBUG
 #include <cassert>
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
-
-const int kDim = 5;
+#include <vector>
 
 
 template <typename T>
@@ -14,12 +14,12 @@ class Matrix2D {
    private:
       T* data;
    public:
-      unsigned dim_0;
-      unsigned dim_1;
-      Matrix2D(unsigned dim_0_arg, unsigned dim_1_arg) :
+      int dim_0;
+      int dim_1;
+      Matrix2D(int dim_0_arg, int dim_1_arg) :
          dim_0(dim_0_arg),
          dim_1(dim_1_arg) {
-         assert(dim_0 > 0 & dim_1 > 1);
+         assert(dim_0 > 0 & dim_1 > 0);
          // zero-initialized
          data = new T[dim_0_arg * dim_1_arg]();
       }
@@ -28,22 +28,24 @@ class Matrix2D {
       }
       Matrix2D(const Matrix2D&);
       Matrix2D& operator=(const Matrix2D&);
-      T& operator()(unsigned i, unsigned j) {
+      T& operator()(int i, int j) {
          assert(i < dim_0 & j < dim_1);
          return data[dim_1 * i + j];
       }
-      T operator()(unsigned i, unsigned j) const {
+      T* get_data() { return data; }
+      T operator()(int i, int j) const {
          assert(i < dim_0 & j < dim_1);
          return data[dim_1 * i + j];
       }
       void print() {
-         std::cout << "|" << __PRETTY_FUNCTION__ << "\n";
-         std::cout << "|shape: " << dim_0 << ", " << dim_1 << "\n";
-            for (int i = 0; i < dim_0; ++i) {
-               for (int j = 0; j < dim_1; ++j)
-                  std::cout << (*this)(i, j) << " ";
-               std::cout << "\n";
-            }
+         //std::cout << "|" << __PRETTY_FUNCTION__ << "\n";
+         //std::cout << "|shape: " << dim_0 << ", " << dim_1 << "\n";
+         for (int i = 0; i < dim_0; ++i) {
+            for (int j = 0; j < dim_1; ++j)
+               std::cout << (*this)(i, j) << " ";
+            std::cout << "\n";
+         }
+         std::cout << "\n";
       }
 };
 
@@ -91,20 +93,24 @@ class Indices_triangle : public Indices {
    // Each index in the sequence is an increasing sequence,
    // e.g. (3,4,6,8) for k = 4 and n > 8
    protected:
-      // is the whole sequence exhauseted
-      bool exhausted;
-      // strictly upper bound of values of all indices
+      // upper bound (noninclusive) of values of all indices
       int n;
+      // lower bound (inclusive) of values of all indices
+      int offset;
       // is the index-sequence not strictly increasing
       bool with_diag;
+      // is the whole sequence exhausted
+      bool exhausted;
    public:
       // constructor
-      Indices_triangle (int n_arg, int k_arg, bool with_diag_arg) :
+      Indices_triangle (int k_arg, int n_arg, int offset_arg=0, bool with_diag_arg=true) :
          n(n_arg),
+         offset(offset_arg),
          with_diag(with_diag_arg) {
          assert(k_arg > 0); 
+         assert(offset >= 0);
          k = k_arg;
-         if (!with_diag_arg & n_arg < k_arg) {
+         if (!with_diag_arg & (n_arg - offset) < k_arg) {
             k = 0;
             exhausted = true;
          }
@@ -121,20 +127,19 @@ class Indices_triangle : public Indices {
          for (int i = 0; i < k - 1; i++) {
             div_t division = div(index[i] + increment, index[i+1] + with_diag);
             increment = division.quot;
-            index[i] = division.rem + !with_diag * increment * i;
+            index[i] = division.rem + increment * (offset + !with_diag * i);
          }
-         div_t division = div(index[k - 1] + increment, n);
-         index[k - 1] = division.rem;
-         exhausted = division.quot;
+         index[k - 1] += increment;
+         exhausted = index[k - 1] / n;
       }
       void reset() {
-         if (!with_diag & n < k) {
+         if (!with_diag & (n - offset) < k) {
             k = 0;
             exhausted = true;
             return;
          }
          for(int i = 0; i < k; i++) {
-            index[i] = 0 + !with_diag * i;
+            index[i] = offset + !with_diag * i;
             exhausted = false;
          }
       }
@@ -148,6 +153,25 @@ class Indices_triangle : public Indices {
       }
 };
 
+class Indices_triangle_with_semicolon : public Indices_triangle {
+   // It uses a buffer that is assumed to be one integer
+   // longer than for the Indices_triangle class. Value
+   // stored in this additional memory is 0 (which sounds
+   // like it's not very useful, I know).
+   public:
+      Indices_triangle_with_semicolon(int k_arg, int n_arg, int offset_arg=0, bool with_diag_arg=true) :
+         Indices_triangle (k_arg, n_arg, offset_arg, with_diag_arg) {}
+      void use_buff(int* const buff) {
+         index = buff;
+         index[k] = 0;
+         reset();
+      }
+      std::string to_str() {
+         std::stringstream ss;
+         ss << Indices_triangle::to_str() << " " << index[k];
+         return ss.str();
+      }
+};
 
 class Indices_product : public Indices {   
    // Cartesian product of two sequences.
@@ -269,81 +293,234 @@ class Indices_sum : public Indices {
          ss << (using_L ? ind_L.to_str() : ind_R.to_str());
          return ss.str();
       }
-      //friend std::ostream& operator<<(std::ostream&, const Indices_sum&);
 };
-
-//std::ostream& operator<<(std::ostream& out, const Indices_sum& indices) { 
-//   out << indices.using_L ? indices.ind_L : indices.ind_R;
-//   return out;
-//}
-
-//class Indices_sum_of_products_with_semicolon : public Indices_sum {
-//   protected:
-//      int semicolon_index_L;
-//      int semicolon_index_R;
-//   public:
-//      Indices_sum_of_products_with_semicolon(Indices_product_with_semicolon& ind_L_arg, Indices_product_with_semicolon ind_R_arg) :
-//         Indices_sum(ind_L_arg, ind_R_arg),
-//         semicolon_index_L(ind_L_arg.ind_L.k),
-//         semicolon_index_R(ind_R_arg.ind_L.k) {}
-//      friend std::ostream& operator<<(std::ostream&, const Indices_sum_of_products_with_semicolon&);
-//};
-//
-//std::ostream& operator<<(std::ostream& out, const Indices_sum_of_products_with_semicolon& indices) {
-//   out << "(";
-//   int semicolon_index = indices.using_R ? semicolon_index_R : semicolon_index_L;
-//   for (int i = 0; i < semicolon_index - 1; i++)
-//      out << indices.index[i] << ", ";
-//   out << indices.index[semicolon_index - 1] << "; ";
-//   for (int i = semicolon_index; i < indices.k - 1; i++)
-//      out << indices.index[i] << ", ";
-//   out << indices.index[indices.k - 1] << ") ";
-//   out << indices.index[indices.k];
-//   return out;
-//}
-
 
 
 Indices_product operator*(Indices &ind_L, Indices &ind_R) { return Indices_product(ind_L, ind_R); }
-Indices_product_with_semicolon operator&(Indices &ind_L, Indices &ind_R) { return Indices_product_with_semicolon(ind_L, ind_R); }
+Indices_product_with_semicolon operator^(Indices &ind_L, Indices &ind_R) { return Indices_product_with_semicolon(ind_L, ind_R); }
 Indices_sum operator+(Indices &ind_L, Indices &ind_R) { return Indices_sum(ind_L, ind_R); }
-//Indices_sum operator+(Indices &ind_L, Indices &ind_R) { return Indices_sum(ind_L, ind_R); }
 
+// 1
+int main1() {
+   // Some printing for demonstration.
 
-void index2columns(int index[], int columns[], int tile_width) {
-   for (int i = 0; i < kDim; i+2) {
-      columns[i] = index[i] * tile_width;
-      columns[i+1] = (index[i] + 1) * tile_width;
-   }
-} 
-//void test(const int k) {
+   Matrix2D<int> m(2, 3);
+   m(1,1) = 999;
+   m.print();
+   
+   const int kDim = 5;
 
-int main() {
-
-    
-   Indices_triangle my_indices_1 = Indices_triangle(5, kDim - 3, true);
-   Indices_triangle my_indices_2 = Indices_triangle(4, 3, true);
-   Indices_triangle my_indices_3 = Indices_triangle(3, kDim - 1, true); 
-   Indices_triangle my_indices_4 = Indices_triangle(2, 1, true); 
+   Indices_triangle my_indices_1 = Indices_triangle(kDim - 3, 7, 2);
+   Indices_triangle my_indices_2 = Indices_triangle(3, 4);
+   Indices_triangle my_indices_3 = Indices_triangle(kDim - 1, 6, 3); 
+   Indices_triangle my_indices_4 = Indices_triangle(1, 10, 4); 
    
    Indices_product product_12 = my_indices_1 * my_indices_2;
-   Indices_product_with_semicolon product_34 = my_indices_3 & my_indices_4;
+   Indices_product_with_semicolon product_34 = my_indices_3 ^ my_indices_4;
    Indices_sum sum_1234 = product_12 + product_34;
    
    int indices_buff_1234[kDim + 1];
    sum_1234.use_buff(indices_buff_1234);
-   //product_12.use_buff(indices_buff_1234);
-   //std::cout << sum_1234 << std::endl;
-   //std::cout << sum_1234.to_str() << std::endl;
-   //product_12.print();
    sum_1234.print();
    
+   return 0;
+}
 
 
+Matrix2D<int> gpu_index2columns(int index[], int k, int tile_width) {
+   // Bijection between tile-index and a 2d matrix
+   // that represent the tile by specifying column-indices.
+   // Each two-element row in the k x 2 matrix contains beginning
+   // and end (inclusive) of a column-indices-range.
+   Matrix2D<int> columns(k, 2);
+   for (int i = 0; i < k; i++) {
+      columns(i, 0) = index[i] * tile_width;
+      columns(i, 1) = (index[i] + 1) * tile_width - 1;
+   }
+   return columns;
+}
+
+int gpu_dummy_work(Matrix2D<int>& columns) {
+   int sum = 0;
+   for (int i = 0; i < columns.dim_0; i++)
+      for (int j = 0; j < columns.dim_1; j++)
+         sum += columns(i, j);
+   return sum % 123;
+}
+
+void dummy_record(int result) {
+   // Aggregate the incoming results on the master's side
+}
+void dummy_update_history(int rank, int* assignmenet) {
+   // Keep track of what tile each worker is working on,
+   // and also maybe about times per tile ?
+}
+
+// 2
+int main() {
+
+   const int kDim = 4;
+   int M = 9;
+   int m = 3;
    
-   //Indices_triangle gpu_scheduler = Indices_triangle(
+   //int buff[kDim];
+   //Indices_triangle gpu_scheduler = Indices_triangle(M, kDim, true);
+   //gpu_scheduler.use_buff(buff);
+   //Matrix2D<int> columns = gpu_index2columns(gpu_scheduler.index, kDim, 100);
+   //columns.print();
+   //std::cout << columns.dim_0 << columns.dim_1 << std::endl;
+   //gpu_dummy_work(columns);
+   //std::cout << gpu_scheduler.to_str() << std::endl;
+  
+   Indices_triangle_with_semicolon triangle_1 = Indices_triangle_with_semicolon(kDim, m, 1, true);
+   std::vector<Indices_triangle> triangle_2;
+   std::vector<Indices_triangle> triangle_3;
+   std::vector<Indices_product_with_semicolon> product_1;
+   std::vector<Indices_sum> sum_1;
+   triangle_2.reserve(kDim - 1);
+   triangle_3.reserve(kDim - 1);
+   product_1.reserve(kDim - 1);
+   sum_1.reserve(kDim - 1);
+
+   for (int i = 0; i < kDim - 1; i++) {
+      triangle_2.emplace_back(i + 1, M);
+      triangle_3.emplace_back(kDim - i - 1, m, 1);
+      product_1.emplace_back(triangle_2[i] ^ triangle_3[i]);
+   }
+   sum_1.emplace_back(triangle_1 + product_1[0]);
+   for (int i = 1; i < kDim - 1; i++)
+      sum_1.emplace_back(sum_1[i - 1] + product_1[i]);
+   
+   Indices_sum& cpu_scheduler = sum_1.back();
+   int buff[kDim];
+   cpu_scheduler.use_buff(buff);
+   //std::cout << cpu_scheduler.to_str() << std::endl;
+   cpu_scheduler.print();
+
+   //Indices_triangle triangle_3[kDim - 1];
+   //Indices_product_with_semicolon product_1[kDim - 1];
+   //for (int i = 1; i < kDim; i++) {
+   //   triangle_2[i-1] = Indices_triangle(i, M);
+   //   triangle_3[i-1] = Indices_triangle(kDim - i, m, 1);
+   //   product_1[i-1] = triangle_2[i - 1] ^ triangle_3[i - 1];
+   //}
+   //Indices_sum sum_1[kDim-1];
+   //sum_1[0] = triangle_1 + product_1[0];
+   //for (int i = 1; i < kDim - 1; i++) {
+   //   sum_1[i] = sum_1[i-1] + product_1[i];
+   //}
+   //Indices_sum& cpu_scheduler = sum_1[kDim - 2];
+  
+   // Indices_triangle triangle_2 = Indices_triangle(1, M, 0, true);
+  // Indices_triangle triangle_3 = Indices_triangle(kDim - 1, m, 1, true);
+  // Indices_product_with_semicolon product = triangle_2 ^ triangle_3;
+  // Indices_sum cpu_scheduler = triangle_1 + product;
+  // for (int i = 2; i < kDim; i++) {
+  //    triangle_2 = Indices_triangle(i, M, 0, true);
+  //    triangle_3 = Indices_triangle(kDim - i, m, 1, true);
+  //    Indices_product_with_semicolon product = triangle_2 ^ triangle_3;
+  //    Indices_sum cpu_scheduler = cpu_scheduler + product;
+  // }
+  // 
+  // int buff[kDim + 1];
+  // buff[kDim] = 0;
+  // cpu_scheduler.use_buff(buff);
+  // //std::cout << cpu_scheduler.to_str() << std::endl;
+  // cpu_scheduler.print();
+  //    
+  // return 0;
+}
+
+// 3
+int main3(int argc, char* argv[]) {
+   
+   // the dimensionality of k-tuples
+   const int kDim = 2;
+   // // number of observations (rows in the input data table)
+   // int N = 1000;
+   // width of a square tile
+   int tile_width = 100;
+   // number of contigous column-subsets,
+   // whith the assumption that all columns
+   // in one subset have equal basket-count;
+   // by convention, the first subset is strictly
+   // composed of the square tiles
+   int m = 3;
+   // number of square tiles
+   int M = 9;
+   // column-counts in the column-subsets
+   std::vector<int> n(m);
+   n[0] = M * tile_width;
+   n[1] = 97;
+   n[2] = 3;
+   // the number of "divisions"
+   int divisions = 4;
+   // bucket-counts in column-subsets
+   std::vector<int> s(m);
+   s[0] = divisions + 1;
+   s[1] = divisions + 1;
+   s[2] = 2;
    
 
+   MPI_Init(&argc, &argv);
+   int rank, size;
+   const int tag_ON = 1;
+   const int tag_OFF = 0;
+   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+   MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+   int gpu_index[kDim];
+   int result = 0; // identity from the point of view of recording the results
+   MPI_Status mpi_status;
+   int source;
+   
+   if (rank == 0) {
+      // master
+      Indices_triangle gpu_scheduler = Indices_triangle(M, kDim, true);
+      gpu_scheduler.use_buff(gpu_index);
+      while(!gpu_scheduler.get_exhausted()) {
+         MPI_Recv(&result, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+         dummy_record(result); // is the process of a aggregating the results agnostic about the source?
+         source = mpi_status.MPI_SOURCE;
+         if (source < 100)
+            // send to gpu workers
+            MPI_Send(gpu_index, kDim, MPI_INT, mpi_status.MPI_SOURCE, tag_ON, MPI_COMM_WORLD);
+            gpu_scheduler.up();
+         //else
+         //   // send to cpu workers
+         //   TODO
+         //dummy_record_result(result);
+         //dummy_update_history(mpi_status.MPI_SOURCE, gpu_index);
+      }
+      for (int i = 1; i < size; i++) {
+         // Receive the last result per worker
+         // and send terminating signal via the tag
+         MPI_Recv(&result, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+         dummy_record(result);
+         source = mpi_status.MPI_SOURCE;
+         MPI_Send(gpu_index, kDim, MPI_INT, source, tag_OFF, MPI_COMM_WORLD);
+      }
+   }
+   
+   else if (rank < 100) {
+      // gpu workers
+      MPI_Send(&result, 1, MPI_INT, 0, tag_ON, MPI_COMM_WORLD);
+      while(true) {
+         MPI_Recv(gpu_index, kDim, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+         if(!mpi_status.MPI_TAG) { break; }
+         Matrix2D<int> columns = gpu_index2columns(gpu_index, kDim, tile_width);
+         columns.print();
+         result = gpu_dummy_work(columns);
+         MPI_Send(&result, 1, MPI_INT, 0, tag_ON, MPI_COMM_WORLD);
+      }
+   }
+
+   // // cpu workers
+   // else
+   //    TODO
+
+   MPI_Finalize();
+      
    return 0;
 }
 
