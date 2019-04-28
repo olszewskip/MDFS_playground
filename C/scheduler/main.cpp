@@ -309,7 +309,6 @@ int main1() {
    m.print();
    
    const int kDim = 5;
-
    Indices_triangle my_indices_1 = Indices_triangle(kDim - 3, 7, 2);
    Indices_triangle my_indices_2 = Indices_triangle(3, 4);
    Indices_triangle my_indices_3 = Indices_triangle(kDim - 1, 6, 3); 
@@ -322,8 +321,108 @@ int main1() {
    int indices_buff_1234[kDim + 1];
    sum_1234.use_buff(indices_buff_1234);
    sum_1234.print();
+}
+
+
+
+//int count_filter(int filter, int* buff, int buff_size) {
+//   int count = 0;
+//   for (int i = 0; i < buff_size; i++) 
+//      count += (buff[i] == filter);
+//   return count;
+//}
+
+struct Index_count {
+   int index;
+   int count;
+   Index_count(int index_arg, int count_arg) : index(index_arg), count(count_arg) {}
+   friend std::ostream& operator<<(std::ostream &out, const Index_count &ic) {
+      out << ic.index << ": " << ic.count << std::endl;
+      return out;
+   }
+};
+
+std::vector<Index_count> index_counts(int buff[], int buff_size) {
+   // Returns a vector that contains structs
+   // representing unique indices in buff.
+   std::vector<Index_count> unique_indices;
+   for (int i = 0; i < buff_size; i++) {
+      int &index = buff[i];
+      bool new_ = true;
+      for (auto& unique : unique_indices) {
+         if (index == unique.index) {
+            ++unique.count;
+            new_ = false;
+            break;
+         }
+      }
+      if (new_) { unique_indices.emplace_back(index, 1); }
+   }
+   return unique_indices;
+}
+
+// 2
+int main() {
+
+   const int kDim = 4;
+   int M = 9;
+   int m = 3;
+
+   Indices_triangle gpu_scheduler = Indices_triangle(kDim, M);
+   int gpu_buff[kDim];
+   gpu_scheduler.use_buff(gpu_buff);
+   gpu_scheduler.print();
+
+   std::cout << " ----- \n";
+
+   // Now, what I would want is something like:
+   //
+   // cpu_scheduler = triangle_with_semicolon(kDim, m, 1)
+   // for i = 1 : kDim
+   //    cpu_scheduler += triangle(i, M) ^ triangle(kDim - i, m, 1)
+   //
+   // But I don't know how to make that work in C++.
+   // So instead You get the following.
+   Indices_triangle_with_semicolon triangle_1 = Indices_triangle_with_semicolon(kDim, m, 1);
+   std::vector<Indices_triangle> triangle_2;
+   std::vector<Indices_triangle> triangle_3;
+   std::vector<Indices_product_with_semicolon> product_1;
+   std::vector<Indices_sum> sum_1;
+   triangle_2.reserve(kDim - 1);
+   triangle_3.reserve(kDim - 1);
+   product_1.reserve(kDim - 1);
+   sum_1.reserve(kDim - 1);
+
+   for (int i = 0; i < kDim - 1; i++) {
+      triangle_2.emplace_back(i + 1, M);
+      triangle_3.emplace_back(kDim - i - 1, m, 1);
+      product_1.emplace_back(triangle_2[i] ^ triangle_3[i]);
+   }
+   sum_1.emplace_back(triangle_1 + product_1[0]);
+   for (int i = 1; i < kDim - 1; i++)
+      sum_1.emplace_back(sum_1[i - 1] + product_1[i]);
    
-   return 0;
+   Indices_sum& cpu_scheduler = sum_1.back();
+   // I guess it will do for now.
+
+   int cpu_buff[kDim + 1];
+   cpu_scheduler.use_buff(cpu_buff);
+   cpu_scheduler.print();
+   
+   int semicolon = cpu_buff[kDim];
+   std::vector<Index_count> counts_square = index_counts(cpu_buff, semicolon);
+   std::vector<Index_count> counts_rectangle = index_counts(cpu_buff + semicolon, kDim - semicolon);
+   // for (auto& count : counts_square) { std::cout << count; }
+   // for (auto& count : counts_rectangle) { std::cout << count; }
+
+   std::vector<Indices_triangle> triangle_4;
+   std::vector<Indices_triangle> triangle_5;
+   triangle_4.reserve(counts_square.size());
+   triangle_5.reserve(counts_rectangle.size());
+   
+   for (int i = 0; i < counts_square.size(); i++) {
+      triangle_4.emplace_back(
+
 }
 
 
@@ -356,81 +455,6 @@ void dummy_update_history(int rank, int* assignmenet) {
    // and also maybe about times per tile ?
 }
 
-// 2
-int main() {
-
-   const int kDim = 4;
-   int M = 9;
-   int m = 3;
-   
-   //int buff[kDim];
-   //Indices_triangle gpu_scheduler = Indices_triangle(M, kDim, true);
-   //gpu_scheduler.use_buff(buff);
-   //Matrix2D<int> columns = gpu_index2columns(gpu_scheduler.index, kDim, 100);
-   //columns.print();
-   //std::cout << columns.dim_0 << columns.dim_1 << std::endl;
-   //gpu_dummy_work(columns);
-   //std::cout << gpu_scheduler.to_str() << std::endl;
-  
-   Indices_triangle_with_semicolon triangle_1 = Indices_triangle_with_semicolon(kDim, m, 1, true);
-   std::vector<Indices_triangle> triangle_2;
-   std::vector<Indices_triangle> triangle_3;
-   std::vector<Indices_product_with_semicolon> product_1;
-   std::vector<Indices_sum> sum_1;
-   triangle_2.reserve(kDim - 1);
-   triangle_3.reserve(kDim - 1);
-   product_1.reserve(kDim - 1);
-   sum_1.reserve(kDim - 1);
-
-   for (int i = 0; i < kDim - 1; i++) {
-      triangle_2.emplace_back(i + 1, M);
-      triangle_3.emplace_back(kDim - i - 1, m, 1);
-      product_1.emplace_back(triangle_2[i] ^ triangle_3[i]);
-   }
-   sum_1.emplace_back(triangle_1 + product_1[0]);
-   for (int i = 1; i < kDim - 1; i++)
-      sum_1.emplace_back(sum_1[i - 1] + product_1[i]);
-   
-   Indices_sum& cpu_scheduler = sum_1.back();
-   int buff[kDim];
-   cpu_scheduler.use_buff(buff);
-   //std::cout << cpu_scheduler.to_str() << std::endl;
-   cpu_scheduler.print();
-
-   //Indices_triangle triangle_3[kDim - 1];
-   //Indices_product_with_semicolon product_1[kDim - 1];
-   //for (int i = 1; i < kDim; i++) {
-   //   triangle_2[i-1] = Indices_triangle(i, M);
-   //   triangle_3[i-1] = Indices_triangle(kDim - i, m, 1);
-   //   product_1[i-1] = triangle_2[i - 1] ^ triangle_3[i - 1];
-   //}
-   //Indices_sum sum_1[kDim-1];
-   //sum_1[0] = triangle_1 + product_1[0];
-   //for (int i = 1; i < kDim - 1; i++) {
-   //   sum_1[i] = sum_1[i-1] + product_1[i];
-   //}
-   //Indices_sum& cpu_scheduler = sum_1[kDim - 2];
-  
-   // Indices_triangle triangle_2 = Indices_triangle(1, M, 0, true);
-  // Indices_triangle triangle_3 = Indices_triangle(kDim - 1, m, 1, true);
-  // Indices_product_with_semicolon product = triangle_2 ^ triangle_3;
-  // Indices_sum cpu_scheduler = triangle_1 + product;
-  // for (int i = 2; i < kDim; i++) {
-  //    triangle_2 = Indices_triangle(i, M, 0, true);
-  //    triangle_3 = Indices_triangle(kDim - i, m, 1, true);
-  //    Indices_product_with_semicolon product = triangle_2 ^ triangle_3;
-  //    Indices_sum cpu_scheduler = cpu_scheduler + product;
-  // }
-  // 
-  // int buff[kDim + 1];
-  // buff[kDim] = 0;
-  // cpu_scheduler.use_buff(buff);
-  // //std::cout << cpu_scheduler.to_str() << std::endl;
-  // cpu_scheduler.print();
-  //    
-  // return 0;
-}
-
 // 3
 int main3(int argc, char* argv[]) {
    
@@ -446,7 +470,7 @@ int main3(int argc, char* argv[]) {
    // by convention, the first subset is strictly
    // composed of the square tiles
    int m = 3;
-   // number of square tiles
+   // number of square tiles (in one dimension)
    int M = 9;
    // column-counts in the column-subsets
    std::vector<int> n(m);
@@ -476,7 +500,7 @@ int main3(int argc, char* argv[]) {
    
    if (rank == 0) {
       // master
-      Indices_triangle gpu_scheduler = Indices_triangle(M, kDim, true);
+      Indices_triangle gpu_scheduler = Indices_triangle(kDim, M);
       gpu_scheduler.use_buff(gpu_index);
       while(!gpu_scheduler.get_exhausted()) {
          MPI_Recv(&result, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
