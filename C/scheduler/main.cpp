@@ -7,10 +7,13 @@
 #include <sstream>
 #include <vector>
 
+// the dimensionality of k-tuples
+const int kDim = 3;
+
 
 template <typename T>
 class Matrix2D {
-   // Selfexplanatory
+   // Selfexplanatory.
    private:
       T* data;
    public:
@@ -53,9 +56,11 @@ class Matrix2D {
 class Indices {
    // Abstraction for a finite sequence of indices,
    // where each 'index' is a multi-index i.e. it 
-   // is itself a fixed-sized sequence of integers.
-   // The latter are by assumption stored in a fixed
-   // buffer, and this class serves to modify them.
+   // is itself a fixed-sized sequence of integers,
+   // say e.g. ( (0,0), (0,1), (0,2), (1,1), ...).
+   // The integers of a current multi-index are
+   // held in a buffer. This class serves to modify
+   // the buffer to simulate sequence traversal.
    public:
       // By the sequence being exhausted we mean
       // that it has been taken beyond its last element.
@@ -91,7 +96,7 @@ class Indices {
 
 class Indices_triangle : public Indices {
    // Each index in the sequence is an increasing sequence,
-   // e.g. (3,4,6,8) for k = 4 and n > 8
+   // e.g. (3,4,6,8) for k = 4 and n > 8.
    protected:
       // upper bound (noninclusive) of values of all indices
       int n;
@@ -158,12 +163,14 @@ class Indices_triangle_with_semicolon : public Indices_triangle {
    // stored in this additional memory is 0 (which sounds
    // like it's not very useful, I know).
    public:
-      Indices_triangle_with_semicolon(int k_arg, int n_arg, int offset_arg=0, bool with_diag_arg=true) :
+      Indices_triangle_with_semicolon(int k_arg, int n_arg,
+                                      int offset_arg=0,
+                                      bool with_diag_arg=true) :
          Indices_triangle (k_arg, n_arg, offset_arg, with_diag_arg) {}
       void use_buff(int* const buff) {
-         index = buff;
+         Indices_triangle::use_buff(buff);
+         // Append 0.
          index[k] = 0;
-         reset();
       }
       std::string to_str() {
          std::stringstream ss;
@@ -186,11 +193,9 @@ class Indices_product : public Indices {
          ind_L(ind_L_arg),
          ind_R(ind_R_arg),
          semicolon_index(ind_L_arg.k) {
-            //std::cout << "product" << std::endl;
             k = ind_L_arg.k + ind_R_arg.k;
       }
       void use_buff(int* const buff) {
-         //std::cout << "product_use_buff " << semicolon_index << std::endl;
          index = buff;
          ind_L.use_buff(buff);
          ind_R.use_buff(buff + semicolon_index);
@@ -220,7 +225,7 @@ class Indices_product : public Indices {
 };
 
 class Indices_product_left_id : public Indices {
-   // Left multiplication identity
+   // Multiplication's left identity.
    protected:
       bool exhausted = false;
    public:
@@ -230,10 +235,7 @@ class Indices_product_left_id : public Indices {
       void use_buff(int* const buff) {}
       void up() { exhausted = true; }
       void reset() { exhausted = false; }
-      std::string to_str() {
-         return ".";
-      }
-
+      std::string to_str() { return "."; }
 };
 
 
@@ -244,13 +246,11 @@ class Indices_product_with_semicolon : public Indices_product {
    // stored in this additional memory is the length of
    // first factor's buffer. 
    public:
-      Indices_product_with_semicolon(Indices& ind_L_arg, Indices& ind_R_arg) :
+      Indices_product_with_semicolon(Indices& ind_L_arg,
+                                     Indices& ind_R_arg) :
          Indices_product(ind_L_arg, ind_R_arg) {}
       void use_buff(int* const buff) {
          Indices_product::use_buff(buff);
-         //index = buff;
-         //ind_L.use_buff(buff);
-         //ind_R.use_buff(buff + ind_L.k);
          // Append another value to the buffer, namely
          // the border-position within the buffer
          // between indices of the two factor sequences.
@@ -288,8 +288,12 @@ class Indices_sum : public Indices {
          ind_L.use_buff(buff);
          ind_R.set_exhausted(false);
       }
-      bool get_exhausted() { return ind_R.get_exhausted(); }
-      void set_exhausted(bool exhausted_var) { ind_R.set_exhausted(exhausted_var); }
+      bool get_exhausted() {
+         return ind_R.get_exhausted();
+      }
+      void set_exhausted(bool exhausted_var) {
+         ind_R.set_exhausted(exhausted_var);
+      }
       void up() {
          if (using_L) {
             ind_L.up();
@@ -315,9 +319,15 @@ class Indices_sum : public Indices {
 };
 
 
-Indices_product operator*(Indices &ind_L, Indices &ind_R) { return Indices_product(ind_L, ind_R); }
-Indices_product_with_semicolon operator^(Indices &ind_L, Indices &ind_R) { return Indices_product_with_semicolon(ind_L, ind_R); }
-Indices_sum operator+(Indices &ind_L, Indices &ind_R) { return Indices_sum(ind_L, ind_R); }
+Indices_product operator*(Indices &ind_L, Indices &ind_R) {
+   return Indices_product(ind_L, ind_R);
+}
+Indices_product_with_semicolon operator^(Indices &ind_L, Indices &ind_R) {
+   return Indices_product_with_semicolon(ind_L, ind_R);
+}
+Indices_sum operator+(Indices &ind_L, Indices &ind_R) {
+   return Indices_sum(ind_L, ind_R);
+}
 
 
 // 1
@@ -348,13 +358,41 @@ int main1() {
 }
 
 
+Matrix2D<int> gpu_index2pretty_columns(int gpu_index[], int tile_width) {
+   // Bijection between tile-index and a 2d matrix.
+   // that represent the tile by specifying column-indices.
+   // Each two-element row in the k x 2 matrix contains beginning
+   // and end (exclusive) of a column-indices-range.
+   Matrix2D<int> columns(kDim, 2);
+   for (int i = 0; i < kDim; i++) {
+      columns(i, 0) = tile_width * gpu_index[i];
+      columns(i, 1) = tile_width * (gpu_index[i] + 1);
+   }
+   return columns;
+}
+
+void gpu_index2columns(int gpu_columns[],
+                       int gpu_index[], int tile_width) {
+   // Bijection between tile-index and a 2d matrix (row-major).
+   // that represent the tile by specifying column-indices.
+   // Each two-element row in the k * 2 matrix contains beginning
+   // and end (exclusive) of a column-indices-range.
+   gpu_columns[2 * kDim];
+   for (int i = 0; i < kDim; i++) {
+      gpu_columns[2 * i] = tile_width * gpu_index[i];
+      gpu_columns[2 * i + 1] = tile_width * (gpu_index[i] + 1);
+   }
+}
+
 
 struct Index_count {
-   // Two integers
+   // Two integers.
    int index;
    int count;
-   Index_count(int index_arg, int count_arg) : index(index_arg), count(count_arg) {}
-   friend std::ostream& operator<<(std::ostream &out, const Index_count &ic) {
+   Index_count(int index_arg, int count_arg) :
+      index(index_arg), count(count_arg) {}
+   friend std::ostream& operator<<(std::ostream &out,
+                                   const Index_count &ic) {
       out << ic.index << ": " << ic.count << std::endl;
       return out;
    }
@@ -380,6 +418,20 @@ std::vector<Index_count> index_counts(int buff[], int buff_size) {
    }
    return unique_indices;
 }
+
+
+void cpu_index2columns(int cpu_columns[],
+                       int tile_index[], int semicolon, int tile_width,
+                       int tuple_index[], std::vector<int> cum_n) {
+   // Fill vector with column indices
+   // that represents a single k-tuple.
+   cpu_columns[kDim];
+   for (int i = 0; i < semicolon; i++)
+      cpu_columns[i] = tile_width * tile_index[i] + tuple_index[i];
+   for (int i = semicolon; i < kDim; i++)
+      cpu_columns[i] = cum_n[tile_index[i]] + tuple_index[i];
+}
+
 
 // 2
 int main() {
@@ -418,13 +470,35 @@ int main() {
    s[2] = 2;
 
    // GPU scheduler
+   
    Indices_triangle gpu_scheduler = Indices_triangle(kDim, M);
    int gpu_buff[kDim];
    gpu_scheduler.use_buff(gpu_buff);
    std::cout << "gpu" << std::endl;
-   gpu_scheduler.print();
-
    std::cout << " ----- \n";
+   
+   while (!gpu_scheduler.get_exhausted()) {
+      // The gpu_scheduler's index buffer is (presumably)
+      // sent over with mpi.
+      //std::cout << gpu_scheduler.to_str() << std::endl;
+      
+      // For each such buffer we do the following.
+      int* tile_index = gpu_scheduler.index;
+      
+      int gpu_columns[2 * kDim];
+      gpu_index2columns(gpu_columns,
+                        tile_index, tile_width);
+      for (int i = 0; i < kDim; i++) {
+         std::cout << gpu_columns[2 * i] << " : " <<
+                      gpu_columns[2 * i + 1] << "\n";
+      }
+
+      // Matrix2D<int> gpu_columns = gpu_index2pretty_columns(tile_index, tile_width);
+      //gpu_columns.print();
+
+      std::cout << " ----- \n";     
+      gpu_scheduler.up();
+   }
    
    // CPU scheduler
 
@@ -456,92 +530,76 @@ int main() {
       sum_1.emplace_back(sum_1[i - 1] + product_1[i]);
    
    Indices_sum& cpu_scheduler = sum_1.back();
-   // I guess it will do for now.
+   // I guess it will do.
 
    int cpu_buff[kDim + 1];
    cpu_scheduler.use_buff(cpu_buff);
    
    std::cout << "cpu" << std::endl;
-   //cpu_scheduler.print();
    std::cout << " ----- \n";
-   
 
    while(!cpu_scheduler.get_exhausted()) {
-      std::cout << cpu_scheduler.to_str() << std::endl;
+      // The cpu_scheduler's index buffer is (presumably)
+      // sent over with mpi.
+      // std::cout << cpu_scheduler.to_str() << std::endl;
       
-      // For each state of the cpu_buffer (which is presumably
-      // sent over mpi), we do the following.
+      // For each such buffer we do the following.
       int* tile_index = cpu_scheduler.index;
       
-      // Aggregate the numbers in buff.
-      // The boundary between square and rectangle indices
-      // is denoted by semicolon.
+      // Aggregate the numbers in tile_index.
+      // The boundary between square and rectangle
+      // indices is denoted by semicolon.
       int semicolon = tile_index[kDim];
-      std::vector<Index_count> counts_square = index_counts(tile_index, semicolon);
-      std::vector<Index_count> counts_rectangle = index_counts(tile_index + semicolon, kDim - semicolon);
-      for (auto& index_count : counts_square) { std::cout << index_count; }
-      for (auto& index_count : counts_rectangle) { std::cout << index_count; }
+      std::vector<Index_count> counts_square
+                = index_counts(tile_index, semicolon);
+      std::vector<Index_count> counts_rectangle
+                = index_counts(tile_index + semicolon, kDim - semicolon);
+      // for (auto& index_count : counts_square) { std::cout << index_count; }
+      // for (auto& index_count : counts_rectangle) { std::cout << index_count; }
 
-      //std::cout << "a" << std::endl;
       // Prepare the tuple-scheduler
       std::vector<Indices_triangle> triangle_4;
       triangle_4.reserve(counts_square.size() + counts_rectangle.size());
       for (auto& ic : counts_square) {
          triangle_4.emplace_back(ic.count, tile_width, 0, false);
       }
-      //std::cout << "b" << std::endl;
       for (auto& ic : counts_rectangle) {
          triangle_4.emplace_back(ic.count, n[ic.index], 0, false);
       }
-      //std::cout << "c" << std::endl;
-      //std::cout << "! " << triangle_4.size() << std::endl;
       std::vector<Indices_product> product_2;
       product_2.reserve(triangle_4.size());
       Indices_product_left_id id; 
       product_2.emplace_back(id * triangle_4[0]);
-      
       for (int i = 1; i < triangle_4.size(); i++) {
          product_2.emplace_back(product_2.back() * triangle_4[i]);
       }
-      
-      //std::cout << "d" << std::endl;
       Indices_product &tuple_scheduler = product_2.back();
       int tuple_index[kDim];
-      //std::cout << "e" << std::endl;
       tuple_scheduler.use_buff(tuple_index);
-      //std::cout << "f" << std::endl;
-      
-      for (int i = 0; i < 10; i++) {
-         std::cout << tuple_scheduler.to_str() << std::endl;
-         Matrix2D<int> columns(kDim, 1);
-         for (int i = 0; i < semicolon; i++)
-            columns(i, 0) = tile_width * tile_index[i] + tuple_index[i];
-         for (int i = semicolon; i < kDim; i++)
-            columns(i, 0) = cum_n[tile_index[i]] + tuple_index[i];
-         columns.print();
+     
+      // Print a first few k-tuples of columns.
+      int few = 3; 
+      for (int i = 0; i < few; i++)
+      //while (!tuple_scheduler.get_exhausted())
+      {
+         int cpu_columns[kDim];
+         cpu_index2columns(cpu_columns,
+                           tile_index, semicolon, tile_width,
+                           tuple_index, cum_n);
+         for (int i = 0; i < kDim; i++)
+            std::cout << cpu_columns[i] << " ";
+         std::cout << std::endl;
+
          tuple_scheduler.up();
       }
 
-      //tuple_scheduler.print(100);
-      //
       std::cout << " ----- \n";
       cpu_scheduler.up();
    }
 }
 
 
-Matrix2D<int> gpu_index2columns(int index[], int k, int tile_width) {
-   // Bijection between tile-index and a 2d matrix
-   // that represent the tile by specifying column-indices.
-   // Each two-element row in the k x 2 matrix contains beginning
-   // and end (exclusive) of a column-indices-range.
-   Matrix2D<int> columns(k, 2);
-   for (int i = 0; i < k; i++) {
-      columns(i, 0) = index[i] * tile_width;
-      columns(i, 1) = (index[i] + 1) * tile_width;
-   }
-   return columns;
-}
+
 
 int gpu_dummy_work(Matrix2D<int>& columns) {
    int sum = 0;
@@ -636,9 +694,9 @@ int main3(int argc, char* argv[]) {
       while(true) {
          MPI_Recv(gpu_index, kDim, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
          if(!mpi_status.MPI_TAG) { break; }
-         Matrix2D<int> columns = gpu_index2columns(gpu_index, kDim, tile_width);
-         columns.print();
-         result = gpu_dummy_work(columns);
+         Matrix2D<int> gpu_columns = gpu_index2pretty_columns(gpu_index, tile_width);
+         gpu_columns.print();
+         result = gpu_dummy_work(gpu_columns);
          MPI_Send(&result, 1, MPI_INT, 0, tag_ON, MPI_COMM_WORLD);
       }
    }
