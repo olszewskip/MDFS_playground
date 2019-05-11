@@ -6,6 +6,8 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 // the dimensionality of k-tuples
 const int kDim = 3;
@@ -108,7 +110,10 @@ class Indices_triangle : public Indices {
       bool exhausted = false;
    public:
       // constructor
-      Indices_triangle (int k_arg, int n_arg, int offset_arg=0, bool with_diag_arg=true) :
+      Indices_triangle (int k_arg,
+                        int n_arg,
+                        int offset_arg,
+                        bool with_diag_arg) :
          n(n_arg),
          offset(offset_arg),
          with_diag(with_diag_arg) {
@@ -160,21 +165,24 @@ class Indices_triangle : public Indices {
 class Indices_triangle_with_semicolon : public Indices_triangle {
    // It uses a buffer that is assumed to be one integer
    // longer than for the Indices_triangle class. Value
-   // stored in this additional memory is 0 (which sounds
-   // like it's not very useful, I know).
+   // stored in this additional memory is passed in the 
+   // constructor.
    public:
+      int semicolon_index;
       Indices_triangle_with_semicolon(int k_arg, int n_arg,
-                                      int offset_arg=0,
-                                      bool with_diag_arg=true) :
+                                      int offset_arg,
+                                      bool with_diag_arg,
+                                      int semicolon_index_arg) :
+         semicolon_index(semicolon_index_arg),
          Indices_triangle (k_arg, n_arg, offset_arg, with_diag_arg) {}
       void use_buff(int* const buff) {
          Indices_triangle::use_buff(buff);
          // Append 0.
-         index[k] = 0;
+         index[k] = semicolon_index;
       }
       std::string to_str() {
          std::stringstream ss;
-         ss << Indices_triangle::to_str() << " " << index[k];
+         ss << Indices_triangle::to_str() << semicolon_index;
          return ss.str();
       }
 };
@@ -254,11 +262,11 @@ class Indices_product_with_semicolon : public Indices_product {
          // Append another value to the buffer, namely
          // the border-position within the buffer
          // between indices of the two factor sequences.
-         index[k] = ind_L.k;
+         index[k] = semicolon_index; // ind_L.k;
       }
       std::string to_str() {
          std::stringstream ss;
-         ss << Indices_product::to_str() << " " << index[k];
+         ss << Indices_product::to_str() << semicolon_index; //index[k];
          return ss.str();
       }
 };
@@ -339,10 +347,11 @@ int main1() {
    m.print();
    
    const int kDim = 5;
-   Indices_triangle my_indices_1(kDim - 3, 7, 2);
-   Indices_triangle my_indices_2(3, 4);
-   Indices_triangle my_indices_3(kDim - 1, 6, 3); 
-   Indices_triangle my_indices_4(1, 10, 4);
+
+   Indices_triangle my_indices_1(kDim - 3, 7, 2, true);
+   Indices_triangle my_indices_2(3, 4, 0, true);
+   Indices_triangle my_indices_3(kDim - 1, 6, 3, true); 
+   Indices_triangle my_indices_4(1, 10, 4, true);
    Indices_product_left_id id;
 
    std::cout << id.to_str() << std::endl;
@@ -371,16 +380,16 @@ Matrix2D<int> gpu_index2pretty_columns(int gpu_index[], int tile_width) {
    return columns;
 }
 
-void gpu_index2columns(int gpu_columns[],
-                       int gpu_index[], int tile_width) {
+void gpu_tile_index2column_ranges(int gpu_column_ranges[],
+                                  int gpu_tile_index[],
+                                  int tile_width) {
    // Bijection between tile-index and a 2d matrix (row-major).
    // that represent the tile by specifying column-indices.
    // Each two-element row in the k * 2 matrix contains beginning
    // and end (exclusive) of a column-indices-range.
-   gpu_columns[2 * kDim];
    for (int i = 0; i < kDim; i++) {
-      gpu_columns[2 * i] = tile_width * gpu_index[i];
-      gpu_columns[2 * i + 1] = tile_width * (gpu_index[i] + 1);
+      gpu_column_ranges[2 * i] = tile_width * gpu_tile_index[i];
+      gpu_column_ranges[2 * i + 1] = tile_width * (gpu_tile_index[i] + 1);
    }
 }
 
@@ -420,30 +429,44 @@ std::vector<Index_count> index_counts(int buff[], int buff_size) {
 }
 
 
-void cpu_index2columns(int cpu_columns[],
-                       int tile_index[], int semicolon, int tile_width,
-                       int tuple_index[], std::vector<int> cum_n) {
-   // Fill vector with column indices
-   // that represents a single k-tuple.
-   cpu_columns[kDim];
+void cpu_tile_index2column_ranges(int cpu_column_ranges[],
+                                  int cpu_tile_index[],
+                                  int tile_width,
+                                  std::vector<int> cum_n) {
+   int semicolon = cpu_tile_index[kDim];
+   for (int i = 0; i < semicolon; i++) {
+      cpu_column_ranges[2 * i] = tile_width * cpu_tile_index[i];
+      cpu_column_ranges[2 * i + 1] = tile_width * (cpu_tile_index[i] + 1);
+   }
+   for (int i = semicolon; i < kDim; i++) {
+      cpu_column_ranges[2 * i] = cum_n[cpu_tile_index[i]];
+      cpu_column_ranges[2 * i + 1] = cum_n[cpu_tile_index[i] + 1];
+   }
+}
+
+void cpu_tuple_index2columns(int cpu_columns[],
+                             int cpu_tile_index[],
+                             int cpu_tuple_index[],
+                             int tile_width,
+                             std::vector<int> cum_n) {
+   // Fill a vector with column indices
+   // that represent a single k-tuple.
+   int semicolon = cpu_tile_index[kDim];
    for (int i = 0; i < semicolon; i++)
-      cpu_columns[i] = tile_width * tile_index[i] + tuple_index[i];
+      cpu_columns[i] = tile_width * cpu_tile_index[i] + cpu_tuple_index[i];
    for (int i = semicolon; i < kDim; i++)
-      cpu_columns[i] = cum_n[tile_index[i]] + tuple_index[i];
+      cpu_columns[i] = cum_n[cpu_tile_index[i]] + cpu_tuple_index[i];
 }
 
 
 // 2
-int main() {
-
-   // the dimensionality of k-tuples
-   const int kDim = 3;
+int main2() {
    // // number of observations (rows in the input data table)
    // int N = 1000;
    // width of a square tile
    int tile_width = 100;
    // number of contigous column-subsets,
-   // whith the assumption that all columns
+   // with the assumption that all columns
    // in one subset have equal basket-count;
    // by convention, the first subset is strictly
    // composed of the square tiles
@@ -471,7 +494,7 @@ int main() {
 
    // GPU scheduler
    
-   Indices_triangle gpu_scheduler = Indices_triangle(kDim, M);
+   Indices_triangle gpu_scheduler = Indices_triangle(kDim, M, 0, true);
    int gpu_buff[kDim];
    gpu_scheduler.use_buff(gpu_buff);
    std::cout << "gpu" << std::endl;
@@ -480,14 +503,15 @@ int main() {
    while (!gpu_scheduler.get_exhausted()) {
       // The gpu_scheduler's index buffer is (presumably)
       // sent over with mpi.
-      //std::cout << gpu_scheduler.to_str() << std::endl;
+      // std::cout << gpu_scheduler.to_str() << std::endl;
       
       // For each such buffer we do the following.
-      int* tile_index = gpu_scheduler.index;
+      int* gpu_tile_index = gpu_scheduler.index;
       
       int gpu_columns[2 * kDim];
-      gpu_index2columns(gpu_columns,
-                        tile_index, tile_width);
+      gpu_tile_index2column_ranges(gpu_columns,
+                             gpu_tile_index,
+                             tile_width);
       for (int i = 0; i < kDim; i++) {
          std::cout << gpu_columns[2 * i] << " : " <<
                       gpu_columns[2 * i + 1] << "\n";
@@ -510,7 +534,7 @@ int main() {
    //
    // But I don't know how to make that work in C++.
    // So instead You get the following.
-   Indices_triangle_with_semicolon triangle_1 = Indices_triangle_with_semicolon(kDim, m, 1);
+   Indices_triangle_with_semicolon triangle_1 = Indices_triangle_with_semicolon(kDim, m, 1, true, 0);
    std::vector<Indices_triangle> triangle_2;
    std::vector<Indices_triangle> triangle_3;
    std::vector<Indices_product_with_semicolon> product_1;
@@ -521,8 +545,8 @@ int main() {
    sum_1.reserve(kDim - 1);
 
    for (int i = 0; i < kDim - 1; i++) {
-      triangle_2.emplace_back(i + 1, M);
-      triangle_3.emplace_back(kDim - i - 1, m, 1);
+      triangle_2.emplace_back(i + 1, M, 0, true);
+      triangle_3.emplace_back(kDim - i - 1, m, 1, true);
       product_1.emplace_back(triangle_2[i] ^ triangle_3[i]);
    }
    sum_1.emplace_back(triangle_1 + product_1[0]);
@@ -544,16 +568,16 @@ int main() {
       // std::cout << cpu_scheduler.to_str() << std::endl;
       
       // For each such buffer we do the following.
-      int* tile_index = cpu_scheduler.index;
+      int* cpu_tile_index = cpu_scheduler.index;
       
       // Aggregate the numbers in tile_index.
       // The boundary between square and rectangle
       // indices is denoted by semicolon.
-      int semicolon = tile_index[kDim];
+      int semicolon = cpu_tile_index[kDim];
       std::vector<Index_count> counts_square
-                = index_counts(tile_index, semicolon);
+                = index_counts(cpu_tile_index, semicolon);
       std::vector<Index_count> counts_rectangle
-                = index_counts(tile_index + semicolon, kDim - semicolon);
+                = index_counts(cpu_tile_index + semicolon, kDim - semicolon);
       // for (auto& index_count : counts_square) { std::cout << index_count; }
       // for (auto& index_count : counts_rectangle) { std::cout << index_count; }
 
@@ -573,24 +597,27 @@ int main() {
       for (int i = 1; i < triangle_4.size(); i++) {
          product_2.emplace_back(product_2.back() * triangle_4[i]);
       }
-      Indices_product &tuple_scheduler = product_2.back();
-      int tuple_index[kDim];
-      tuple_scheduler.use_buff(tuple_index);
+      Indices_product &cpu_tuple_scheduler = product_2.back();
+      int cpu_tuple_index[kDim];
+      cpu_tuple_scheduler.use_buff(cpu_tuple_index);
      
       // Print a first few k-tuples of columns.
-      int few = 3; 
+      int few = 4; 
       for (int i = 0; i < few; i++)
-      //while (!tuple_scheduler.get_exhausted())
+      //while (!cpu_tuple_scheduler.get_exhausted())
       {
          int cpu_columns[kDim];
-         cpu_index2columns(cpu_columns,
-                           tile_index, semicolon, tile_width,
-                           tuple_index, cum_n);
+         cpu_tuple_index2columns(cpu_columns,
+                                 cpu_tile_index,
+                                 cpu_tuple_index,
+                                 tile_width,
+                                 cum_n);
          for (int i = 0; i < kDim; i++)
             std::cout << cpu_columns[i] << " ";
          std::cout << std::endl;
 
-         tuple_scheduler.up();
+         cpu_tuple_scheduler.up();
+         if (cpu_tuple_scheduler.get_exhausted()) { break; }
       }
 
       std::cout << " ----- \n";
@@ -599,14 +626,14 @@ int main() {
 }
 
 
-
-
-int gpu_dummy_work(Matrix2D<int>& columns) {
-   int sum = 0;
-   for (int i = 0; i < columns.dim_0; i++)
-      for (int j = 0; j < columns.dim_1; j++)
-         sum += columns(i, j);
-   return sum % 123;
+int dummy_work(int *column_ranges, int rank) {
+   std::this_thread::sleep_for(std::chrono::milliseconds(random() % 100));
+   std::cout << rank << " column-ranges: ";
+   for (int i = 0; i < kDim - 1; i++) {
+      std::cout << column_ranges[2 * i] << ":" << column_ranges[2 * i + 1] <<", ";
+   }
+   std::cout << column_ranges[2 * kDim - 2] << ":" << column_ranges[2 * kDim - 1] << std::endl;
+   return 0;
 }
 
 void dummy_record(int result) {
@@ -618,16 +645,16 @@ void dummy_update_history(int rank, int* assignmenet) {
 }
 
 // 3
-int main3(int argc, char* argv[]) {
-   
-   // the dimensionality of k-tuples
-   const int kDim = 2;
+int main(int argc, char* argv[]) {
+
+   // magic numbers
+
    // // number of observations (rows in the input data table)
    // int N = 1000;
    // width of a square tile
    int tile_width = 100;
    // number of contigous column-subsets,
-   // whith the assumption that all columns
+   // with the assumption that all columns
    // in one subset have equal basket-count;
    // by convention, the first subset is strictly
    // composed of the square tiles
@@ -639,6 +666,12 @@ int main3(int argc, char* argv[]) {
    n[0] = M * tile_width;
    n[1] = 97;
    n[2] = 3;
+   // cumulative-column-counts
+   std::vector<int> cum_n(m + 1);
+   cum_n[0] = 0;
+   for (int i = 0; i < n.size(); i++) {
+      cum_n[i + 1] = cum_n[i] + n[i];
+   }
    // the number of "divisions"
    int divisions = 4;
    // bucket-counts in column-subsets
@@ -646,7 +679,8 @@ int main3(int argc, char* argv[]) {
    s[0] = divisions + 1;
    s[1] = divisions + 1;
    s[2] = 2;
-   
+
+   // end of magic numbers
 
    MPI_Init(&argc, &argv);
    int rank, size;
@@ -654,56 +688,196 @@ int main3(int argc, char* argv[]) {
    const int tag_OFF = 0;
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
    MPI_Comm_size(MPI_COMM_WORLD, &size);
-
-   int gpu_index[kDim];
-   int result = 0; // identity from the point of view of recording the results
    MPI_Status mpi_status;
-   int source;
+
+   const int kRankTreshold = 3;
+   assert(kRankTreshold < size);
+
+   int gpu_tile_index[kDim + 1];
+   int cpu_tile_index[kDim + 1];
+
+   int result = 0; // identity from the point of view of recording the results
    
+   // Scheduler
    if (rank == 0) {
-      // master
-      Indices_triangle gpu_scheduler = Indices_triangle(kDim, M);
-      gpu_scheduler.use_buff(gpu_index);
-      while(!gpu_scheduler.get_exhausted()) {
+
+      // make the 2 schedulers
+      
+      // gpu scheduler
+      Indices_triangle_with_semicolon gpu_tile_scheduler = Indices_triangle_with_semicolon(kDim, M, 0, true, kDim);
+      gpu_tile_scheduler.use_buff(gpu_tile_index);
+
+      // cpu scheduler
+      Indices_triangle_with_semicolon triangle_1 = Indices_triangle_with_semicolon(kDim, m, 1, true, 0);
+      std::vector<Indices_triangle> triangle_2;
+      std::vector<Indices_triangle> triangle_3;
+      std::vector<Indices_product_with_semicolon> product_1;
+      std::vector<Indices_sum> sum_1;
+      triangle_2.reserve(kDim - 1);
+      triangle_3.reserve(kDim - 1);
+      product_1.reserve(kDim - 1);
+      sum_1.reserve(kDim - 1);
+      for (int i = 0; i < kDim - 1; i++) {
+         triangle_2.emplace_back(i + 1, M, 0, true);
+         triangle_3.emplace_back(kDim - i - 1, m, 1, true);
+         product_1.emplace_back(triangle_2[i] ^ triangle_3[i]);
+      }
+      sum_1.emplace_back(triangle_1 + product_1[0]);
+      for (int i = 1; i < kDim - 1; i++)
+         sum_1.emplace_back(sum_1[i - 1] + product_1[i]);
+      Indices_sum& cpu_tile_scheduler = sum_1.back();
+      cpu_tile_scheduler.use_buff(cpu_tile_index);
+
+      //
+      int worker_count = size - 1;
+      int rank_recv;
+
+      // the main loop
+      while(true) {
          MPI_Recv(&result, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
          dummy_record(result); // is the process of a aggregating the results agnostic about the source?
-         source = mpi_status.MPI_SOURCE;
-         if (source < 100)
-            // send to gpu workers
-            MPI_Send(gpu_index, kDim, MPI_INT, mpi_status.MPI_SOURCE, tag_ON, MPI_COMM_WORLD);
-            gpu_scheduler.up();
-         //else
-         //   // send to cpu workers
-         //   TODO
-         //dummy_record_result(result);
-         //dummy_update_history(mpi_status.MPI_SOURCE, gpu_index);
+         rank_recv = mpi_status.MPI_SOURCE;
+         std::cout << rank << " received from " << rank_recv << std::endl;
+         if (rank_recv < kRankTreshold) {
+            // received from a gpu worker
+            if (!gpu_tile_scheduler.get_exhausted()) {
+               std::cout << rank << " sending " << gpu_tile_scheduler.to_str() << " to " << rank_recv << std::endl;
+               // send gpu_index to the gpu worker with tag_ON
+               MPI_Send(gpu_tile_index, kDim, MPI_INT, rank_recv, tag_ON, MPI_COMM_WORLD);
+               gpu_tile_scheduler.up();
+            }
+            else {
+               std::cout << rank << " sending OFF signal to " << rank_recv << std::endl;
+               // terminate the gpu worker by sending tag_OFF
+               MPI_Send(gpu_tile_index, kDim, MPI_INT, rank_recv, tag_OFF, MPI_COMM_WORLD);
+               --worker_count;
+            }
+         }
+         else {
+            // received from a cpu worker
+            if (!cpu_tile_scheduler.get_exhausted()) {
+               std::cout << rank << " sending " << cpu_tile_scheduler.to_str() << " to " << rank_recv << std::endl;
+               // send cpu_index to the cpu worker with tag_ON
+               MPI_Send(cpu_tile_index, kDim + 1, MPI_INT, rank_recv, tag_ON, MPI_COMM_WORLD);
+               cpu_tile_scheduler.up();
+            }
+            else if (!gpu_tile_scheduler.get_exhausted()) {
+               std::cout << rank << " sending " << gpu_tile_scheduler.to_str() << " to " << rank_recv << std::endl;
+               // send gpu_index tp cpu worker with tag_ON
+               MPI_Send(gpu_tile_index, kDim + 1, MPI_INT, rank_recv, tag_ON, MPI_COMM_WORLD);
+               gpu_tile_scheduler.up();
+            }
+            else{
+               std::cout << rank << " sending OFF signal to " << rank_recv << std::endl;
+               // terminate the cpu worker by sending tag_OFF
+               MPI_Send(gpu_tile_index, kDim + 1, MPI_INT, rank_recv, tag_OFF, MPI_COMM_WORLD);
+               --worker_count;
+            }
+         }
+         if (worker_count == 0) { break; }
       }
-      for (int i = 1; i < size; i++) {
-         // Receive the last result per worker
-         // and send terminating signal via the tag
-         MPI_Recv(&result, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
-         dummy_record(result);
-         source = mpi_status.MPI_SOURCE;
-         MPI_Send(gpu_index, kDim, MPI_INT, source, tag_OFF, MPI_COMM_WORLD);
-      }
+      std::cout << rank << " says goodbye" << std::endl;
    }
    
-   else if (rank < 100) {
+   // Workers
+   else if (rank < kRankTreshold) {
       // gpu workers
       MPI_Send(&result, 1, MPI_INT, 0, tag_ON, MPI_COMM_WORLD);
-      while(true) {
-         MPI_Recv(gpu_index, kDim, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
-         if(!mpi_status.MPI_TAG) { break; }
-         Matrix2D<int> gpu_columns = gpu_index2pretty_columns(gpu_index, tile_width);
-         gpu_columns.print();
-         result = gpu_dummy_work(gpu_columns);
-         MPI_Send(&result, 1, MPI_INT, 0, tag_ON, MPI_COMM_WORLD);
+      while (true) {
+         std::cout << rank << " waiting" << std::endl;
+         MPI_Recv(gpu_tile_index, kDim, MPI_INT,
+                  0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+         if(mpi_status.MPI_TAG == tag_OFF) {
+            std::cout << rank << " says goodbye" << std::endl;
+            break;
+         }
+         std::cout << rank << " received ";
+         for (int i = 0; i < kDim; i++) {
+            std::cout << gpu_tile_index[i];
+         }
+         std::cout << std::endl;
+         int gpu_column_ranges[2 * kDim];
+         gpu_tile_index2column_ranges(gpu_column_ranges,
+                                      gpu_tile_index,
+                                      tile_width);
+         result = dummy_work(gpu_column_ranges, rank); // print
+         MPI_Send(&result, 1, MPI_INT,
+                  0, tag_ON, MPI_COMM_WORLD);
       }
    }
+   else {
+      // cpu workers
+      MPI_Send(&result, 1, MPI_INT, 0, tag_ON, MPI_COMM_WORLD);
+      while (true) {
+         std::cout << rank << " waiting" << std::endl;
+         MPI_Recv(cpu_tile_index, kDim + 1, MPI_INT,
+                  0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
 
-   // // cpu workers
-   // else
-   //    TODO
+         if(mpi_status.MPI_TAG == tag_OFF) {
+            std::cout << rank << " says goodbye" << std::endl;
+            break;
+         }
+         std::cout << rank << " received ";
+         for (int i = 0; i < kDim + 1; i++) {
+            std::cout << cpu_tile_index[i];
+         }
+         std::cout << std::endl;
+         int cpu_column_ranges[2 * kDim];
+         cpu_tile_index2column_ranges(cpu_column_ranges,
+                                      cpu_tile_index,
+                                      tile_width,
+                                      cum_n);
+         result = dummy_work(cpu_column_ranges, rank); // print
+         
+         // prepare k-tuple scheduler
+         int semicolon = cpu_tile_index[kDim];
+         std::vector<Index_count> counts_square
+                   = index_counts(cpu_tile_index, semicolon);
+         std::vector<Index_count> counts_rectangle
+                   = index_counts(cpu_tile_index + semicolon, kDim - semicolon);
+         std::vector<Indices_triangle> triangle_4;
+         triangle_4.reserve(counts_square.size() + counts_rectangle.size());
+         for (auto& ic : counts_square) {
+            triangle_4.emplace_back(ic.count, tile_width, 0, false);
+         }
+         for (auto& ic : counts_rectangle) {
+            triangle_4.emplace_back(ic.count, n[ic.index], 0, false);
+         }
+         std::vector<Indices_product> product_2;
+         product_2.reserve(triangle_4.size());
+         Indices_product_left_id id; 
+         product_2.emplace_back(id * triangle_4[0]);
+         for (int i = 1; i < triangle_4.size(); i++) {
+            product_2.emplace_back(product_2.back() * triangle_4[i]);
+         }
+         Indices_product &cpu_tuple_scheduler = product_2.back();
+         int cpu_tuple_index[kDim];
+         cpu_tuple_scheduler.use_buff(cpu_tuple_index);
+         // print out first few column k-tuples
+         int few = 5;
+         int print_count = 0;
+         std::cout << rank << " column k-tuples: ";
+         int cpu_tuple_columns[kDim];
+         while (!cpu_tuple_scheduler.get_exhausted() & print_count < few) { 
+            cpu_tuple_index2columns(cpu_tuple_columns,
+                                    cpu_tile_index,
+                                    cpu_tuple_index,
+                                    tile_width,
+                                    cum_n);
+            for (int i = 0; i < kDim - 1; i++) {
+               std::cout << cpu_tuple_columns[i] << ",";
+            }
+            std::cout << cpu_tuple_columns[kDim-1] <<";";
+            cpu_tuple_scheduler.up();
+            ++print_count;
+         }
+         std::cout << "..." << std::endl;
+         // end of tuple business
+         
+         MPI_Send(&result, 1, MPI_INT,
+                  0, tag_ON, MPI_COMM_WORLD);
+      }
+   }
 
    MPI_Finalize();
       
