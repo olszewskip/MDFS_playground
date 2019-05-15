@@ -8,6 +8,7 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <fstream>
 
 // the dimensionality of k-tuples
 const int kDim = 3;
@@ -681,6 +682,9 @@ int main(int argc, char* argv[]) {
    s[2] = 2;
 
    // end of magic numbers
+   
+   // time-start
+   auto start = std::chrono::system_clock::now();
 
    MPI_Init(&argc, &argv);
    int rank, size;
@@ -689,6 +693,10 @@ int main(int argc, char* argv[]) {
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
    MPI_Comm_size(MPI_COMM_WORLD, &size);
    MPI_Status mpi_status;
+   
+   // output file
+   std::string file_name = "out_" + std::to_string(rank) + ".txt";
+   std::ofstream file(file_name);
 
    const int kRankTreshold = 3;
    assert(kRankTreshold < size);
@@ -795,7 +803,9 @@ int main(int argc, char* argv[]) {
          for (int i = 0; i < kDim; i++) {
             std::cout << gpu_tile_index[i];
          }
-         std::cout << std::endl;
+         auto end = std::chrono::system_clock::now();
+         std::chrono::duration<double> diff = end - start;
+         std::cout << " at " << diff.count() << std::endl;
          int gpu_column_ranges[2 * kDim];
          gpu_tile_index2column_ranges(gpu_column_ranges,
                                       gpu_tile_index,
@@ -878,7 +888,8 @@ int main(int argc, char* argv[]) {
                   0, tag_ON, MPI_COMM_WORLD);
       }
    }
-
+   
+   file.close();
    MPI_Finalize();
       
    return 0;
