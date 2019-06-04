@@ -45,7 +45,7 @@ class Matrix2D {
       }
       void print() {
          //std::cout << "|" << __PRETTY_FUNCTION__ << "\n";
-         //std::cout << "|shape: " << dim_0 << ", " << dim_1 << "\n";
+         //std::cout << "| shape: " << dim_0 << ", " << dim_1 << "\n";
          for (int i = 0; i < dim_0; ++i) {
             for (int j = 0; j < dim_1; ++j)
                std::cout << (*this)(i, j) << " ";
@@ -646,7 +646,7 @@ void dummy_update_history(int rank, int* assignmenet) {
 }
 
 // 3
-int main(int argc, char* argv[]) {
+int main3(int argc, char* argv[]) {
 
    // magic numbers
 
@@ -884,6 +884,213 @@ int main(int argc, char* argv[]) {
          std::cout << "..." << std::endl;
          // end of tuple business
          
+         MPI_Send(&result, 1, MPI_INT,
+                  0, tag_ON, MPI_COMM_WORLD);
+      }
+   }
+   
+   file.close();
+   MPI_Finalize();
+      
+   return 0;
+}
+
+
+int dummy_work_2(int *column_ranges,
+                 std::chrono::duration<double> time,
+                 int rank,
+                 std::ofstream& file) {
+   std::this_thread::sleep_for(std::chrono::milliseconds(random() % 100));
+   file << time.count() << ", ";
+   for (int i = 0; i < 2 * kDim - 1; i++) {
+      file << column_ranges[i] << ", ";
+   }
+   file << column_ranges[2 * kDim - 1] << std::endl;
+   return 0;
+}
+
+
+// 4 
+int main(int argc, char* argv[]) {
+
+   // magic numbers
+
+   // // number of observations (rows in the input data table)
+   // int N = 1000;
+   // width of a square tile
+   int tile_width = 100;
+   // number of contigous column-subsets,
+   // with the assumption that all columns
+   // in one subset have equal basket-count;
+   // by convention, the first subset is strictly
+   // composed of the square tiles
+   int m = 3;
+   // number of square tiles (in one dimension)
+   int M = 9;
+   // column-counts in the column-subsets
+   std::vector<int> n(m);
+   n[0] = M * tile_width;
+   n[1] = 97;
+   n[2] = 3;
+   // cumulative-column-counts
+   std::vector<int> cum_n(m + 1);
+   cum_n[0] = 0;
+   for (int i = 0; i < n.size(); i++) {
+      cum_n[i + 1] = cum_n[i] + n[i];
+   }
+   // the number of "divisions"
+   int divisions = 4;
+   // bucket-counts in column-subsets
+   std::vector<int> s(m);
+   s[0] = divisions + 1;
+   s[1] = divisions + 1;
+   s[2] = 2;
+
+   // end of magic numbers
+   
+   // time-start
+   auto start = std::chrono::system_clock::now();
+
+   MPI_Init(&argc, &argv);
+   int rank, size;
+   const int tag_ON = 1;
+   const int tag_OFF = 0;
+   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+   MPI_Comm_size(MPI_COMM_WORLD, &size);
+   MPI_Status mpi_status;
+   
+   // how many gpu workers?
+   const int kRankTreshold = 3;
+   assert(kRankTreshold < size);  
+
+   // random seed
+   srand(rank);
+   
+   // output file
+   std::string file_name = "out_" + std::to_string(rank) + ".csv";
+   std::ofstream file(file_name);
+
+   int gpu_tile_index[kDim + 1];
+   int cpu_tile_index[kDim + 1];
+
+   int result = 0; // identity from the point of view of recording the results
+   
+   // Scheduler
+   if (rank == 0) {
+
+      // make the 2 schedulers
+      
+      // gpu scheduler
+      Indices_triangle_with_semicolon gpu_tile_scheduler = Indices_triangle_with_semicolon(kDim, M, 0, true, kDim);
+      gpu_tile_scheduler.use_buff(gpu_tile_index);
+
+      // cpu scheduler
+      Indices_triangle_with_semicolon triangle_1 = Indices_triangle_with_semicolon(kDim, m, 1, true, 0);
+      std::vector<Indices_triangle> triangle_2;
+      std::vector<Indices_triangle> triangle_3;
+      std::vector<Indices_product_with_semicolon> product_1;
+      std::vector<Indices_sum> sum_1;
+      triangle_2.reserve(kDim - 1);
+      triangle_3.reserve(kDim - 1);
+      product_1.reserve(kDim - 1);
+      sum_1.reserve(kDim - 1);
+      for (int i = 0; i < kDim - 1; i++) {
+         triangle_2.emplace_back(i + 1, M, 0, true);
+         triangle_3.emplace_back(kDim - i - 1, m, 1, true);
+         product_1.emplace_back(triangle_2[i] ^ triangle_3[i]);
+      }
+      sum_1.emplace_back(triangle_1 + product_1[0]);
+      for (int i = 1; i < kDim - 1; i++)
+         sum_1.emplace_back(sum_1[i - 1] + product_1[i]);
+      Indices_sum& cpu_tile_scheduler = sum_1.back();
+      cpu_tile_scheduler.use_buff(cpu_tile_index);
+
+      //
+      int worker_count = size - 1;
+      int rank_recv;
+
+      // the main loop
+      while(true) {
+         MPI_Recv(&result, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+         rank_recv = mpi_status.MPI_SOURCE;
+         auto end = std::chrono::system_clock::now();
+         std::chrono::duration<double> diff = end - start;
+         file << diff.count() << ", " << rank_recv << std::endl;
+         if (rank_recv < kRankTreshold) {
+            // received from a gpu worker
+            if (!gpu_tile_scheduler.get_exhausted()) {
+               // send gpu_index to the gpu worker with tag_ON
+               MPI_Send(gpu_tile_index, kDim, MPI_INT, rank_recv, tag_ON, MPI_COMM_WORLD);
+               gpu_tile_scheduler.up();
+            }
+            else {
+               // terminate the gpu worker by sending tag_OFF
+               MPI_Send(gpu_tile_index, kDim, MPI_INT, rank_recv, tag_OFF, MPI_COMM_WORLD);
+               --worker_count;
+            }
+         }
+         else {
+            // received from a cpu worker
+            if (!cpu_tile_scheduler.get_exhausted()) {
+               // send cpu_index to the cpu worker with tag_ON
+               MPI_Send(cpu_tile_index, kDim + 1, MPI_INT, rank_recv, tag_ON, MPI_COMM_WORLD);
+               cpu_tile_scheduler.up();
+            }
+            else if (!gpu_tile_scheduler.get_exhausted()) {
+               // send gpu_index tp cpu worker with tag_ON
+               MPI_Send(gpu_tile_index, kDim + 1, MPI_INT, rank_recv, tag_ON, MPI_COMM_WORLD);
+               gpu_tile_scheduler.up();
+            }
+            else{
+               // terminate the cpu worker by sending tag_OFF
+               MPI_Send(gpu_tile_index, kDim + 1, MPI_INT, rank_recv, tag_OFF, MPI_COMM_WORLD);
+               --worker_count;
+            }
+         }
+         dummy_record(result); // is the process of a aggregating the results agnostic about the source?
+         if (worker_count == 0) { break; }
+      }
+   }
+   
+   // Workers
+   else if (rank < kRankTreshold) {
+      // gpu workers
+      MPI_Send(&result, 1, MPI_INT, 0, tag_ON, MPI_COMM_WORLD);
+      while (true) {
+         MPI_Recv(gpu_tile_index, kDim, MPI_INT,
+                  0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+         if(mpi_status.MPI_TAG == tag_OFF) {
+            break;
+         }
+         auto end = std::chrono::system_clock::now();
+         std::chrono::duration<double> time = end - start;
+         int gpu_column_ranges[2 * kDim];
+         gpu_tile_index2column_ranges(gpu_column_ranges,
+                                      gpu_tile_index,
+                                      tile_width);
+         result = dummy_work_2(gpu_column_ranges, time, rank, file); // print to file
+         MPI_Send(&result, 1, MPI_INT,
+                  0, tag_ON, MPI_COMM_WORLD);
+      }
+   }
+   else {
+      // cpu workers
+      MPI_Send(&result, 1, MPI_INT, 0, tag_ON, MPI_COMM_WORLD);
+      while (true) {
+         MPI_Recv(cpu_tile_index, kDim + 1, MPI_INT,
+                  0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+
+         if(mpi_status.MPI_TAG == tag_OFF) {
+            break;
+         }
+         auto end = std::chrono::system_clock::now();
+         std::chrono::duration<double> time = end - start;
+         int cpu_column_ranges[2 * kDim];
+         cpu_tile_index2column_ranges(cpu_column_ranges,
+                                      cpu_tile_index,
+                                      tile_width,
+                                      cum_n);
+         result = dummy_work_2(cpu_column_ranges, time, rank, file); // print to file
          MPI_Send(&result, 1, MPI_INT,
                   0, tag_ON, MPI_COMM_WORLD);
       }
