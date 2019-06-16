@@ -1,4 +1,4 @@
-//#include <mpi.h>
+#include <mpi.h>
 // uncomment to disable assert()
 // #define NDEBUG
 #include <cassert>
@@ -8,13 +8,15 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <random>
+#include <stddef.h>
 
 const int kDim = 3;
 const int kCuriosity = 2;
 
 struct tuple_result {
    int columns[kDim];
-   int IGs[kDim];
+   double IGs[kDim];
 };
 
 struct column_IG_context {
@@ -76,8 +78,9 @@ int argmin_of_IGs(double IGs[]) {
 
 struct tile_result_entry {
    int column;
-   double IGs[kCuriosity];
    int contexts[kCuriosity][kDim - 1];
+   double IGs[kCuriosity];
+   tile_result_entry() {}
    tile_result_entry(column_IG_context arg):
       // initialize with a first pair
       // of the IG and context[] arguments
@@ -143,45 +146,83 @@ struct tile_result {
 
 
 
-int main() {
+int main(int argc, char* argv[]) {
+
+   std::uniform_real_distribution<double> unif(0, 200);
+   std::default_random_engine re;
+
+   // MPI initialization
+   MPI_Init(&argc, &argv);
+   int rank, size;
+   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+   MPI_Comm_size(MPI_COMM_WORLD, &size);
+   MPI_Status mpi_status;
+   const int TAG = 0;
   
-   //tuple_result some_tuple_result {{1, 2, 3}, {101, 102, 103}};
-   //tuple_result some_other_tuple_result {{1, 3, 5}, {104, 105, 106}}; 
-  // column_IG_context array[kDim];
-  // fill_column_IG_context_array(array, some_tuple_result); 
-  // for (int i = 0; i < kDim; i++)
-  //    std::cout << array[i].to_str() << std::endl;
-  // 
-  // tile_result_entry entry(array[0]);
-  // std::cout << entry.to_str() << std::endl;
-   tile_result some_tile_result;
-  // some_tile_result.record(array[0]);
-   //some_tile_result.record(some_tuple_result);
-   //some_tile_result.record(some_other_tuple_result);
-   for (int i = 0; i < 1000; i++) {
-      some_tile_result.record({{rand()%10, rand()%10, rand()%10},
-                               {rand()%100, rand()%100, rand()%100}});
+   // create an mpi-type for sending
+   // arrays of elements of "tile_result_entry"
+   int type_count = 2;
+   int blocklengths[] = {1 + kCuriosity * (kDim - 1), kCuriosity};
+   MPI_Aint displacements[] = {offsetof(tile_result_entry, column),
+                               offsetof(tile_result_entry, IGs)};
+   MPI_Datatype types[] = {MPI_INT, MPI_DOUBLE};
+   MPI_Datatype tmp_type, mpi_tile_result_entry;
+   MPI_Aint lower_bound, extent;
+MPI_Type_create_struct(type_count, blocklengths, displacements,
+                          types, &tmp_type);
+   MPI_Type_get_extent(tmp_type, &lower_bound, &extent);
+   MPI_Type_create_resized(tmp_type, lower_bound, extent,
+                           &mpi_tile_result_entry);
+   MPI_Type_commit(&mpi_tile_result_entry);
+   //
+
+   if (rank == 0) {
+      //tile_result_entry entry_1({13, 123., {2, 5}});
+      //tile_result_entry entry_2({7, 234., {8, 5}});
+
+      //std::cout << rank << " " << entry_1.to_str() << std::endl;
+      //std::cout << rank << " " << entry_2.to_str() << std::endl;
+      //MPI_Send(&entry_1, 1, mpi_tile_result_entry,
+      //         1, TAG, MPI_COMM_WORLD); 
+      //MPI_Send(&entry_2, 1, mpi_tile_result_entry,
+      //         1, TAG, MPI_COMM_WORLD);
+      //tuple_result result_1 = {{3, 15}, {123., 234.}};
+
+
+      tile_result tile_result;
+
+      for (int i = 0; i < 10; i++) {
+         // record a random tuple result
+         tile_result.record({{rand()%100, rand()%100, rand()%100},
+                             {unif(re), unif(re), unif(re)}});
+      }
+      //tile_result.print();
+      std::cout << tile_result.vect.size() << std::endl;
+      MPI_Send(tile_result.vect.data(), tile_result.vect.size(), mpi_tile_result_entry,
+               1, TAG, MPI_COMM_WORLD);
+
+      
    }
-   some_tile_result.print();
-   
-   
+   else if (rank == 1) {
+      tile_result_entry array[100];
+      MPI_Probe(0, TAG, MPI_COMM_WORLD, &mpi_status);
+      int count;
+      MPI_Get_count(&mpi_status, mpi_tile_result_entry, &count);
+      std::cout << "incoming size " << count << std::endl;
+      MPI_Recv(&array, count, mpi_tile_result_entry,
+               0, TAG, MPI_COMM_WORLD, &mpi_status);
+      for (int i = 0; i < count; i++) {
+         std::cout << array[i].to_str() << std::endl;
 
-   //column_IG_context array[kDim];
-   //fill_column_IG_context_array(array, result);
-   //for (int i = 0; i < kDim; i++) {
-   //	std::cout << array[i].to_str() << std::endl;
-   //}
-
-   //std::cout << sizeof(tile_result_entry) << std::endl;
-
+      }
+    //  MPI_Recv(&entry_2, 1, mpi_tile_result_entry,
+    //           0, TAG, MPI_COMM_WORLD, &mpi_status);
+    //  std::cout << rank << " " << array[0].to_str() << std::endl;
+    //  std::cout << rank << " " << entry_2.to_str() << std::endl;
+   }
 
 
-  // MPI_Init();
-  // int rank, size;
-  // MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  // MPI_Comm_size(MPI_COMM_WORLD, &size);
-  // MPI_Status mpi_status;
-  // const int TAG = 0;
+
 
   // if (rank == 1) {
   //    // make a random vector that represents
@@ -244,7 +285,7 @@ int main() {
   //    std::vector<dict_entry> vect 
 
 
-
+   MPI_Finalize();
 
 
    return 0;

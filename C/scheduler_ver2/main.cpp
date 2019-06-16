@@ -9,9 +9,14 @@
 #include <chrono>
 #include <thread>
 #include <fstream>
+#include <random>
+#include <stddef.h>
 
 // the dimensionality of k-tuples
 const int kDim = 3;
+// number of largest IG per column to remember
+const int kCuriosity = 2;
+
 
 template <typename T>
 class Matrix2D {
@@ -1327,6 +1332,334 @@ int main_5() {
 
    heterogen.use_buff(buff);
    heterogen.print();
+
+
+
+   return 0;
+}
+
+struct tuple_result {
+   int columns[kDim];
+   double IGs[kDim];
+};
+
+struct column_IG_context {
+   int column;
+   double IG;
+   int context[kDim - 1];
+   std::string to_str() {
+      std::stringstream ss;
+      ss << "column: " << column << ", "
+         << "IG: " << IG << ", "
+         << "context: ";
+      for (int i = 0; i < kDim - 2; i++)
+         ss << context[i] << ", ";
+      ss << context[kDim - 2];
+      return ss.str();
+    }
+};
+
+void copy_with_omission(int* longer,
+                        int* shorter,
+                        int index_to_omit) {
+   // longer = {1, 2, 3}; index_to_omit = 1
+   // => shorter = {1, 3}
+   assert(index_to_omit < kDim);
+   bool thrown_away = false;
+   for (int i = 0; i < kDim; i++) {
+      if (i == index_to_omit) {
+         thrown_away = true;
+         continue;
+      }
+      else {
+         shorter[i - thrown_away] = longer[i];
+      }
+   }
+}
+
+void fill_column_IG_context_array(column_IG_context array[],
+                                  tuple_result result) {
+   // result = {{1, 2, 3}, {123, 234, 345}} =>
+   // array = {{1, 123, {2,3}}, {2, 234, {1,3}}, {3, 345, {1,2}}}
+   for (int i = 0; i < kDim; i++) {
+      array[i].column = result.columns[i];
+      array[i].IG = result.IGs[i];
+      copy_with_omission(result.columns, array[i].context, i);
+   }
+} 
+
+int argmin_of_IGs(double IGs[]) {
+   int i = 0;
+   double min_IG = IGs[0];
+   for (int j = 1; j < kCuriosity; j++) {
+       if (IGs[j] < min_IG) { 
+	   min_IG = IGs[j];
+	   i = j;
+       }
+   }
+   return i;
+}
+
+struct tile_result_entry {
+   int column;
+   int contexts[kCuriosity][kDim - 1];
+   double IGs[kCuriosity];
+   tile_result_entry() {}
+   tile_result_entry(column_IG_context arg):
+      // initialize with a first pair
+      // of the IG and context[] arguments
+      column(arg.column) {
+      IGs[0] = arg.IG;
+      for (int j = 0; j < kDim - 1; j++)
+         contexts[0][j] = arg.context[j];
+      for (int i = 1; i < kCuriosity; i++) {
+         IGs[i] = 0;
+         for (int j = 0; j < kDim - 1; j++)
+             contexts[i][j] = -1;
+      }
+   }
+   void update (double new_IG, int new_context[]) {
+       int argmin = argmin_of_IGs(IGs);
+       if (IGs[argmin] < new_IG) {
+           IGs[argmin] = new_IG;
+           for (int i = 0; i < kDim - 1; i++)
+               contexts[argmin][i] = new_context[i];
+       }
+   }
+   std::string to_str() {
+      std::stringstream ss;
+      ss << "column: " << column << " | ";
+      for (int i = 0; i < kCuriosity; i++) {
+	 if (IGs[i] == 0) { break; }
+         ss << "IG: " << IGs[i] << ", context: ";
+         for (int j = 0; j < kDim - 2; j++)
+             ss << contexts[i][j] << ", ";
+         ss << contexts[i][kDim - 2] << " | ";
+      }
+      return ss.str();
+   }
+
+};
+
+struct tile_result {
+   std::vector<tile_result_entry> vect;
+   void record(column_IG_context arg) {
+      bool not_found = true;
+      for (auto& entry : vect) {
+          if (entry.column == arg.column) {
+              not_found = false;
+              entry.update(arg.IG, arg.context);
+              break;
+          }
+      }
+      if (not_found) {
+          vect.emplace_back(arg);
+      }
+   }
+   void record(tuple_result result) {
+      column_IG_context array[kDim];
+      fill_column_IG_context_array(array, result);
+      for (int i = 0; i < kDim; i++)
+          record(array[i]);
+   }
+   void print() {
+      for (auto& entry : vect)
+          std::cout << entry.to_str() << std::endl;
+   }
+};
+
+
+
+// 6
+int main(int arg, char* argc[]) {
+
+   // Assumption about placement of the regions of columns along the dataset:
+
+   // |          signif         |        nonsignif        |         contrast        |
+   // |     fat    |    lean    |     fat    |    lean    |     fat    |    lean    |
+   // |homog. tiles|heter. tiles|homog. tiles|heter. tiles|homog. tiles|heter. tiles|
+   // R[0]         R[1]         R[2]         R[3]         R[4]         R[5]         R[6]
+   // T[R[0]] ...  T[R[1]] ...  T[R[2]] ...  T[R[3]] ...  T[R[4]] ...  T[R[5]] ...  T[R[6]]
+
+   // and the homogeanous tiles are only square-shaped (the margin that You'd expect
+   // to be, is assigned to the lean region.
+   // The array T(iles) contains column indeces that are the borders of tiles.
+   // In other words, where one tile ends and other begins is given by
+   // consequtive values in T.
+   // The array R(egions) contains chosen indices of T with the meaning explained above.
+   // The array D, not mentioned above, of size T.size - 1, will contain dof's of each tile.
+   
+   int T[] = {0,   // 0 // fat // signif
+              100, // 1 
+              200, // 2 // lean
+              222, // 3
+              235, // 4
+              247, // 5
+              258, // 6 // fat // nonsignif
+              358, // 7
+              458, // 8
+              558, // 9
+              658, // 10
+              758, // 11 // lean
+              800, // 12
+              842, // 13
+              876, // 14
+              876, // 15 // fat // contrast
+              976, // 16
+             1076, // 17 // lean
+             1200, // 18
+             1230, // 19
+             1230, // 20
+             1245};// 21 // end <= the total column-count
+
+   int R[7] = {0, 2, 6, 11, 15, 17, 21};
+
+   assert(R[2] - R[1] == R[4] - R[3] | R[4] - R[3] == 0);
+   assert(R[2] - R[1] == R[6] - R[5] | R[6] - R[5] == 0);
+
+   // number of dicrete buckets per tile
+   int D[] = {5, // 0 // fat // signif
+              5, // 1 
+              5, // 2
+              6, // 3 // lean
+              7, // 4
+              8, // 5
+              5, // 6 // fat // nonsignif
+              5, // 7
+              5, // 8
+              5, // 9
+              5, // 10
+              5, // 11
+              6, // 12 // lean
+              7, // 13
+              8, // 14
+              5, // 15 // fat // contrast
+              5, // 14
+              5, // 15
+              6, // 16 // lean
+              7, // 17
+              8};// 18
+   
+   
+   // time-start
+   auto start = std::chrono::system_clock::now();
+
+   // MPI initialization
+   MPI_Init(&argc, &argv);
+   int rank, size;
+   const int tag_ON = 1;
+   const int tag_OFF = 0;
+   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+   MPI_Comm_size(MPI_COMM_WORLD, &size);
+   MPI_Status mpi_status;
+ 
+   // create an mpi-type for sending
+   // arrays of tile_result_entries
+   int type_count = 2;
+   int blocklengths[] = {1 + kCuriosity * (kDim - 1), kCuriosity};
+   MPI_Aint displacements[] = {offsetof(tile_result_entry, column),
+                               offsetof(tile_result_entry, IGs)};
+   MPI_Datatype types[] = {MPI_INT, MPI_DOUBLE};
+   MPI_Datatype tmp_type, mpi_tile_result_entry;
+   MPI_Aint lower_bound, extent;
+   MPI_Type_create_struct(type_count, blocklengths, displacements,
+                          types, &tmp_type);
+   MPI_Type_get_extent(tmp_type, &lower_bound, &extent);
+   MPI_Type_create_resized(tmp_type, lower_bound, extent,
+                           &mpi_tile_result_entry);
+   MPI_Type_commit(&mpi_tile_result_entry);
+   //
+
+   if (rank == 0) {
+      tile_result_entry some_entry({13, 123, {2, 5}});
+      std::cout << rank << " " << some_entry.to_str() << std::endl;
+      MPI_Send(&some_entry, 1, mpi_tile_result_entry,
+               1, TAG, MPI_COMM_WORLD); 
+   }
+   else if (rank == 1) {
+      tile_result_entry some_entry;
+      MPI_Recv(&some_entry, 1, mpi_tile_result_entry,
+               0, TAG, MPI_COMM_WORLD, &mpi_status);
+      std::cout << rank << " " << some_entry.to_str() << std::endl;
+   }
+
+  
+   // how many cpu workers?
+   const int kRankTreshold = 3;
+   assert(kRankTreshold < size);  
+
+   // random seed
+   srand(rank);
+   
+   // output file
+   std::string file_name = "out_" + std::to_string(rank) + ".csv";
+   std::ofstream file(file_name);
+
+   int gpu_tile_index[kDim];
+   int cpu_tile_index[kDim];
+
+   int result = 0; // identity from the point of view of recording the results
+   
+   // Scheduler
+   if (rank == 0) {
+
+      // make the 2 schedulers
+      
+      // gpu scheduler
+      Indices_triangle signif_fat_1(kDim, R[1], R[0], true);
+      Indices_triangle signif_fat_2(kDim - 1, R[1], R[0], true);
+      Indices_triangle nonsignif_fat_2(1, R[3], R[2], true);
+      Indices_triangle contrast_fat_2(1, R[5], R[4], true);
+      Indices_sum nonsignif_plus_contrast_fat_2(nonsignif_fat_2, contrast_fat_2);
+      Indices_product fat_2(signif_fat_2, nonsignif_plus_contrast_fat_2);
+      Indices_sum gpu_tile_scheduler(signif_fat_1, fat_2);
+
+      gpu_tile_scheduler.use_buff(gpu_tile_index);
+      
+      // cpu scheduler
+      //
+      std::vector<Indices_triangle> signif_fat_3;
+      std::vector<Indices_triangle> signif_lean_3;
+      std::vector<Indices_product> signif_fat_x_lean_3;
+      std::vector<Indices_sum> signif_fat_x_lean_3_sum;
+      Indices_sum_id zero_3(kDim);
+      Indices_sum& heterogen_signif_3 = fold(signif_fat_3,
+                                            signif_lean_3,
+                                            signif_fat_x_lean_3,
+                                            signif_fat_x_lean_3_sum,
+                                            zero_3,
+                                            R[0], R[1],
+                                            R[1], R[2],
+                                            1,
+                                            kDim);
+      //
+      std::vector<Indices_triangle> signif_fat_4;
+      std::vector<Indices_triangle> signif_lean_4;
+      std::vector<Indices_product> signif_fat_x_lean_4;
+      std::vector<Indices_sum> signif_fat_x_lean_4_sum;
+      Indices_sum_id zero_4(kDim - 1);
+      Indices_sum& heterogen_signif_4 = fold(signif_fat_4,
+                                             signif_lean_4,
+                                             signif_fat_x_lean_4,
+                                             signif_fat_x_lean_4_sum,
+                                             zero_4,
+                                             R[0], R[1],
+                                             R[1], R[2],
+                                             1,
+                                             kDim - 1);
+      Indices_triangle nonsignif_and_contrast_4(1, R[6], R[2], true);
+      Indices_product heterogen_mixed_4(heterogen_signif_4, nonsignif_and_contrast_4);
+      //
+      Indices_triangle signif_fat_5(kDim - 1, R[1], R[0], true);
+      Indices_triangle nonsignif_lean_5(1, R[4], R[3], true);
+      Indices_triangle contrast_lean_5(1, R[6], R[5], true);
+      Indices_sum nonsignif_plus_contrast_lean_5(nonsignif_lean_5, contrast_lean_5);
+      Indices_product heterogen_mixed_5(signif_fat_5, nonsignif_plus_contrast_lean_5);
+      //
+      Indices_sum heterogen_sum_1(heterogen_signif_3, heterogen_mixed_4);
+      Indices_sum cpu_tile_scheduler(heterogen_sum_1, heterogen_mixed_5);
+
+      cpu_tile_scheduler.use_buff(cpu_tile_index);
 
 
 

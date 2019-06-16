@@ -1,0 +1,3385 @@
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+2 about to send 0-long array
+2 had sent 0 elements
+2 about to receive
+0 about to probe
+1 received 0, 0, 2
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0, 0)(2) to cpu_worker 1
+0 about to probe
+0 bumped into 2 when probing
+0 preparing to receive 0-long array from 2
+0 sent (0, 0, 0) to gpu_worker 2
+0 about to probe
+2 received 
+0, 0, 0
+1 has worked for 200 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 0, 0, 3
+0 sent (0, 0)(3) to cpu_worker 1
+0 about to probe
+1 has worked for 102 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+0 sent (0, 0)(4) to cpu_worker 1
+0 about to probe
+1 had sent 113 elements
+1 about to receive
+1 received 0, 0, 4
+1 has worked for 96 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+0 sent (0, 0)(5) to cpu_worker 1
+0 about to probe
+1 received 0, 0, 5
+1 has worked for 86 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 0, 1, 2
+0 sent (0, 1)(2) to cpu_worker 1
+0 about to probe
+2 has worked for 596 millisec. on a single tile
+2 about to send 100-long array
+2 had sent 100 elements
+2 about to receive
+0 bumped into 2 when probing
+0 preparing to receive 100-long array from 2
+0 sent (0, 0, 1) to gpu_worker 2
+0 about to probe
+2 received 
+0, 0, 1
+1 has worked for 587 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 0, 1, 3
+0 sent (0, 1)(3) to cpu_worker 1
+0 about to probe
+1 has worked for 320 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+0 sent (0, 1)(4) to cpu_worker 1
+1 had sent 213 elements
+1 about to receive
+1 received 0, 1, 4
+0 about to probe
+1 has worked for 293 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 0, 1, 5
+0 sent (0, 1)(5) to cpu_worker 1
+0 about to probe
+1 has worked for 268 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 1, 1, 2
+0 sent (1, 1)(2) to cpu_worker 1
+0 about to probe
+1 has worked for 201 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 1, 1, 3
+0 sent (1, 1)(3) to cpu_worker 1
+0 about to probe
+1 has worked for 105 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+0 sent (1, 1)(4) to cpu_worker 1
+0 about to probe
+1 had sent 113 elements
+1 about to receive
+1 received 1, 1, 4
+1 has worked for 94 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+0 sent (1, 1)(5) to cpu_worker 1
+0 about to probe
+1 received 1, 1, 5
+1 has worked for 83 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+0 sent (0)(2, 2) to cpu_worker 1
+0 about to probe
+1 received 0, 2, 2
+1 has worked for 33 millisec. on a single tile
+1 about to send 122-long array
+1 had sent 122 elements
+1 about to receive
+1 received 0, 2, 3
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+0 sent (0)(2, 3) to cpu_worker 1
+0 about to probe
+1 has worked for 39 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+0 sent (0)(3, 3) to cpu_worker 1
+0 about to probe
+1 had sent 135 elements
+1 about to receive
+1 received 0, 3, 3
+1 has worked for 9 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+0 sent (0)(2, 4) to cpu_worker 1
+0 about to probe
+1 had sent 113 elements
+1 about to receive
+1 received 0, 2, 4
+1 has worked for 41 millisec. on a single tile
+1 about to send 134-long array
+1 had sent 134 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+0 sent (0)(3, 4) to cpu_worker 1
+0 about to probe
+1 received 0, 3, 4
+1 has worked for 19 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+0 sent (0)(4, 4) to cpu_worker 1
+0 about to probe
+1 had sent 125 elements
+1 about to receive
+1 received 0, 4, 4
+1 has worked for 8 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+0 sent (0)(2, 5) to cpu_worker 1
+0 about to probe
+1 received 0, 2, 5
+1 has worked for 32 millisec. on a single tile
+1 about to send 133-long array
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+1 had sent 133 elements
+1 about to receive
+1 received 0, 3, 5
+0 sent (0)(3, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 20 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+0 sent (0)(4, 5) to cpu_worker 1
+0 about to probe
+1 had sent 124 elements
+1 about to receive
+1 received 0, 4, 5
+1 has worked for 17 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+1 had sent 123 elements
+1 about to receive
+1 received 0, 5, 5
+0 sent (0)(5, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 6 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 1, 2, 2
+0 sent (1)(2, 2) to cpu_worker 1
+0 about to probe
+1 has worked for 30 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 1, 2, 3
+0 sent (1)(2, 3) to cpu_worker 1
+0 about to probe
+1 has worked for 40 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+0 sent (1)(3, 3) to cpu_worker 1
+0 about to probe
+1 had sent 135 elements
+1 about to receive
+1 received 1, 3, 3
+1 has worked for 13 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+0 sent (1)(2, 4) to cpu_worker 1
+0 about to probe
+1 had sent 113 elements
+1 about to receive
+1 received 1, 2, 4
+1 has worked for 36 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+0 sent (1)(3, 4) to cpu_worker 1
+0 about to probe
+1 had sent 134 elements
+1 about to receive
+1 received 1, 3, 4
+1 has worked for 19 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+0 sent (1)(4, 4) to cpu_worker 1
+0 about to probe
+1 had sent 125 elements
+1 about to receive
+1 received 1, 4, 4
+1 has worked for 8 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+0 sent (1)(2, 5) to cpu_worker 1
+0 about to probe
+1 received 1, 2, 5
+1 has worked for 37 millisec. on a single tile
+1 about to send 133-long array
+1 had sent 133 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+0 sent (1)(3, 5) to cpu_worker 1
+0 about to probe
+1 received 1, 3, 5
+1 has worked for 18 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+0 sent (1)(4, 5) to cpu_worker 1
+0 about to probe
+1 had sent 124 elements
+1 about to receive
+1 received 1, 4, 5
+1 has worked for 16 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+0 sent (1)(5, 5) to cpu_worker 1
+0 about to probe
+1 had sent 123 elements
+1 about to receive
+1 received 1, 5, 5
+1 has worked for 6 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 2, 2, 2
+0 sent (2, 2, 2) to cpu_worker 1
+0 about to probe
+1 has worked for 1 millisec. on a single tile
+1 about to send 22-long array
+1 had sent 22 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 22-long array from 1
+0 sent (2, 2, 3) to cpu_worker 1
+0 about to probe
+1 received 2, 2, 3
+1 has worked for 2 millisec. on a single tile
+1 about to send 35-long array
+1 had sent 35 elements
+1 about to receive
+1 received 2, 3, 3
+0 bumped into 1 when probing
+0 preparing to receive 35-long array from 1
+0 sent (2, 3, 3) to cpu_worker 1
+0 about to probe
+1 has worked for 1 millisec. on a single tile
+1 about to send 35-long array
+1 had sent 35 elements
+1 about to receive
+1 received 3, 3, 3
+0 bumped into 1 when probing
+0 preparing to receive 35-long array from 1
+0 sent (3, 3, 3) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 13-long array
+1 had sent 13 elements
+1 about to receive
+1 received 2, 2, 4
+0 bumped into 1 when probing
+0 preparing to receive 13-long array from 1
+0 sent (2, 2, 4) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 34-long array
+1 had sent 34 elements
+1 about to receive
+1 received 2, 3, 4
+0 bumped into 1 when probing
+0 preparing to receive 34-long array from 1
+0 sent (2, 3, 4) to cpu_worker 1
+0 about to probe
+1 has worked for 3 millisec. on a single tile
+1 about to send 47-long array
+1 had sent 47 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 47-long array from 1
+1 received 3, 3, 4
+0 sent (3, 3, 4) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 25-long array
+1 had sent 25 elements
+1 about to receive
+1 received 2, 4, 4
+0 bumped into 1 when probing
+0 preparing to receive 25-long array from 1
+0 sent (2, 4, 4) to cpu_worker 1
+0 about to probe
+1 has worked for 1 millisec. on a single tile
+1 about to send 34-long array
+1 had sent 34 elements
+1 about to receive
+1 received 3, 4, 4
+0 bumped into 1 when probing
+0 preparing to receive 34-long array from 1
+0 sent (3, 4, 4) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 25-long array
+1 had sent 25 elements
+1 about to receive
+1 received 4, 4, 4
+0 bumped into 1 when probing
+0 preparing to receive 25-long array from 1
+0 sent (4, 4, 4) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 12-long array
+1 had sent 12 elements
+1 about to receive
+1 received 2, 2, 5
+0 bumped into 1 when probing
+0 preparing to receive 12-long array from 1
+0 sent (2, 2, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 33-long array
+1 had sent 33 elements
+1 about to receive
+1 received 2, 3, 5
+0 bumped into 1 when probing
+0 preparing to receive 33-long array from 1
+0 sent (2, 3, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 46-long array
+1 had sent 46 elements
+1 about to receive
+1 received 3, 3, 5
+0 bumped into 1 when probing
+0 preparing to receive 46-long array from 1
+0 sent (3, 3, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 24-long array
+1 had sent 24 elements
+1 about to receive
+1 received 2, 4, 5
+0 bumped into 1 when probing
+0 preparing to receive 24-long array from 1
+0 sent (2, 4, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 45-long array
+1 had sent 45 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 45-long array from 1
+1 received 3, 4, 5
+0 sent (3, 4, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 1 millisec. on a single tile
+1 about to send 36-long array
+1 had sent 36 elements
+1 about to receive
+1 received 4, 4, 5
+0 bumped into 1 when probing
+0 preparing to receive 36-long array from 1
+0 sent (4, 4, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 23-long array
+1 had sent 23 elements
+1 about to receive
+1 received 2, 5, 5
+0 bumped into 1 when probing
+0 preparing to receive 23-long array from 1
+0 sent (2, 5, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 1 millisec. on a single tile
+1 about to send 33-long array
+1 had sent 33 elements
+1 about to receive
+1 received 3, 5, 5
+0 bumped into 1 when probing
+0 preparing to receive 33-long array from 1
+0 sent (3, 5, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 24-long array
+1 had sent 24 elements
+1 about to receive
+1 received 4, 5, 5
+0 bumped into 1 when probing
+0 preparing to receive 24-long array from 1
+0 sent (4, 5, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 23-long array
+1 had sent 23 elements
+1 about to receive
+1 received 5, 5, 5
+0 bumped into 1 when probing
+0 preparing to receive 23-long array from 1
+0 sent (5, 5, 5) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 11-long array
+1 had sent 11 elements
+1 about to receive
+1 received 0, 2, 6
+0 bumped into 1 when probing
+0 preparing to receive 11-long array from 1
+0 sent (0)(2)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 753 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 0, 2, 7
+0 sent (0)(2)(7) to cpu_worker 1
+0 about to probe
+2 has worked for 3594 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+0 sent (0, 1, 1) to gpu_worker 2
+0 about to probe
+2 had sent 200 elements
+2 about to receive
+2 received 
+0, 1, 1
+1 has worked for 747 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 0, 2, 8
+0 sent (0)(2)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 755 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 0, 2, 9
+0 sent (0)(2)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 769 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 0, 2, 10
+0 sent (0)(2)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 772 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 0, 2, 11
+0 sent (0)(2)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 200 millisec. on a single tile
+1 about to send 164-long array
+0 bumped into 1 when probing
+0 preparing to receive 164-long array from 1
+0 sent (0)(2)(12) to cpu_worker 1
+0 about to probe
+1 had sent 164 elements
+1 about to receive
+1 received 0, 2, 12
+2 has worked for 2755 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+2 about to receive
+2 received 
+1, 1, 1
+0 sent (1, 1, 1) to gpu_worker 2
+0 about to probe
+1 has worked for 203 millisec. on a single tile
+1 about to send 164-long array
+0 bumped into 1 when probing
+0 preparing to receive 164-long array from 1
+0 sent (0)(2)(13) to cpu_worker 1
+0 about to probe
+1 had sent 164 elements
+1 about to receive
+1 received 0, 2, 13
+1 has worked for 148 millisec. on a single tile
+1 about to send 156-long array
+0 bumped into 1 when probing
+0 preparing to receive 156-long array from 1
+0 sent (0)(2)(14) to cpu_worker 1
+0 about to probe
+1 had sent 156 elements
+1 about to receive
+1 received 0, 2, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 0, 2, 15
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0)(2)(15) to cpu_worker 1
+0 about to probe
+2 has worked for 626 millisec. on a single tile
+2 about to send 100-long array
+2 had sent 100 elements
+2 about to receive
+0 bumped into 2 when probing
+0 preparing to receive 100-long array from 2
+0 sent (0, 0)(6) to gpu_worker 2
+0 about to probe
+2 received 
+0, 0, 6
+1 has worked for 777 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 0, 2, 16
+0 sent (0)(2)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 788 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 0, 2, 17
+0 sent (0)(2)(17) to cpu_worker 1
+0 about to probe
+2 has worked for 2544 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+2 about to receive
+2 received 
+0, 0, 7
+0 sent (0, 0)(7) to gpu_worker 2
+0 about to probe
+1 has worked for 2204 millisec. on a single tile
+1 about to send 246-long array
+0 bumped into 1 when probing
+0 preparing to receive 246-long array from 1
+1 had sent 246 elements
+1 about to receive
+1 received 0, 2, 18
+0 sent (0)(2)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 258 millisec. on a single tile
+1 about to send 152-long array
+0 bumped into 1 when probing
+0 preparing to receive 152-long array from 1
+1 had sent 152 elements
+1 about to receive
+1 received 0, 2, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 0, 2, 20
+0 sent (0)(2)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0)(2)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 105 millisec. on a single tile
+1 about to send 137-long array
+0 bumped into 1 when probing
+0 preparing to receive 137-long array from 1
+1 had sent 137 elements
+1 about to receive
+1 received 0, 3, 6
+0 sent (0)(3)(6) to cpu_worker 1
+0 about to probe
+2 has worked for 1894 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+0 sent (0, 0)(8) to gpu_worker 2
+0 about to probe
+2 had sent 200 elements
+2 about to receive
+2 received 
+0, 0, 8
+1 has worked for 907 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 0, 3, 7
+0 sent (0)(3)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 925 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+0 sent (0)(3)(8) to cpu_worker 1
+1 about to receive
+0 about to probe
+1 received 0, 3, 8
+1 has worked for 938 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 0, 3, 9
+0 sent (0)(3)(9) to cpu_worker 1
+0 about to probe
+2 has worked for 2742 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+0 sent (0, 0)(9) to gpu_worker 2
+2 about to receive
+0 about to probe
+2 received 
+0, 0, 9
+1 has worked for 1021 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+0 sent (0)(3)(10) to cpu_worker 1
+0 about to probe
+1 had sent 213 elements
+1 about to receive
+1 received 0, 3, 10
+1 has worked for 800 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+0 sent (0)(3)(11) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 3, 11
+1 has worked for 190 millisec. on a single tile
+1 about to send 155-long array
+0 bumped into 1 when probing
+0 preparing to receive 155-long array from 1
+1 had sent 155 elements
+0 sent (0)(3)(12) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 3, 12
+1 has worked for 187 millisec. on a single tile
+1 about to send 155-long array
+0 bumped into 1 when probing
+0 preparing to receive 155-long array from 1
+1 had sent 155 elements
+0 sent (0)(3)(13) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 3, 13
+1 has worked for 139 millisec. on a single tile
+1 about to send 147-long array
+0 bumped into 1 when probing
+0 preparing to receive 147-long array from 1
+1 had sent 147 elements
+0 sent (0)(3)(14) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 3, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 bumped into 1 when probing
+1 had sent 0 elements
+1 about to receive
+0 preparing to receive 0-long array from 1
+1 received 0, 3, 15
+0 sent (0)(3)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 754 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+0 sent (0)(3)(16) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 3, 16
+1 has worked for 762 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+0 sent (0)(3)(17) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 3, 17
+1 has worked for 1163 millisec. on a single tile
+1 about to send 237-long array
+0 bumped into 1 when probing
+0 preparing to receive 237-long array from 1
+1 had sent 237 elements
+0 sent (0)(3)(18) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 3, 18
+2 has worked for 4483 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+0 sent (0, 0)(10) to gpu_worker 2
+2 about to receive
+0 about to probe
+2 received 
+0, 0, 10
+1 has worked for 206 millisec. on a single tile
+1 about to send 143-long array
+0 bumped into 1 when probing
+0 preparing to receive 143-long array from 1
+1 had sent 143 elements
+0 sent (0)(3)(19) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 3, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 bumped into 1 when probing
+1 had sent 0 elements
+1 about to receive
+0 preparing to receive 0-long array from 1
+0 sent (0)(3)(20) to cpu_worker 1
+1 received 0, 3, 20
+0 about to probe
+1 has worked for 84 millisec. on a single tile
+1 about to send 128-long array
+0 bumped into 1 when probing
+0 preparing to receive 128-long array from 1
+1 had sent 128 elements
+0 sent (0)(4)(6) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 6
+1 has worked for 981 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+0 sent (0)(4)(7) to cpu_worker 1
+1 received 0, 4, 7
+0 about to probe
+1 has worked for 704 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+0 sent (0)(4)(8) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 8
+1 has worked for 701 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+0 sent (0)(4)(9) to cpu_worker 1
+1 about to receive
+1 received 0, 4, 9
+0 about to probe
+1 has worked for 709 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+0 sent (0)(4)(10) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 10
+1 has worked for 708 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 0, 4, 11
+0 sent (0)(4)(11) to cpu_worker 1
+0 about to probe
+2 has worked for 4162 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+0 sent (0, 0)(15) to gpu_worker 2
+0 about to probe
+2 about to receive
+2 received 
+0, 0, 15
+1 has worked for 181 millisec. on a single tile
+1 about to send 154-long array
+0 bumped into 1 when probing
+0 preparing to receive 154-long array from 1
+1 had sent 154 elements
+0 sent (0)(4)(12) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 12
+1 has worked for 182 millisec. on a single tile
+1 about to send 154-long array
+0 bumped into 1 when probing
+0 preparing to receive 154-long array from 1
+1 had sent 154 elements
+0 sent (0)(4)(13) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 13
+1 has worked for 134 millisec. on a single tile
+1 about to send 146-long array
+0 bumped into 1 when probing
+0 preparing to receive 146-long array from 1
+1 had sent 146 elements
+0 sent (0)(4)(14) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 bumped into 1 when probing
+1 had sent 0 elements
+1 about to receive
+0 preparing to receive 0-long array from 1
+1 received 0, 4, 15
+0 sent (0)(4)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 719 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+1 had sent 212 elements
+1 about to receive
+1 received 0, 4, 16
+0 preparing to receive 212-long array from 1
+0 sent (0)(4)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 723 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+0 sent (0)(4)(17) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 17
+1 has worked for 1047 millisec. on a single tile
+1 about to send 236-long array
+0 bumped into 1 when probing
+0 preparing to receive 236-long array from 1
+1 had sent 236 elements
+0 sent (0)(4)(18) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 18
+1 has worked for 115 millisec. on a single tile
+1 about to send 142-long array
+0 bumped into 1 when probing
+0 preparing to receive 142-long array from 1
+1 had sent 142 elements
+0 sent (0)(4)(19) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 4, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 bumped into 1 when probing
+1 had sent 0 elements
+1 about to receive
+0 preparing to receive 0-long array from 1
+1 received 0, 4, 20
+0 sent (0)(4)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 44 millisec. on a single tile
+1 about to send 127-long array
+0 bumped into 1 when probing
+0 preparing to receive 127-long array from 1
+1 had sent 127 elements
+0 sent (0)(5)(6) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 5, 6
+1 has worked for 657 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+0 sent (0)(5)(7) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 5, 7
+2 has worked for 4292 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+0 sent (0, 0)(16) to gpu_worker 2
+0 about to probe
+2 about to receive
+2 received 
+0, 0, 16
+1 has worked for 734 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+0 sent (0)(5)(8) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 5, 8
+1 has worked for 839 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+0 sent (0)(5)(9) to cpu_worker 1
+0 about to probe
+1 about to receive
+1 received 0, 5, 9
+1 has worked for 947 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 0, 5, 10
+0 sent (0)(5)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 1059 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 0, 5, 11
+0 sent (0)(5)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 269 millisec. on a single tile
+1 about to send 153-long array
+0 bumped into 1 when probing
+0 preparing to receive 153-long array from 1
+1 had sent 153 elements
+1 about to receive
+1 received 0, 5, 12
+0 sent (0)(5)(12) to cpu_worker 1
+0 about to probe
+2 has worked for 3414 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+2 about to receive
+2 received 
+0, 1, 6
+0 sent (0, 1)(6) to gpu_worker 2
+0 about to probe
+1 has worked for 267 millisec. on a single tile
+1 about to send 153-long array
+0 bumped into 1 when probing
+0 preparing to receive 153-long array from 1
+1 had sent 153 elements
+1 about to receive
+1 received 0, 5, 13
+0 sent (0)(5)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 196 millisec. on a single tile
+1 about to send 145-long array
+0 bumped into 1 when probing
+0 preparing to receive 145-long array from 1
+1 had sent 145 elements
+1 about to receive
+1 received 0, 5, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 0, 5, 15
+0 sent (0)(5)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0)(5)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 806 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 0, 5, 16
+0 sent (0)(5)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 813 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 0, 5, 17
+0 sent (0)(5)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 1184 millisec. on a single tile
+1 about to send 235-long array
+0 bumped into 1 when probing
+0 preparing to receive 235-long array from 1
+1 had sent 235 elements
+1 about to receive
+1 received 0, 5, 18
+0 sent (0)(5)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 127 millisec. on a single tile
+1 about to send 141-long array
+0 bumped into 1 when probing
+0 preparing to receive 141-long array from 1
+1 had sent 141 elements
+1 about to receive
+1 received 0, 5, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+0 sent (0)(5)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0)(5)(20) to cpu_worker 1
+0 about to probe
+1 received 0, 5, 20
+1 has worked for 51 millisec. on a single tile
+1 about to send 126-long array
+0 bumped into 1 when probing
+0 preparing to receive 126-long array from 1
+0 sent (1)(2)(6) to cpu_worker 1
+1 had sent 126 elements
+1 about to receive
+1 received 1, 2, 6
+0 about to probe
+1 has worked for 1299 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 1, 2, 7
+0 sent (1)(2)(7) to cpu_worker 1
+0 about to probe
+2 has worked for 5544 millisec. on a single tile
+2 about to send 300-long array
+0 bumped into 2 when probing
+0 preparing to receive 300-long array from 2
+2 had sent 300 elements
+2 about to receive
+2 received 
+0, 1, 7
+0 sent (0, 1)(7) to gpu_worker 2
+0 about to probe
+1 has worked for 1691 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 1, 2, 8
+0 sent (1)(2)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 1766 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 1, 2, 9
+0 sent (1)(2)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 4252 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 1, 2, 10
+0 sent (1)(2)(10) to cpu_worker 1
+0 about to probe
+2 has worked for 9565 millisec. on a single tile
+2 about to send 300-long array
+0 bumped into 2 when probing
+0 preparing to receive 300-long array from 2
+2 had sent 300 elements
+2 about to receive
+2 received 
+0, 1, 8
+0 sent (0, 1)(8) to gpu_worker 2
+0 about to probe
+1 has worked for 4345 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 1, 2, 11
+0 sent (1)(2)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 1115 millisec. on a single tile
+1 about to send 164-long array
+0 bumped into 1 when probing
+0 preparing to receive 164-long array from 1
+1 had sent 164 elements
+1 about to receive
+1 received 1, 2, 12
+0 sent (1)(2)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 1112 millisec. on a single tile
+1 about to send 164-long array
+0 bumped into 1 when probing
+0 preparing to receive 164-long array from 1
+1 had sent 164 elements
+1 about to receive
+1 received 1, 2, 13
+0 sent (1)(2)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 822 millisec. on a single tile
+1 about to send 156-long array
+0 bumped into 1 when probing
+0 preparing to receive 156-long array from 1
+1 had sent 156 elements
+1 about to receive
+1 received 1, 2, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+0 sent (1)(2)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 received 1, 2, 15
+0 sent (1)(2)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 4402 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 1, 2, 16
+0 sent (1)(2)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 3508 millisec. on a single tile
+1 about to send 222-long array
+0 bumped into 1 when probing
+0 preparing to receive 222-long array from 1
+1 had sent 222 elements
+1 about to receive
+1 received 1, 2, 17
+0 sent (1)(2)(17) to cpu_worker 1
+0 about to probe
+2 has worked for 12766 millisec. on a single tile
+2 about to send 300-long array
+0 bumped into 2 when probing
+0 preparing to receive 300-long array from 2
+2 had sent 300 elements
+2 about to receive
+2 received 
+0, 1, 9
+0 sent (0, 1)(9) to gpu_worker 2
+0 about to probe
+1 has worked for 4276 millisec. on a single tile
+1 about to send 246-long array
+0 bumped into 1 when probing
+0 preparing to receive 246-long array from 1
+1 had sent 246 elements
+1 about to receive
+1 received 1, 2, 18
+0 sent (1)(2)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 459 millisec. on a single tile
+1 about to send 152-long array
+0 bumped into 1 when probing
+0 preparing to receive 152-long array from 1
+1 had sent 152 elements
+1 about to receive
+1 received 1, 2, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 2, 20
+0 sent (1)(2)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1)(2)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 176 millisec. on a single tile
+1 about to send 137-long array
+0 bumped into 1 when probing
+0 preparing to receive 137-long array from 1
+1 had sent 137 elements
+1 about to receive
+1 received 1, 3, 6
+0 sent (1)(3)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 1373 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 1, 3, 7
+0 sent (1)(3)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 1177 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 1, 3, 8
+0 sent (1)(3)(8) to cpu_worker 1
+0 about to probe
+2 has worked for 8177 millisec. on a single tile
+2 about to send 300-long array
+0 bumped into 2 when probing
+0 preparing to receive 300-long array from 2
+2 had sent 300 elements
+2 about to receive
+2 received 
+0, 1, 10
+0 sent (0, 1)(10) to gpu_worker 2
+0 about to probe
+1 has worked for 1346 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 1, 3, 9
+0 sent (1)(3)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 1244 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 1, 3, 10
+0 sent (1)(3)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 1244 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 1, 3, 11
+0 sent (1)(3)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 315 millisec. on a single tile
+1 about to send 155-long array
+0 bumped into 1 when probing
+0 preparing to receive 155-long array from 1
+1 had sent 155 elements
+1 about to receive
+1 received 1, 3, 12
+0 sent (1)(3)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 315 millisec. on a single tile
+1 about to send 155-long array
+1 had sent 155 elements
+1 about to receive
+1 received 1, 3, 13
+0 bumped into 1 when probing
+0 preparing to receive 155-long array from 1
+0 sent (1)(3)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 233 millisec. on a single tile
+1 about to send 147-long array
+0 bumped into 1 when probing
+0 preparing to receive 147-long array from 1
+1 had sent 147 elements
+1 about to receive
+1 received 1, 3, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 3, 15
+0 sent (1)(3)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1)(3)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 1210 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 1, 3, 16
+0 sent (1)(3)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 1199 millisec. on a single tile
+1 about to send 213-long array
+0 bumped into 1 when probing
+0 preparing to receive 213-long array from 1
+1 had sent 213 elements
+1 about to receive
+1 received 1, 3, 17
+0 sent (1)(3)(17) to cpu_worker 1
+0 about to probe
+2 has worked for 6690 millisec. on a single tile
+2 about to send 300-long array
+0 bumped into 2 when probing
+0 preparing to receive 300-long array from 2
+0 sent (0, 1)(15) to gpu_worker 2
+0 about to probe
+2 had sent 300 elements
+2 about to receive
+2 received 
+0, 1, 15
+1 has worked for 1701 millisec. on a single tile
+1 about to send 237-long array
+0 bumped into 1 when probing
+0 preparing to receive 237-long array from 1
+1 had sent 237 elements
+1 about to receive
+1 received 1, 3, 18
+0 sent (1)(3)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 185 millisec. on a single tile
+1 about to send 143-long array
+0 bumped into 1 when probing
+0 preparing to receive 143-long array from 1
+1 had sent 143 elements
+1 about to receive
+1 received 1, 3, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 3, 20
+0 sent (1)(3)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1)(3)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 77 millisec. on a single tile
+1 about to send 128-long array
+0 bumped into 1 when probing
+1 had sent 128 elements
+1 about to receive
+0 preparing to receive 128-long array from 1
+1 received 1, 4, 6
+0 sent (1)(4)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 1050 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 1, 4, 7
+0 sent (1)(4)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 1030 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 1, 4, 8
+0 sent (1)(4)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 1014 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 1, 4, 9
+0 sent (1)(4)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 1040 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 1, 4, 10
+0 sent (1)(4)(10) to cpu_worker 1
+0 about to probe
+2 has worked for 6121 millisec. on a single tile
+2 about to send 300-long array
+0 bumped into 2 when probing
+0 preparing to receive 300-long array from 2
+2 had sent 300 elements
+2 about to receive
+2 received 
+0, 1, 16
+0 sent (0, 1)(16) to gpu_worker 2
+0 about to probe
+1 has worked for 965 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 1, 4, 11
+0 sent (1)(4)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 241 millisec. on a single tile
+1 about to send 154-long array
+0 bumped into 1 when probing
+0 preparing to receive 154-long array from 1
+1 had sent 154 elements
+1 about to receive
+1 received 1, 4, 12
+0 sent (1)(4)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 241 millisec. on a single tile
+1 about to send 154-long array
+0 bumped into 1 when probing
+0 preparing to receive 154-long array from 1
+1 had sent 154 elements
+1 about to receive
+1 received 1, 4, 13
+0 sent (1)(4)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 176 millisec. on a single tile
+1 about to send 146-long array
+1 had sent 146 elements
+1 about to receive
+1 received 1, 4, 14
+0 bumped into 1 when probing
+0 preparing to receive 146-long array from 1
+0 sent (1)(4)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1)(4)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 4, 15
+1 has worked for 990 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 1, 4, 16
+0 sent (1)(4)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 954 millisec. on a single tile
+1 about to send 212-long array
+0 bumped into 1 when probing
+0 preparing to receive 212-long array from 1
+1 had sent 212 elements
+1 about to receive
+1 received 1, 4, 17
+0 sent (1)(4)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 1348 millisec. on a single tile
+1 about to send 236-long array
+0 bumped into 1 when probing
+0 preparing to receive 236-long array from 1
+1 had sent 236 elements
+1 about to receive
+1 received 1, 4, 18
+0 sent (1)(4)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 143 millisec. on a single tile
+1 about to send 142-long array
+0 bumped into 1 when probing
+0 preparing to receive 142-long array from 1
+1 had sent 142 elements
+1 about to receive
+1 received 1, 4, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 4, 20
+0 sent (1)(4)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1)(4)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 57 millisec. on a single tile
+1 about to send 127-long array
+0 bumped into 1 when probing
+0 preparing to receive 127-long array from 1
+1 had sent 127 elements
+1 about to receive
+1 received 1, 5, 6
+0 sent (1)(5)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 838 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 1, 5, 7
+0 sent (1)(5)(7) to cpu_worker 1
+0 about to probe
+2 has worked for 5447 millisec. on a single tile
+2 about to send 300-long array
+0 bumped into 2 when probing
+0 preparing to receive 300-long array from 2
+0 sent (1, 1)(6) to gpu_worker 2
+0 about to probe
+2 had sent 300 elements
+2 about to receive
+2 received 
+1, 1, 6
+1 has worked for 845 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 1, 5, 8
+0 sent (1)(5)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 840 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 1, 5, 9
+0 sent (1)(5)(9) to cpu_worker 1
+0 about to probe
+2 has worked for 2116 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+0 sent (1, 1)(7) to gpu_worker 2
+0 about to probe
+2 had sent 200 elements
+2 about to receive
+2 received 
+1, 1, 7
+1 has worked for 849 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 1, 5, 10
+0 sent (1)(5)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 871 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 1, 5, 11
+0 sent (1)(5)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 221 millisec. on a single tile
+1 about to send 153-long array
+0 bumped into 1 when probing
+0 preparing to receive 153-long array from 1
+0 sent (1)(5)(12) to cpu_worker 1
+0 about to probe
+1 had sent 153 elements
+1 about to receive
+1 received 1, 5, 12
+1 has worked for 220 millisec. on a single tile
+1 about to send 153-long array
+0 bumped into 1 when probing
+0 preparing to receive 153-long array from 1
+1 had sent 153 elements
+1 about to receive
+1 received 1, 5, 13
+0 sent (1)(5)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 161 millisec. on a single tile
+1 about to send 145-long array
+0 bumped into 1 when probing
+0 preparing to receive 145-long array from 1
+1 had sent 145 elements
+1 about to receive
+1 received 1, 5, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 5, 15
+0 sent (1)(5)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1)(5)(15) to cpu_worker 1
+0 about to probe
+2 has worked for 2186 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+0 sent (1, 1)(8) to gpu_worker 2
+0 about to probe
+2 had sent 200 elements
+2 about to receive
+2 received 
+1, 1, 8
+1 has worked for 873 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 1, 5, 16
+0 sent (1)(5)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 872 millisec. on a single tile
+1 about to send 211-long array
+0 bumped into 1 when probing
+0 preparing to receive 211-long array from 1
+1 had sent 211 elements
+1 about to receive
+1 received 1, 5, 17
+0 sent (1)(5)(17) to cpu_worker 1
+0 about to probe
+2 has worked for 2180 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+0 sent (1, 1)(9) to gpu_worker 2
+0 about to probe
+2 had sent 200 elements
+2 about to receive
+2 received 
+1, 1, 9
+1 has worked for 1229 millisec. on a single tile
+1 about to send 235-long array
+0 bumped into 1 when probing
+0 preparing to receive 235-long array from 1
+1 had sent 235 elements
+1 about to receive
+1 received 1, 5, 18
+0 sent (1)(5)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 132 millisec. on a single tile
+1 about to send 141-long array
+0 bumped into 1 when probing
+0 preparing to receive 141-long array from 1
+1 had sent 141 elements
+1 about to receive
+1 received 1, 5, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 5, 20
+0 sent (1)(5)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1)(5)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 51 millisec. on a single tile
+1 about to send 126-long array
+0 bumped into 1 when probing
+0 preparing to receive 126-long array from 1
+1 had sent 126 elements
+1 about to receive
+1 received 2, 2, 6
+0 sent (2, 2)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 167 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 2, 2, 7
+0 sent (2, 2)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 168 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 2, 2, 8
+0 sent (2, 2)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 168 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 2, 2, 9
+0 sent (2, 2)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 168 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 2, 2, 10
+0 sent (2, 2)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 169 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 2, 2, 11
+0 sent (2, 2)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 37 millisec. on a single tile
+1 about to send 64-long array
+1 had sent 64 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 64-long array from 1
+1 received 2, 2, 12
+0 sent (2, 2)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 40 millisec. on a single tile
+1 about to send 64-long array
+1 had sent 64 elements
+1 about to receive
+1 received 2, 2, 13
+0 bumped into 1 when probing
+0 preparing to receive 64-long array from 1
+0 sent (2, 2)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 26 millisec. on a single tile
+1 about to send 56-long array
+1 had sent 56 elements
+1 about to receive
+1 received 2, 2, 14
+0 bumped into 1 when probing
+0 preparing to receive 56-long array from 1
+0 sent (2, 2)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 2, 2, 15
+0 sent (2, 2)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 169 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 2, 2, 16
+0 sent (2, 2)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 169 millisec. on a single tile
+1 about to send 122-long array
+0 bumped into 1 when probing
+0 preparing to receive 122-long array from 1
+1 had sent 122 elements
+1 about to receive
+1 received 2, 2, 17
+0 sent (2, 2)(17) to cpu_worker 1
+0 about to probe
+2 has worked for 2127 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+0 sent (1, 1)(10) to gpu_worker 2
+0 about to probe
+2 had sent 200 elements
+2 about to receive
+2 received 
+1, 1, 10
+1 has worked for 252 millisec. on a single tile
+1 about to send 146-long array
+0 bumped into 1 when probing
+0 preparing to receive 146-long array from 1
+1 had sent 146 elements
+1 about to receive
+1 received 2, 2, 18
+0 sent (2, 2)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 22 millisec. on a single tile
+1 about to send 52-long array
+1 had sent 52 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 52-long array from 1
+1 received 2, 2, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 2, 2, 20
+0 sent (2, 2)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (2, 2)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 8 millisec. on a single tile
+1 about to send 37-long array
+1 had sent 37 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 37-long array from 1
+1 received 2, 3, 6
+0 sent (2, 3)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 197 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+1 had sent 135 elements
+1 about to receive
+1 received 2, 3, 7
+0 sent (2, 3)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 195 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+1 had sent 135 elements
+1 about to receive
+1 received 2, 3, 8
+0 sent (2, 3)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 196 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+0 sent (2, 3)(9) to cpu_worker 1
+0 about to probe
+1 had sent 135 elements
+1 about to receive
+1 received 2, 3, 9
+1 has worked for 196 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+1 had sent 135 elements
+1 about to receive
+1 received 2, 3, 10
+0 sent (2, 3)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 199 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+1 had sent 135 elements
+1 about to receive
+1 received 2, 3, 11
+0 sent (2, 3)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 43 millisec. on a single tile
+1 about to send 77-long array
+1 had sent 77 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 77-long array from 1
+1 received 2, 3, 12
+0 sent (2, 3)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 46 millisec. on a single tile
+1 about to send 77-long array
+1 had sent 77 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 77-long array from 1
+1 received 2, 3, 13
+0 sent (2, 3)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 32 millisec. on a single tile
+1 about to send 69-long array
+1 had sent 69 elements
+1 about to receive
+1 received 2, 3, 14
+0 bumped into 1 when probing
+0 preparing to receive 69-long array from 1
+0 sent (2, 3)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 2, 3, 15
+0 sent (2, 3)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 197 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+1 had sent 135 elements
+1 about to receive
+1 received 2, 3, 16
+0 sent (2, 3)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 197 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+1 had sent 135 elements
+1 about to receive
+1 received 2, 3, 17
+0 sent (2, 3)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 293 millisec. on a single tile
+1 about to send 159-long array
+0 bumped into 1 when probing
+0 preparing to receive 159-long array from 1
+1 had sent 159 elements
+1 about to receive
+1 received 2, 3, 18
+0 sent (2, 3)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 29 millisec. on a single tile
+1 about to send 65-long array
+1 had sent 65 elements
+1 about to receive
+1 received 2, 3, 19
+0 bumped into 1 when probing
+0 preparing to receive 65-long array from 1
+0 sent (2, 3)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 2, 3, 20
+0 preparing to receive 0-long array from 1
+0 sent (2, 3)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 11 millisec. on a single tile
+1 about to send 50-long array
+1 had sent 50 elements
+1 about to receive
+1 received 3, 3, 6
+0 bumped into 1 when probing
+0 preparing to receive 50-long array from 1
+0 sent (3, 3)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 63 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+0 sent (3, 3)(7) to cpu_worker 1
+1 had sent 113 elements
+1 about to receive
+1 received 3, 3, 7
+0 about to probe
+1 has worked for 60 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+1 had sent 113 elements
+1 about to receive
+1 received 3, 3, 8
+0 sent (3, 3)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 60 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+0 sent (3, 3)(9) to cpu_worker 1
+1 had sent 113 elements
+1 about to receive
+1 received 3, 3, 9
+0 about to probe
+2 has worked for 2153 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+0 sent (1, 1)(15) to gpu_worker 2
+0 about to probe
+2 about to receive
+2 received 
+1, 1, 15
+1 has worked for 61 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+1 had sent 113 elements
+1 about to receive
+1 received 3, 3, 10
+0 sent (3, 3)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 59 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+1 had sent 113 elements
+1 about to receive
+1 received 3, 3, 11
+0 sent (3, 3)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 14 millisec. on a single tile
+1 about to send 55-long array
+1 had sent 55 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 55-long array from 1
+1 received 3, 3, 12
+0 sent (3, 3)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 13 millisec. on a single tile
+1 about to send 55-long array
+1 had sent 55 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 55-long array from 1
+1 received 3, 3, 13
+0 sent (3, 3)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 9 millisec. on a single tile
+1 about to send 47-long array
+1 had sent 47 elements
+1 about to receive
+1 received 3, 3, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+0 bumped into 1 when probing
+0 preparing to receive 47-long array from 1
+0 sent (3, 3)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 about to receive
+1 received 3, 3, 15
+0 sent (3, 3)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 59 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+1 had sent 113 elements
+1 about to receive
+1 received 3, 3, 16
+0 sent (3, 3)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 60 millisec. on a single tile
+1 about to send 113-long array
+0 bumped into 1 when probing
+0 preparing to receive 113-long array from 1
+0 sent (3, 3)(17) to cpu_worker 1
+1 had sent 113 elements
+1 about to receive
+1 received 3, 3, 17
+0 about to probe
+1 has worked for 89 millisec. on a single tile
+1 about to send 137-long array
+0 bumped into 1 when probing
+0 preparing to receive 137-long array from 1
+1 had sent 137 elements
+1 about to receive
+1 received 3, 3, 18
+0 sent (3, 3)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 7 millisec. on a single tile
+1 about to send 43-long array
+1 had sent 43 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 43-long array from 1
+1 received 3, 3, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 3, 3, 20
+0 sent (3, 3)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (3, 3)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 28-long array
+1 had sent 28 elements
+1 about to receive
+1 received 2, 4, 6
+0 bumped into 1 when probing
+0 preparing to receive 28-long array from 1
+0 sent (2, 4)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 187 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 2, 4, 7
+0 sent (2, 4)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 187 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 2, 4, 8
+0 sent (2, 4)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 188 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 2, 4, 9
+0 sent (2, 4)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 187 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 2, 4, 10
+0 sent (2, 4)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 187 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 2, 4, 11
+0 sent (2, 4)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 44 millisec. on a single tile
+1 about to send 76-long array
+1 had sent 76 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 76-long array from 1
+1 received 2, 4, 12
+0 sent (2, 4)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 43 millisec. on a single tile
+1 about to send 76-long array
+1 had sent 76 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 76-long array from 1
+1 received 2, 4, 13
+0 sent (2, 4)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 31 millisec. on a single tile
+1 about to send 68-long array
+1 had sent 68 elements
+1 about to receive
+1 received 2, 4, 14
+0 bumped into 1 when probing
+0 preparing to receive 68-long array from 1
+0 sent (2, 4)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 2, 4, 15
+0 sent (2, 4)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 186 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 2, 4, 16
+0 sent (2, 4)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 186 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 2, 4, 17
+0 sent (2, 4)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 272 millisec. on a single tile
+1 about to send 158-long array
+0 bumped into 1 when probing
+0 preparing to receive 158-long array from 1
+1 had sent 158 elements
+1 about to receive
+1 received 2, 4, 18
+0 sent (2, 4)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 25 millisec. on a single tile
+1 about to send 64-long array
+1 had sent 64 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 64-long array from 1
+1 received 2, 4, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+0 sent (2, 4)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (2, 4)(20) to cpu_worker 1
+0 about to probe
+1 received 2, 4, 20
+0 bumped into 1 when probing
+0 preparing to receive 49-long array from 1
+1 has worked for 9 millisec. on a single tile
+1 about to send 49-long array
+1 had sent 49 elements
+1 about to receive
+1 received 3, 4, 6
+0 sent (3, 4)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 106 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+1 had sent 125 elements
+1 about to receive
+1 received 3, 4, 7
+0 sent (3, 4)(7) to cpu_worker 1
+0 about to probe
+2 has worked for 2205 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+2 about to receive
+2 received 
+1, 1, 16
+0 sent (1, 1)(16) to gpu_worker 2
+0 about to probe
+1 has worked for 106 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+1 had sent 125 elements
+1 about to receive
+1 received 3, 4, 8
+0 sent (3, 4)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 106 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+1 had sent 125 elements
+1 about to receive
+1 received 3, 4, 9
+0 sent (3, 4)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 106 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+1 had sent 125 elements
+1 about to receive
+1 received 3, 4, 10
+0 sent (3, 4)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 106 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+1 had sent 125 elements
+1 about to receive
+1 received 3, 4, 11
+0 sent (3, 4)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 24 millisec. on a single tile
+1 about to send 67-long array
+1 had sent 67 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 67-long array from 1
+1 received 3, 4, 12
+0 sent (3, 4)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 24 millisec. on a single tile
+1 about to send 67-long array
+1 had sent 67 elements
+1 about to receive
+1 received 3, 4, 13
+0 bumped into 1 when probing
+0 preparing to receive 67-long array from 1
+0 sent (3, 4)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 17 millisec. on a single tile
+1 about to send 59-long array
+1 had sent 59 elements
+1 about to receive
+1 received 3, 4, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 bumped into 1 when probing
+0 preparing to receive 59-long array from 1
+0 sent (3, 4)(14) to cpu_worker 1
+0 about to probe
+1 had sent 0 elements
+1 about to receive
+1 received 3, 4, 15
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (3, 4)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 106 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+1 had sent 125 elements
+1 about to receive
+1 received 3, 4, 16
+0 sent (3, 4)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 106 millisec. on a single tile
+1 about to send 125-long array
+0 bumped into 1 when probing
+0 preparing to receive 125-long array from 1
+0 sent (3, 4)(17) to cpu_worker 1
+1 had sent 125 elements
+1 about to receive
+1 received 3, 4, 17
+0 about to probe
+1 has worked for 157 millisec. on a single tile
+1 about to send 149-long array
+0 bumped into 1 when probing
+0 preparing to receive 149-long array from 1
+1 had sent 149 elements
+1 about to receive
+1 received 3, 4, 18
+0 sent (3, 4)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 14 millisec. on a single tile
+1 about to send 55-long array
+1 had sent 55 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 55-long array from 1
+1 received 3, 4, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 3, 4, 20
+0 sent (3, 4)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (3, 4)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 5 millisec. on a single tile
+1 about to send 40-long array
+1 had sent 40 elements
+1 about to receive
+1 received 4, 4, 6
+0 bumped into 1 when probing
+0 preparing to receive 40-long array from 1
+0 sent (4, 4)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 50 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+1 received 4, 4, 7
+0 sent (4, 4)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 50 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+1 received 4, 4, 8
+0 sent (4, 4)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 50 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+1 received 4, 4, 9
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+0 sent (4, 4)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 50 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+1 received 4, 4, 10
+0 sent (4, 4)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 50 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+1 received 4, 4, 11
+0 sent (4, 4)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 11 millisec. on a single tile
+1 about to send 54-long array
+1 had sent 54 elements
+1 about to receive
+1 received 4, 4, 12
+0 bumped into 1 when probing
+0 preparing to receive 54-long array from 1
+0 sent (4, 4)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 11 millisec. on a single tile
+1 about to send 54-long array
+1 had sent 54 elements
+1 about to receive
+1 received 4, 4, 13
+0 bumped into 1 when probing
+0 preparing to receive 54-long array from 1
+0 sent (4, 4)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 7 millisec. on a single tile
+1 about to send 46-long array
+1 had sent 46 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 46-long array from 1
+0 sent (4, 4)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+1 received 4, 4, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 4, 4, 15
+0 preparing to receive 0-long array from 1
+0 sent (4, 4)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 50 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+1 received 4, 4, 16
+0 sent (4, 4)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 53 millisec. on a single tile
+1 about to send 112-long array
+1 had sent 112 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 112-long array from 1
+1 received 4, 4, 17
+0 sent (4, 4)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 82 millisec. on a single tile
+1 about to send 136-long array
+0 bumped into 1 when probing
+0 preparing to receive 136-long array from 1
+1 had sent 136 elements
+1 about to receive
+1 received 4, 4, 18
+0 sent (4, 4)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 7 millisec. on a single tile
+1 about to send 42-long array
+1 had sent 42 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 42-long array from 1
+0 sent (4, 4)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 received 4, 4, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 4, 4, 20
+0 sent (4, 4)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 27-long array
+1 had sent 27 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 27-long array from 1
+1 received 2, 5, 6
+0 sent (2, 5)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 188 millisec. on a single tile
+1 about to send 133-long array
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+1 had sent 133 elements
+1 about to receive
+1 received 2, 5, 7
+0 sent (2, 5)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 188 millisec. on a single tile
+1 about to send 133-long array
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+1 had sent 133 elements
+1 about to receive
+1 received 2, 5, 8
+0 sent (2, 5)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 188 millisec. on a single tile
+1 about to send 133-long array
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+1 had sent 133 elements
+1 about to receive
+1 received 2, 5, 9
+0 sent (2, 5)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 188 millisec. on a single tile
+1 about to send 133-long array
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+0 sent (2, 5)(10) to cpu_worker 1
+1 had sent 133 elements
+1 about to receive
+1 received 2, 5, 10
+0 about to probe
+1 has worked for 189 millisec. on a single tile
+1 about to send 133-long array
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+1 had sent 133 elements
+1 about to receive
+1 received 2, 5, 11
+0 sent (2, 5)(11) to cpu_worker 1
+0 about to probe
+2 has worked for 2305 millisec. on a single tile
+2 about to send 200-long array
+0 bumped into 2 when probing
+0 preparing to receive 200-long array from 2
+2 had sent 200 elements
+2 about to receive
+2 received 
+0, 2, 6
+2 says goodbye
+0 about to terminate gpu_worker 2
+0 about to probe
+1 has worked for 41 millisec. on a single tile
+1 about to send 75-long array
+1 had sent 75 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 75-long array from 1
+1 received 2, 5, 12
+0 sent (2, 5)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 20 millisec. on a single tile
+1 about to send 75-long array
+1 had sent 75 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 75-long array from 1
+0 sent (2, 5)(13) to cpu_worker 1
+1 received 2, 5, 13
+0 about to probe
+1 has worked for 14 millisec. on a single tile
+1 about to send 67-long array
+1 had sent 67 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 67-long array from 1
+1 received 2, 5, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+0 sent (2, 5)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 received 2, 5, 15
+0 sent (2, 5)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 86 millisec. on a single tile
+1 about to send 133-long array
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+1 had sent 133 elements
+1 about to receive
+1 received 2, 5, 16
+0 sent (2, 5)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 87 millisec. on a single tile
+1 about to send 133-long array
+0 bumped into 1 when probing
+0 preparing to receive 133-long array from 1
+1 had sent 133 elements
+1 about to receive
+1 received 2, 5, 17
+0 sent (2, 5)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 128 millisec. on a single tile
+1 about to send 157-long array
+0 bumped into 1 when probing
+0 preparing to receive 157-long array from 1
+1 had sent 157 elements
+1 about to receive
+1 received 2, 5, 18
+0 sent (2, 5)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 11 millisec. on a single tile
+1 about to send 63-long array
+1 had sent 63 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 63-long array from 1
+1 received 2, 5, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 sent (2, 5)(19) to cpu_worker 1
+0 about to probe
+1 had sent 0 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (2, 5)(20) to cpu_worker 1
+0 about to probe
+1 received 2, 5, 20
+1 has worked for 4 millisec. on a single tile
+1 about to send 48-long array
+1 had sent 48 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 48-long array from 1
+1 received 3, 5, 6
+0 sent (3, 5)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 49 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+1 had sent 124 elements
+1 about to receive
+1 received 3, 5, 7
+0 sent (3, 5)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 48 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+1 had sent 124 elements
+1 about to receive
+1 received 3, 5, 8
+0 sent (3, 5)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 49 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+1 had sent 124 elements
+1 about to receive
+1 received 3, 5, 9
+0 sent (3, 5)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 48 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+1 had sent 124 elements
+1 about to receive
+1 received 3, 5, 10
+0 sent (3, 5)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 49 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+1 had sent 124 elements
+1 about to receive
+1 received 3, 5, 11
+0 sent (3, 5)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 11 millisec. on a single tile
+1 about to send 66-long array
+1 had sent 66 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 66-long array from 1
+1 received 3, 5, 12
+0 sent (3, 5)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 11 millisec. on a single tile
+1 about to send 66-long array
+1 had sent 66 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 66-long array from 1
+1 received 3, 5, 13
+0 sent (3, 5)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 8 millisec. on a single tile
+1 about to send 58-long array
+1 had sent 58 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 58-long array from 1
+1 received 3, 5, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 sent (3, 5)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+1 had sent 0 elements
+1 about to receive
+1 received 3, 5, 15
+0 preparing to receive 0-long array from 1
+0 sent (3, 5)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 48 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+1 had sent 124 elements
+1 about to receive
+1 received 3, 5, 16
+0 sent (3, 5)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 50 millisec. on a single tile
+1 about to send 124-long array
+0 bumped into 1 when probing
+0 preparing to receive 124-long array from 1
+1 had sent 124 elements
+1 about to receive
+1 received 3, 5, 17
+0 sent (3, 5)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 73 millisec. on a single tile
+1 about to send 148-long array
+0 bumped into 1 when probing
+0 preparing to receive 148-long array from 1
+1 had sent 148 elements
+1 about to receive
+1 received 3, 5, 18
+0 sent (3, 5)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 6 millisec. on a single tile
+1 about to send 54-long array
+1 had sent 54 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 54-long array from 1
+1 received 3, 5, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 sent (3, 5)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 had sent 0 elements
+1 about to receive
+1 received 3, 5, 20
+0 sent (3, 5)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 39-long array
+1 had sent 39 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 39-long array from 1
+1 received 4, 5, 6
+0 sent (4, 5)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 44 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+1 had sent 123 elements
+1 about to receive
+1 received 4, 5, 7
+0 sent (4, 5)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 45 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+1 had sent 123 elements
+1 about to receive
+1 received 4, 5, 8
+0 sent (4, 5)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 46 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+1 had sent 123 elements
+1 about to receive
+1 received 4, 5, 9
+0 sent (4, 5)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 45 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+1 had sent 123 elements
+1 about to receive
+1 received 4, 5, 10
+0 sent (4, 5)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 46 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+1 had sent 123 elements
+1 about to receive
+0 sent (4, 5)(11) to cpu_worker 1
+0 about to probe
+1 received 4, 5, 11
+0 bumped into 1 when probing
+0 preparing to receive 65-long array from 1
+1 has worked for 10 millisec. on a single tile
+1 about to send 65-long array
+1 had sent 65 elements
+1 about to receive
+1 received 4, 5, 12
+0 sent (4, 5)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 10 millisec. on a single tile
+1 about to send 65-long array
+1 had sent 65 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 65-long array from 1
+1 received 4, 5, 13
+0 sent (4, 5)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 7 millisec. on a single tile
+1 about to send 57-long array
+1 had sent 57 elements
+1 about to receive
+1 received 4, 5, 14
+0 bumped into 1 when probing
+0 preparing to receive 57-long array from 1
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+0 sent (4, 5)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (4, 5)(15) to cpu_worker 1
+0 about to probe
+1 received 4, 5, 15
+1 has worked for 46 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+1 had sent 123 elements
+1 about to receive
+1 received 4, 5, 16
+0 sent (4, 5)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 45 millisec. on a single tile
+1 about to send 123-long array
+0 bumped into 1 when probing
+0 preparing to receive 123-long array from 1
+1 had sent 123 elements
+1 about to receive
+1 received 4, 5, 17
+0 sent (4, 5)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 69 millisec. on a single tile
+1 about to send 147-long array
+0 bumped into 1 when probing
+0 preparing to receive 147-long array from 1
+1 had sent 147 elements
+1 about to receive
+1 received 4, 5, 18
+0 sent (4, 5)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 6 millisec. on a single tile
+1 about to send 53-long array
+1 had sent 53 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 53-long array from 1
+1 received 4, 5, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+0 sent (4, 5)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+1 had sent 0 elements
+1 about to receive
+1 received 4, 5, 20
+0 preparing to receive 0-long array from 1
+0 sent (4, 5)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 38-long array
+1 had sent 38 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 38-long array from 1
+1 received 5, 5, 6
+0 sent (5, 5)(6) to cpu_worker 1
+0 about to probe
+1 has worked for 21 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 5, 5, 7
+0 sent (5, 5)(7) to cpu_worker 1
+0 about to probe
+1 has worked for 21 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 5, 5, 8
+0 sent (5, 5)(8) to cpu_worker 1
+0 about to probe
+1 has worked for 22 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 5, 5, 9
+0 sent (5, 5)(9) to cpu_worker 1
+0 about to probe
+1 has worked for 22 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 5, 5, 10
+0 sent (5, 5)(10) to cpu_worker 1
+0 about to probe
+1 has worked for 21 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 5, 5, 11
+0 sent (5, 5)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 4 millisec. on a single tile
+1 about to send 53-long array
+1 had sent 53 elements
+1 about to receive
+1 received 5, 5, 12
+0 bumped into 1 when probing
+0 preparing to receive 53-long array from 1
+0 sent (5, 5)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 4 millisec. on a single tile
+1 about to send 53-long array
+1 had sent 53 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 53-long array from 1
+1 received 5, 5, 13
+0 sent (5, 5)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 3 millisec. on a single tile
+1 about to send 45-long array
+1 had sent 45 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 45-long array from 1
+1 received 5, 5, 14
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+0 sent (5, 5)(14) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 received 5, 5, 15
+0 sent (5, 5)(15) to cpu_worker 1
+0 about to probe
+1 has worked for 21 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+1 received 5, 5, 16
+0 sent (5, 5)(16) to cpu_worker 1
+0 about to probe
+1 has worked for 22 millisec. on a single tile
+1 about to send 111-long array
+1 had sent 111 elements
+1 about to receive
+1 received 5, 5, 17
+0 bumped into 1 when probing
+0 preparing to receive 111-long array from 1
+0 sent (5, 5)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 32 millisec. on a single tile
+1 about to send 135-long array
+0 bumped into 1 when probing
+0 preparing to receive 135-long array from 1
+1 had sent 135 elements
+1 about to receive
+1 received 5, 5, 18
+0 sent (5, 5)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 2 millisec. on a single tile
+1 about to send 41-long array
+1 had sent 41 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 41-long array from 1
+1 received 5, 5, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+0 sent (5, 5)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+1 received 5, 5, 20
+0 sent (5, 5)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 1 millisec. on a single tile
+1 about to send 26-long array
+1 had sent 26 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 26-long array from 1
+1 received 0, 0, 11
+0 sent (0, 0)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 600 millisec. on a single tile
+1 about to send 142-long array
+0 bumped into 1 when probing
+0 preparing to receive 142-long array from 1
+1 had sent 142 elements
+1 about to receive
+1 received 0, 0, 12
+0 sent (0, 0)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 611 millisec. on a single tile
+1 about to send 142-long array
+0 bumped into 1 when probing
+0 preparing to receive 142-long array from 1
+1 had sent 142 elements
+1 about to receive
+1 received 0, 0, 13
+0 sent (0, 0)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 426 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 0, 0, 14
+0 sent (0, 0)(14) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 0, 0, 17
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0, 0)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 2916 millisec. on a single tile
+1 about to send 224-long array
+0 bumped into 1 when probing
+0 preparing to receive 224-long array from 1
+1 had sent 224 elements
+1 about to receive
+1 received 0, 0, 18
+0 sent (0, 0)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 343 millisec. on a single tile
+1 about to send 130-long array
+0 bumped into 1 when probing
+0 preparing to receive 130-long array from 1
+1 had sent 130 elements
+1 about to receive
+1 received 0, 0, 19
+0 sent (0, 0)(19) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0, 0)(20) to cpu_worker 1
+1 received 0, 0, 20
+0 about to probe
+1 has worked for 141 millisec. on a single tile
+1 about to send 115-long array
+0 bumped into 1 when probing
+0 preparing to receive 115-long array from 1
+1 had sent 115 elements
+1 about to receive
+1 received 0, 1, 11
+0 sent (0, 1)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 1458 millisec. on a single tile
+1 about to send 242-long array
+0 bumped into 1 when probing
+0 preparing to receive 242-long array from 1
+1 had sent 242 elements
+1 about to receive
+1 received 0, 1, 12
+0 sent (0, 1)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 1449 millisec. on a single tile
+1 about to send 242-long array
+0 bumped into 1 when probing
+0 preparing to receive 242-long array from 1
+1 had sent 242 elements
+1 about to receive
+1 received 0, 1, 13
+0 sent (0, 1)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 1107 millisec. on a single tile
+1 about to send 234-long array
+0 bumped into 1 when probing
+0 preparing to receive 234-long array from 1
+1 had sent 234 elements
+1 about to receive
+1 received 0, 1, 14
+0 sent (0, 1)(14) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 0, 1, 17
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0, 1)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 7134 millisec. on a single tile
+1 about to send 324-long array
+0 bumped into 1 when probing
+0 preparing to receive 324-long array from 1
+1 had sent 324 elements
+1 about to receive
+1 received 0, 1, 18
+0 sent (0, 1)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 972 millisec. on a single tile
+1 about to send 230-long array
+0 bumped into 1 when probing
+0 preparing to receive 230-long array from 1
+1 had sent 230 elements
+1 about to receive
+1 received 0, 1, 19
+0 sent (0, 1)(19) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 0, 1, 20
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (0, 1)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 428 millisec. on a single tile
+1 about to send 215-long array
+0 bumped into 1 when probing
+0 preparing to receive 215-long array from 1
+1 had sent 215 elements
+1 about to receive
+1 received 1, 1, 11
+0 sent (1, 1)(11) to cpu_worker 1
+0 about to probe
+1 has worked for 531 millisec. on a single tile
+1 about to send 142-long array
+0 bumped into 1 when probing
+0 preparing to receive 142-long array from 1
+1 had sent 142 elements
+1 about to receive
+1 received 1, 1, 12
+0 sent (1, 1)(12) to cpu_worker 1
+0 about to probe
+1 has worked for 537 millisec. on a single tile
+1 about to send 142-long array
+0 bumped into 1 when probing
+0 preparing to receive 142-long array from 1
+1 had sent 142 elements
+1 about to receive
+1 received 1, 1, 13
+0 sent (1, 1)(13) to cpu_worker 1
+0 about to probe
+1 has worked for 399 millisec. on a single tile
+1 about to send 134-long array
+0 bumped into 1 when probing
+0 preparing to receive 134-long array from 1
+1 had sent 134 elements
+1 about to receive
+1 received 1, 1, 14
+0 sent (1, 1)(14) to cpu_worker 1
+0 about to probe
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 1, 17
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1, 1)(17) to cpu_worker 1
+0 about to probe
+1 has worked for 3039 millisec. on a single tile
+1 about to send 224-long array
+0 bumped into 1 when probing
+0 preparing to receive 224-long array from 1
+1 had sent 224 elements
+1 about to receive
+1 received 1, 1, 18
+0 sent (1, 1)(18) to cpu_worker 1
+0 about to probe
+1 has worked for 344 millisec. on a single tile
+1 about to send 130-long array
+0 bumped into 1 when probing
+0 preparing to receive 130-long array from 1
+1 had sent 130 elements
+1 about to receive
+1 received 1, 1, 19
+1 has worked for 0 millisec. on a single tile
+1 about to send 0-long array
+1 had sent 0 elements
+1 about to receive
+1 received 1, 1, 20
+0 sent (1, 1)(19) to cpu_worker 1
+0 about to probe
+0 bumped into 1 when probing
+0 preparing to receive 0-long array from 1
+0 sent (1, 1)(20) to cpu_worker 1
+0 about to probe
+1 has worked for 138 millisec. on a single tile
+1 about to send 115-long array
+0 bumped into 1 when probing
+0 preparing to receive 115-long array from 1
+1 had sent 115 elements
+1 about to receive
+1 received 0, 2, 6
+1 says goodbye
+0 about to terminate cpu_worker 1
+0 number of workers left: 0
+0 says goodbye
