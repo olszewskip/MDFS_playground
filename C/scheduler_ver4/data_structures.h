@@ -17,13 +17,13 @@ struct max_work_time_t {
 };
 
 struct mean_work_time_t {
-   // remeber the mean (a double)
+   // remember the mean (a double)
    // among incoming positive values
    int count = 0;
    double mean = 0.;
    void update(unsigned int& new_time) {
-      ++count;
       mean = (double) count / (count + 1) * mean + new_time / (double)(count + 1);
+      ++count;
    }
 };
 
@@ -34,6 +34,7 @@ struct worker_file {
    // Serves to hold current information and statistics
    // about what a given worker has worked or is working on.
    // Meant to be used by the scheduler (rank=0 process).
+   bool empty = true;
    int current_tile_index[kDim];
    min_work_time_t min_work_time;
    max_work_time_t max_work_time;
@@ -43,17 +44,20 @@ struct worker_file {
    void record_assignement(int tile_index[]) {
       auto last_timestamp = std::chrono::high_resolution_clock::now();
       for (int i = 0; i < kDim; i++)
-        current_tile_index[i] = tile_index[i]; 
+        current_tile_index[i] = tile_index[i];
+      empty = false;
    }
 
    void record_time_diff() {
-      auto now = std::chrono::high_resolution_clock::now();
-      unsigned int new_work_time =
+      if !empty {
+         auto now = std::chrono::high_resolution_clock::now();
+         unsigned int new_work_time =
          std::chrono::duration_cast<std::chrono::milliseconds>(now - last_timestamp).count();
-      last_timestamp = now;
-      min_work_time.update(new_work_time);
-      max_work_time.update(new_work_time);
-      mean_work_time.update(new_work_time);
+         last_timestamp = now;
+         min_work_time.update(new_work_time);
+         max_work_time.update(new_work_time);
+         mean_work_time.update(new_work_time);
+      }
    }
 };
 
@@ -62,40 +66,37 @@ struct worker_files {
    worker_files(int worker_count) {
     files = new worker_file[worker_count];
    }
-   worker_file* worker(int rank) { return files + rank - 1; }
+   worker_file& worker(int rank) {
+       assert(rank > 0 && rank < worker_count);
+       return files[rank - 1]; }
 };  
 
 #ifdef AGGREGATE_MAX_IG
 struct column_result_t {
-   // Either just a single double, the "IG",
-   // or the IG with (kDim - 1)-long tuple
-   // of column indices that were formally
-   // conditioned on (the context).
-   // The column index, that an instance of
-   // this structure implicitly corrensponds
-   // to, is not encoded by any of the fields
-   // but rather by placement of that instance
-   // in an external array-like structure.
+   // This struct corresponds to a single column.
+   int column_index = -1;
+   // This struct's main purpose is to store the IG
    double IG = -1.;
-   //
-   // Presence of the field "context", the
-   // constructor and the "update" method
-   // depend on the mode of compilation.
+   // The IG was computed using (k - 1) context columns.
    #ifdef REMEMBER_CONTEXT
    int context[kDim - 1];
-   //
    column_result_t() {
       for (int i = 0; i < kDim - 1; i++)
          context[i] = -1;
    }
+   #endif //REMEMBER_CONTEXT
+   //
    // The relevant IG is assumed to sit in a
-   // kDim-long array "IGs". "tuple_index[k_index]" is
-   // the column that is being described by "IGs[k_index]"
-   // and the other column-indices in "tuple_index"
-   // form the context.
+   // kDim-long array of IGs, which is an argument below.
+   // "tuple_index[k_index]" is the relevant column_index
+   // variable, and this column is described by IGs[k_index].
+   // The other column-indices in "tuple_index" form the context.
+   #ifdef REMEMBER_CONTEXT
    void update(int k_index, double IGs[], int tuple_index[]) {
+      assert(tuple_index[k_index] == column_index);
       if (IGs[k_index] > IG) {
          IG = IGs[k_index];
+         // Copy the context from tuple_index
          bool omitted = false;
          for (int i = 0; i < kDim; i++) {
             if (i == k_index) { omitted = true; continue; }
@@ -103,9 +104,8 @@ struct column_result_t {
          }
       }
    }
-   // Alternatively the IG may be updated from an existing
-   // column_result.
    void update (column_result_t& arg) {
+      assert(arg.column_index == column_index);
       if (arg.IG > IG) {
          IG = arg.IG;
          for (int i = 0; i < kDim - 1; i++)
@@ -113,10 +113,11 @@ struct column_result_t {
       }
    }
    #else
-   void update (int k_index, double IGs[]) {
-      if (IGs[k_index] > IG) { IG = IGs[k_index]; }
-   }
+   //void update (double IG_arg) {
+   //   if (IG_arg > IG) { IG = IGs_arg; }
+   //}
    void update (column_result_t& arg) {
+      assert(arg.column_index == column_index);
       if (arg.IG > IG) { IG = arg.IG; }
    }
    #endif //REMEMBER_CONTEXT
@@ -134,55 +135,50 @@ struct column_result_t {
    }
 };
 
-typedef column_result_t archive_entry_t;
+//typedef column_result_t archive_entry_t;
 
-struct tile_handler_t {
+struct cpu_tile_handler {
    // Class whose main purpose is to correctly
    // update an external buffer with objects
    // of type "column_result_t" based on the IGs
-   // computed for each k-tuple of columns in a tile.
+   // computed for each k-tuple of columns in the tile.
    // The slight complication arises from the fact that
    // the (dim_0 x dim_1 x ...) results from the inherently
    // kDim-dimensional tile are being flattened into a
    // (dim_0 + dim_1 + ... )-long array that is the buffer.
-   // 
-   // The class starts by having two external buffers
-   // connected to its internal pointers.
-   // Then it functions by
-   // a) updating another two of its fields with
-   //    information about the current tile (it
-   //    uses the "Tile_bounds" array for that),
-   // b) cleaning the buffer,
-   // c) computing and  recording the kDim IGs per tuple
-   //    at right  positions in the external buffer mentioned
-   //    at the beginnig. It uses the "compute_tile" funciton
-   //    defined outside this class definition.
-   // 
-   column_result_t* column_results_buffer = NULL;
-   int* tile_index = NULL;
-   //
+   //  
    int NW_corner_columns[kDim];
    int SE_corner_columns[kDim];
    int tile_dims[kDim]; // (dim_0, dim_1, ...)
-   int buffer_offsets[kDim]; // {0, dim_0, dim_0 + dim_1, ...}
-   int buffer_len; // dim_0 + dim_1 + ...
+   int buffer_offsets[kDim + 1]; // {0, dim_0, dim_0 + dim_1, ...}
+   int buffer_length = 1;
    //
-   tile_handler_t (column_result_t* column_results_buffer_arg,
-                 int tile_index_arg[]) :
-      column_results_buffer(column_results_buffer_arg),
-      tile_index(tile_index_arg) {}
-   //
-   void update_tile_info(int Tile_bounds[]) {
-      for (int i = 0; i < kDim; i++) {
-         NW_corner_columns[i] = Tile_bounds[tile_index[i]];
-         SE_corner_columns[i] = Tile_bounds[tile_index[i] + 1];
-         tile_dims[i] = SE_corner_columns[i] - NW_corner_columns[i];
-      }
-      buffer_offsets[0] = 0;
-      for (int i = 1; i < kDim; i++)
-         buffer_offsets[i] = buffer_offsets[i - 1] + tile_dims[i - 1];
-      buffer_len  = buffer_offsets[kDim - 1] + tile_dims[kDim - 1];
+   cpu_tile_handler () {
+       buffer_offsets[0] = 0;
    }
+   //
+   void compute_tile_params() {
+      for (int i = 0; i < kDim; i++) {
+         NW_corner_columns[i] = Tile_bounds[cpu_tile_index[i]];
+         SE_corner_columns[i] = Tile_bounds[cpu_tile_index[i] + 1];
+         tile_dims[i] = SE_corner_columns[i] - NW_corner_columns[i];
+         buffer_offsets[i + 1] = buffer_offsets[i] + tile_dims[i];
+      }
+      //
+      buffer_length = buffer_offsets[kDim];
+      //
+      for (int dim_index = 0; dim_index < kDim; dim_index++) {
+         for (int local_buffer_index = 0;
+              local_buffer_index < tile_dims[dim_index];
+              local_buffer_index++) {
+              int column_index = NW_corner_columns[dim_index] + local_buffer_index;
+              tile_buffer[buffer_offsets[dim_index] + local_buffer_index].column_index = column_index;
+         } 
+      }
+   }
+   //
+   
+   //
    void print_tile_info() {
       std::cout << "NW corner columns: ";
       for (int i = 0; i < kDim; i++)
@@ -193,17 +189,17 @@ struct tile_handler_t {
          std::cout << SE_corner_columns[i] << ", ";
       std::cout << std::endl;
       std::cout << "tile dims: ";
-      for (int i = 0; i < kDim; i++)
+      for (int i = 0; i < kDim - 1; i++)
          std::cout << tile_dims[i] << ", ";
-      std::cout << std::endl;
+      std::cout << tile_dims[kDim-1] << std::endl;
    } 
-   void clean_buffer() {
-      // Wipes a starting portion of the "column_results_buffer".
-      // Uses the field "buffer_len" set by the "update_tile_info" method
-      // and relies on the constructor of "column_result_t".
-      for (int buffer_index = 0; buffer_index < buffer_len; buffer_index++)
-         column_results_buffer[buffer_index] = column_result_t();
-   }
+//   void clean_buffer() {
+//      // Wipes a starting portion of the "column_results_buffer".
+//      // Uses the field "buffer_len" set by the "update_tile_info" method
+//      // and relies on the constructor of "column_result_t".
+//      for (int buffer_index = 0; buffer_index < buffer_len; buffer_index++)
+//         column_results_buffer[buffer_index] = column_result_t();
+//   }
    void compute_tuple(double IGs[], int tuple_index[]);
    //
    void record_tuple(double IGs[], int tuple_index[]) {
