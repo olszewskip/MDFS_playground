@@ -107,3 +107,4 @@ double *return_rows(double source[], int n_rows, int rows[], int dim1) {
   }
   return column_bunch;
 }
+

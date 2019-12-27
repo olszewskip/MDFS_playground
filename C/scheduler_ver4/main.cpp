@@ -93,7 +93,6 @@ int main(int argc, char* argv[]) {
              false,
              true,
              true,
-             true,
              false,
              false,
              false};
@@ -110,14 +109,6 @@ int main(int argc, char* argv[]) {
       int tile_width = Tile_bounds[i + 1] - Tile_bounds[i];
       max_tile_width = std::max(max_tile_width, tile_width);
    }
-      
-   // check that the number of lean tiles matches across lean-regions,
-   // assuming that there are lean-nonsignificant- or lean-contrast-regions
-   // WARNING: this assumes a universal existence or nonexistence of a fat-margin.
-   // assert(Region_bounds[2] - Region_bounds[1] == Region_bounds[4] - Region_bounds[3] |
-   //       Region_bounds[4] - Region_bounds[3] == 0);
-   // assert(Region_bounds[2] - Region_bounds[1] == Region_bounds[6] - Region_bounds[5] |
-   //       Region_bounds[6] - Region_bounds[5] == 0);
 
    // number of discrete buckets in column of a given tile
    int Dofs[] = {5, // 0 // fat // signif
